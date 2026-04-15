@@ -8,19 +8,19 @@ const steps = [
     number: "01",
     title: "Understand the Mission",
     description:
-      "We begin with a deep briefing — not just the job description, but the real problem to be solved. What has the company tried before? Why did it fail? What does success actually look like in twelve months? This is where we earn the right to represent you.",
+      "We begin with a deep briefing - not just the job description, but the real problem to be solved. What has the company tried before? Why did it fail? What does success actually look like in twelve months? This is where we earn the right to represent you.",
   },
   {
     number: "02",
     title: "Access the Network",
     description:
-      "The best candidates are rarely looking. We reach into a trusted network built over years — professionals who won't respond to a LinkedIn message but will take a call from us. Our approach is personal, discreet, and direct.",
+      "The best candidates are rarely looking. We reach into a trusted network built over years - professionals who won't respond to a LinkedIn message but will take a call from us. Our approach is personal, discreet, and direct.",
   },
   {
     number: "03",
     title: "Deliver the Match",
     description:
-      "We present a small shortlist — never a stack of CVs. Each candidate has been vetted against your specific requirements, spoken with directly, and assessed for cultural and operational fit. You spend your time deciding, not filtering.",
+      "We present a small shortlist - never a stack of CVs. Each candidate has been vetted against your specific requirements, spoken with directly, and assessed for cultural and operational fit. You spend your time deciding, not filtering.",
   },
 ];
 
@@ -54,7 +54,7 @@ export default function Approach() {
             </h2>
             <p className="text-cream/50 font-body leading-relaxed text-base mb-10">
               We do not run volume. At any given time, TechExpats works on a carefully
-              selected portfolio of searches — ensuring every client receives the
+              selected portfolio of searches - ensuring every client receives the
               full weight of our attention and network.
             </p>
             <div className="flex items-center gap-4">

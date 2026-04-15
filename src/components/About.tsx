@@ -75,7 +75,7 @@ export default function About() {
             {/* Pull quote */}
             <div className="border-l-2 border-gold/40 pl-8 mb-10">
               <p className="font-display text-2xl lg:text-3xl text-cream/80 italic leading-snug">
-                &ldquo;The right person for this role is not looking. They are working — at the
+                &ldquo;The right person for this role is not looking. They are working - at the
                 intersection of technology, trust, and operational excellence. We know where to find them.&rdquo;
               </p>
             </div>
@@ -84,7 +84,7 @@ export default function About() {
             <div className="space-y-5 text-cream/55 font-body leading-relaxed text-base">
               <p>
                 TechExpats was born from a simple observation: the most consequential hires
-                in tech — the ones that change the trajectory of a company — require a recruiter
+                in tech - the ones that change the trajectory of a company - require a recruiter
                 with genuine access, not just a database subscription.
               </p>
               <p>
@@ -95,12 +95,12 @@ export default function About() {
               </p>
               <p>
                 In 2018, Alon established the{" "}
-                <span className="text-cream/80">Israeli Tech Network in the Netherlands</span> —
+                <span className="text-cream/80">Israeli Tech Network in the Netherlands</span> -
                 one of Europe&apos;s most active communities connecting Israeli tech professionals
                 with leading European companies. That network became the foundation of TechExpats.
               </p>
               <p>
-                Today, TechExpats operates as a boutique firm — small by design,
+                Today, TechExpats operates as a boutique firm - small by design,
                 comprehensive by reputation, and trusted by the companies and professionals
                 who require more than what a standard search can deliver.
               </p>

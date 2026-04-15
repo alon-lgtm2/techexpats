@@ -65,7 +65,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="text-cream/50 hover:text-gold transition-colors duration-200"
               >
-                LinkedIn — Alon Gildoni
+                LinkedIn - Alon Gildoni
               </a>
               <span className="text-cream/30">Amsterdam, Netherlands</span>
             </div>

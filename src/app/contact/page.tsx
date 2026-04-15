@@ -54,7 +54,7 @@ function ContactForm() {
           </h1>
           <p className="text-cream/50 font-body leading-relaxed">
             We respond to every enquiry personally. Please tell us about yourself
-            or your search — the more context you provide, the better we can help.
+            or your search - the more context you provide, the better we can help.
           </p>
         </motion.div>
 
@@ -99,7 +99,7 @@ function ContactForm() {
             {type === "company" ? (
               <>
                 <Field label="Company Name" name="company" required />
-                <Field label="Role / Position" name="role" required placeholder="e.g. Sales Director — Cyber Intelligence" />
+                <Field label="Role / Position" name="role" required placeholder="e.g. Sales Director - Cyber Intelligence" />
                 <Field
                   label="Why is this role difficult to fill?"
                   name="challenge"

@@ -9,21 +9,21 @@ const pillars = [
     number: "01",
     title: "The Network",
     description:
-      "Since 2018, we have cultivated one of Europe's most trusted communities of Israeli tech professionals. Our network spans engineers, operators, and leaders — many with backgrounds that simply cannot be found through conventional search.",
+      "Since 2018, we have cultivated one of Europe's most trusted communities of Israeli tech professionals. Our network spans engineers, operators, and leaders - many with backgrounds that simply cannot be found through conventional search.",
     accent: "Rare access. Real relationships.",
   },
   {
     number: "02",
     title: "The Precision",
     description:
-      "We do not fill roles. We solve problems. Every search begins with understanding the mission behind the hire — the context, the culture, the unstated requirements. We then apply a methodology that goes beyond the CV.",
+      "We do not fill roles. We solve problems. Every search begins with understanding the mission behind the hire - the context, the culture, the unstated requirements. We then apply a methodology that goes beyond the CV.",
     accent: "Vetted beyond credentials.",
   },
   {
     number: "03",
     title: "The Discretion",
     description:
-      "Our clients operate in sensitive markets. We understand that the wrong hire — or the wrong conversation — carries real cost. TechExpats operates with the confidentiality and care that high-stakes searches demand.",
+      "Our clients operate in sensitive markets. We understand that the wrong hire - or the wrong conversation - carries real cost. TechExpats operates with the confidentiality and care that high-stakes searches demand.",
     accent: "Trusted. Always.",
   },
 ];

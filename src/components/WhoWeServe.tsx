@@ -59,7 +59,7 @@ export default function WhoWeServe() {
             <p className="text-cream/55 font-body leading-relaxed mb-8">
               You have a role that requires more than a standard search. The profile is rare,
               the stakes are high, and conventional recruiters have already failed you.
-              We work with a select number of companies at any time — giving each search
+              We work with a select number of companies at any time - giving each search
               the focus it deserves.
             </p>
 
@@ -71,7 +71,7 @@ export default function WhoWeServe() {
                 "Confidential and time-sensitive searches",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-3 text-cream/60 font-body text-sm">
-                  <span className="text-gold mt-0.5 shrink-0">—</span>
+                  <span className="text-gold mt-0.5 shrink-0">-</span>
                   {item}
                 </li>
               ))}
@@ -111,7 +111,7 @@ export default function WhoWeServe() {
             </h3>
 
             <p className="text-cream/55 font-body leading-relaxed mb-8">
-              You&apos;re not looking for just another job. You&apos;re looking for the right opportunity —
+              You&apos;re not looking for just another job. You&apos;re looking for the right opportunity -
               one that matches your background, your ambitions, and the specific kind of challenge
               you&apos;re built for. We don&apos;t flood your inbox. We reach out when there&apos;s a genuine fit.
             </p>
@@ -121,10 +121,10 @@ export default function WhoWeServe() {
                 "Senior tech, cyber, and leadership professionals",
                 "Israeli professionals based in or relocating to Europe",
                 "Those with rare backgrounds that standard boards don't surface",
-                "Passive candidates — we approach, not the other way round",
+                "Passive candidates - we approach, not the other way round",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-3 text-cream/60 font-body text-sm">
-                  <span className="text-cream/30 mt-0.5 shrink-0">—</span>
+                  <span className="text-cream/30 mt-0.5 shrink-0">-</span>
                   {item}
                 </li>
               ))}

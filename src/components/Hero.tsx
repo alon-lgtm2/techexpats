@@ -72,7 +72,7 @@ export default function Hero() {
             className="text-cream/60 font-body text-lg leading-relaxed max-w-2xl mb-10"
           >
             TechExpats bridges the Israeli tech ecosystem with Europe&apos;s most demanding companies.
-            We operate where precision matters — placing exceptional professionals in roles that
+            We operate where precision matters - placing exceptional professionals in roles that
             require more than a CV.
           </motion.p>
 

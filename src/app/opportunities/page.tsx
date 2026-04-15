@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Open Searches — TechExpats",
+  title: "Open Searches - TechExpats",
   description: "TechExpats operates a small, selective portfolio of active searches at any given time.",
 };
 
@@ -26,7 +26,7 @@ export default function OpportunitiesPage() {
               Current mandates.
             </h1>
             <p className="text-cream/50 font-body text-lg max-w-2xl leading-relaxed">
-              TechExpats works on a deliberately small portfolio of searches at any time —
+              TechExpats works on a deliberately small portfolio of searches at any time -
               ensuring each receives our full focus and the weight of our network.
               Active searches are published selectively and with strict confidentiality.
             </p>
@@ -43,8 +43,8 @@ export default function OpportunitiesPage() {
               <div>
                 <p className="text-cream/70 font-body text-sm leading-relaxed">
                   Most of our active searches are not publicly listed. If you are a senior professional
-                  in cybersecurity, engineering, data, or technology leadership — particularly with
-                  experience in European or Israeli markets — we encourage you to submit your profile.
+                  in cybersecurity, engineering, data, or technology leadership - particularly with
+                  experience in European or Israeli markets - we encourage you to submit your profile.
                   We maintain a trusted pool of candidates and make introductions when the right opportunity emerges.
                 </p>
               </div>

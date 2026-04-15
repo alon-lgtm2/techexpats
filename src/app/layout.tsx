@@ -25,7 +25,7 @@ const heebo = Heebo({
 });
 
 export const metadata: Metadata = {
-  title: "TechExpats — The Right Person Exists. We Know Them.",
+  title: "TechExpats - The Right Person Exists. We Know Them.",
   description:
     "TechExpats is a boutique tech recruitment agency specialising in elite talent at the intersection of the Israeli tech ecosystem and European markets. Trusted since 2018.",
   keywords: [
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     "Europe",
   ],
   openGraph: {
-    title: "TechExpats — The Right Person Exists. We Know Them.",
+    title: "TechExpats - The Right Person Exists. We Know Them.",
     description: "Boutique tech recruitment. Elite access. Trusted since 2018.",
     url: "https://techexpats.nl",
     siteName: "TechExpats",

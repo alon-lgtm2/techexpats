@@ -26,7 +26,7 @@ const specialisations = [
   },
   {
     title: "Data & AI",
-    description: "Data scientists, ML engineers, and AI researchers — particularly those working on applied intelligence in complex, regulated environments.",
+    description: "Data scientists, ML engineers, and AI researchers - particularly those working on applied intelligence in complex, regulated environments.",
     tags: ["ML Engineering", "Data Science", "AI Research", "LLM Ops", "Analytics"],
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -46,7 +46,7 @@ const specialisations = [
   },
   {
     title: "Sales & Business Development",
-    description: "Enterprise sales leaders and BizDev professionals who understand complex technical products — especially in cyber, intelligence, and govtech.",
+    description: "Enterprise sales leaders and BizDev professionals who understand complex technical products - especially in cyber, intelligence, and govtech.",
     tags: ["Enterprise Sales", "BizDev", "Govtech", "Sales Director", "GTM"],
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -93,7 +93,7 @@ export default function Specialisations() {
             </h2>
           </div>
           <p className="text-cream/45 font-body text-base max-w-md leading-relaxed">
-            We cover the full spectrum of tech roles — with particular depth in domains
+            We cover the full spectrum of tech roles - with particular depth in domains
             where the right background isn&apos;t just preferred, it&apos;s essential.
           </p>
         </motion.div>

@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Insights — TechExpats",
+  title: "Insights - TechExpats",
   description: "Perspectives on tech recruitment, the Israeli tech ecosystem, and the talent markets we operate in.",
 };
 
