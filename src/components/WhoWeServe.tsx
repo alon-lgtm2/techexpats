@@ -3,10 +3,15 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function WhoWeServe() {
+  const { t } = useLanguage();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  const coItems = [t.serve.coItem1, t.serve.coItem2, t.serve.coItem3, t.serve.coItem4];
+  const taItems = [t.serve.taItem1, t.serve.taItem2, t.serve.taItem3, t.serve.taItem4];
 
   return (
     <section className="section-padding bg-[#0D1F35]" ref={ref}>
@@ -21,12 +26,12 @@ export default function WhoWeServe() {
           <div className="flex items-center justify-center gap-3 mb-5">
             <div className="h-px w-8 bg-gold/60" />
             <span className="text-xs tracking-[0.3em] uppercase text-gold/70 font-body">
-              Who We Serve
+              {t.serve.eyebrow}
             </span>
             <div className="h-px w-8 bg-gold/60" />
           </div>
           <h2 className="font-display text-display-lg text-cream">
-            Two sides of the same rare equation.
+            {t.serve.heading}
           </h2>
         </motion.div>
 
@@ -48,28 +53,20 @@ export default function WhoWeServe() {
                 </svg>
               </div>
               <span className="text-xs tracking-[0.25em] uppercase text-gold/70 font-body">
-                For Companies
+                {t.serve.coEyebrow}
               </span>
             </div>
 
             <h3 className="font-display text-3xl lg:text-4xl text-cream mb-5 font-500">
-              The hire you can&apos;t afford to get wrong.
+              {t.serve.coHeading}
             </h3>
 
             <p className="text-cream/55 font-body leading-relaxed mb-8">
-              You have a role that requires more than a standard search. The profile is rare,
-              the stakes are high, and conventional recruiters have already failed you.
-              We work with a select number of companies at any time - giving each search
-              the focus it deserves.
+              {t.serve.coBody}
             </p>
 
             <ul className="flex flex-col gap-3 mb-10">
-              {[
-                "Hard-to-fill senior and specialist roles",
-                "Cyber, intelligence-adjacent, and deep tech",
-                "Israel-based companies expanding into Europe",
-                "Confidential and time-sensitive searches",
-              ].map((item) => (
+              {coItems.map((item) => (
                 <li key={item} className="flex items-start gap-3 text-cream/60 font-body text-sm">
                   <span className="text-gold mt-0.5 shrink-0">-</span>
                   {item}
@@ -81,7 +78,7 @@ export default function WhoWeServe() {
               href="/contact?type=company"
               className="inline-flex items-center gap-2 text-gold font-body text-sm tracking-wide group-hover:gap-3 transition-all duration-300"
             >
-              Brief us on your search
+              {t.serve.coCta}
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
@@ -102,27 +99,20 @@ export default function WhoWeServe() {
                 </svg>
               </div>
               <span className="text-xs tracking-[0.25em] uppercase text-cream/40 font-body">
-                For Talent
+                {t.serve.taEyebrow}
               </span>
             </div>
 
             <h3 className="font-display text-3xl lg:text-4xl text-cream mb-5 font-500">
-              The move worth making.
+              {t.serve.taHeading}
             </h3>
 
             <p className="text-cream/55 font-body leading-relaxed mb-8">
-              You&apos;re not looking for just another job. You&apos;re looking for the right opportunity -
-              one that matches your background, your ambitions, and the specific kind of challenge
-              you&apos;re built for. We don&apos;t flood your inbox. We reach out when there&apos;s a genuine fit.
+              {t.serve.taBody}
             </p>
 
             <ul className="flex flex-col gap-3 mb-10">
-              {[
-                "Senior tech, cyber, and leadership professionals",
-                "Israeli professionals based in or relocating to Europe",
-                "Those with rare backgrounds that standard boards don't surface",
-                "Passive candidates - we approach, not the other way round",
-              ].map((item) => (
+              {taItems.map((item) => (
                 <li key={item} className="flex items-start gap-3 text-cream/60 font-body text-sm">
                   <span className="text-cream/30 mt-0.5 shrink-0">-</span>
                   {item}
@@ -134,7 +124,7 @@ export default function WhoWeServe() {
               href="/contact?type=candidate"
               className="inline-flex items-center gap-2 text-cream/50 hover:text-cream font-body text-sm tracking-wide transition-all duration-300"
             >
-              Submit your profile
+              {t.serve.taCta}
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>

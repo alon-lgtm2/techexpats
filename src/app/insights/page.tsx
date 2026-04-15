@@ -1,12 +1,13 @@
 import { getAllInsights } from "@/lib/insights";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import InsightsHeader from "@/components/InsightsHeader";
 import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Insights - TechExpats",
-  description: "Perspectives on tech recruitment, the Israeli tech ecosystem, and the talent markets we operate in.",
+  description: "Perspectives on tech recruitment, the talent markets we operate in, and what makes exceptional hiring different.",
 };
 
 export default function InsightsPage() {
@@ -17,22 +18,7 @@ export default function InsightsPage() {
       <Navbar />
       <main className="min-h-screen bg-navy pt-32 pb-20">
         <div className="max-w-5xl mx-auto px-6 lg:px-10">
-          {/* Header */}
-          <div className="mb-16">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="h-px w-8 bg-gold/60" />
-              <span className="text-xs tracking-[0.3em] uppercase text-gold/70 font-body">
-                Insights
-              </span>
-            </div>
-            <h1 className="font-display text-display-lg text-cream mb-5">
-              Perspectives.
-            </h1>
-            <p className="text-cream/50 font-body text-lg max-w-xl leading-relaxed">
-              Our thinking on tech talent, the Israeli ecosystem in Europe,
-              and the searches that matter most.
-            </p>
-          </div>
+          <InsightsHeader />
 
           {/* Articles */}
           <div className="flex flex-col gap-0">

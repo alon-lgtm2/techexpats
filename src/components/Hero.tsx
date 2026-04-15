@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 
 const easing: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -15,6 +16,8 @@ const fadeUp = {
 };
 
 export default function Hero() {
+  const { t } = useLanguage();
+
   return (
     <section className="relative min-h-screen flex flex-col justify-center bg-navy overflow-hidden">
       {/* Background subtle gradient */}
@@ -44,7 +47,7 @@ export default function Hero() {
           >
             <div className="h-px w-8 bg-gold/60" />
             <span className="text-xs tracking-[0.3em] uppercase text-gold/80 font-body">
-              Boutique Tech Recruitment · Amsterdam
+              {t.hero.eyebrow}
             </span>
           </motion.div>
 
@@ -56,11 +59,11 @@ export default function Hero() {
             custom={0.25}
             className="font-display text-display-xl text-cream mb-6 leading-[1.05]"
           >
-            The Right Person
+            {t.hero.headline1}
             <br />
-            <span className="text-gold-shimmer italic">Exists.</span>
+            <span className="text-gold-shimmer italic">{t.hero.headline2}</span>
             <br />
-            We Know Them.
+            {t.hero.headline3}
           </motion.h1>
 
           {/* Subtext */}
@@ -71,9 +74,7 @@ export default function Hero() {
             custom={0.45}
             className="text-cream/60 font-body text-lg leading-relaxed max-w-2xl mb-10"
           >
-            TechExpats bridges the Israeli tech ecosystem with Europe&apos;s most demanding companies.
-            We operate where precision matters - placing exceptional professionals in roles that
-            require more than a CV.
+            {t.hero.sub}
           </motion.p>
 
           {/* CTAs */}
@@ -88,7 +89,7 @@ export default function Hero() {
               href="/contact?type=company"
               className="group inline-flex items-center gap-3 px-7 py-4 bg-gold text-navy font-body font-600 text-sm tracking-wide hover:bg-gold-light transition-all duration-300"
             >
-              Find Exceptional Talent
+              {t.hero.ctaCompany}
               <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
@@ -97,7 +98,7 @@ export default function Hero() {
               href="/contact?type=candidate"
               className="inline-flex items-center gap-3 px-7 py-4 border border-cream/20 text-cream/80 font-body font-400 text-sm tracking-wide hover:border-gold/50 hover:text-cream transition-all duration-300"
             >
-              Submit Your Profile
+              {t.hero.ctaCandidate}
             </Link>
           </motion.div>
 
@@ -110,10 +111,10 @@ export default function Hero() {
             className="mt-16 pt-8 border-t border-cream/10 flex flex-wrap gap-8 items-center"
           >
             {[
-              { value: "2018", label: "Established" },
-              { value: "NL · EU · IL", label: "Markets" },
-              { value: "Cyber · Eng · AI", label: "Core Specialisations" },
-              { value: "Discreet", label: "By Design" },
+              { value: t.hero.stat1Value, label: t.hero.stat1Label },
+              { value: t.hero.stat2Value, label: t.hero.stat2Label },
+              { value: t.hero.stat3Value, label: t.hero.stat3Label },
+              { value: t.hero.stat4Value, label: t.hero.stat4Label },
             ].map((stat) => (
               <div key={stat.label} className="flex flex-col">
                 <span className="font-display text-xl text-gold font-600">{stat.value}</span>

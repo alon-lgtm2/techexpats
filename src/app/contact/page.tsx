@@ -5,11 +5,13 @@ import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 
 function ContactForm() {
+  const { t } = useLanguage();
   const searchParams = useSearchParams();
   const defaultType = searchParams.get("type") || "company";
-  const [type, setType] = useState<"company" | "candidate">(defaultType as "company" | "candidate");
+  const [formType, setFormType] = useState<"company" | "candidate">(defaultType as "company" | "candidate");
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
 
@@ -46,15 +48,14 @@ function ContactForm() {
           <div className="flex items-center gap-3 mb-6">
             <div className="h-px w-8 bg-gold/60" />
             <span className="text-xs tracking-[0.3em] uppercase text-gold/70 font-body">
-              Get in Touch
+              {t.contact.eyebrow}
             </span>
           </div>
           <h1 className="font-display text-display-lg text-cream mb-5">
-            Start a conversation.
+            {t.contact.heading}
           </h1>
           <p className="text-cream/50 font-body leading-relaxed">
-            We respond to every enquiry personally. Please tell us about yourself
-            or your search - the more context you provide, the better we can help.
+            {t.contact.body}
           </p>
         </motion.div>
 
@@ -65,17 +66,17 @@ function ContactForm() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex gap-0 mb-10 border border-gold/15 w-fit"
         >
-          {(["company", "candidate"] as const).map((t) => (
+          {(["company", "candidate"] as const).map((tab) => (
             <button
-              key={t}
-              onClick={() => setType(t)}
+              key={tab}
+              onClick={() => setFormType(tab)}
               className={`px-6 py-3 text-sm font-body tracking-wide transition-all duration-300 ${
-                type === t
+                formType === tab
                   ? "bg-gold text-navy font-600"
                   : "text-cream/50 hover:text-cream"
               }`}
             >
-              {t === "company" ? "For Companies" : "For Talent"}
+              {tab === "company" ? t.contact.tabCompany : t.contact.tabCandidate}
             </button>
           ))}
         </motion.div>
@@ -89,38 +90,38 @@ function ContactForm() {
             onSubmit={handleSubmit}
             className="flex flex-col gap-6"
           >
-            <input type="hidden" name="type" value={type} />
+            <input type="hidden" name="type" value={formType} />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <Field label="Full Name" name="name" required />
-              <Field label="Email Address" name="email" type="email" required />
+              <Field label={t.contact.fName} name="name" required />
+              <Field label={t.contact.fEmail} name="email" type="email" required />
             </div>
 
-            {type === "company" ? (
+            {formType === "company" ? (
               <>
-                <Field label="Company Name" name="company" required />
-                <Field label="Role / Position" name="role" required placeholder="e.g. Sales Director - Cyber Intelligence" />
+                <Field label={t.contact.fCompany} name="company" required />
+                <Field label={t.contact.fRole} name="role" required placeholder={t.contact.fRolePh} />
                 <Field
-                  label="Why is this role difficult to fill?"
+                  label={t.contact.fChallenge}
                   name="challenge"
                   multiline
-                  placeholder="Tell us about the specific profile you need and what's made it hard so far..."
+                  placeholder={t.contact.fChallengePh}
                 />
-                <Field label="Timeline" name="timeline" placeholder="e.g. Within 3 months, as soon as possible..." />
+                <Field label={t.contact.fTimeline} name="timeline" placeholder={t.contact.fTimelinePh} />
               </>
             ) : (
               <>
-                <Field label="Current Role / Title" name="current_role" />
-                <Field label="Background & Expertise" name="background" multiline placeholder="Tell us about your experience, what makes you distinctive, and the kind of opportunity you're open to..." />
-                <Field label="Preferred Location(s)" name="location" placeholder="e.g. Netherlands, UK, Remote (EU)" />
+                <Field label={t.contact.fCurrentRole} name="current_role" />
+                <Field label={t.contact.fBackground} name="background" multiline placeholder={t.contact.fBackgroundPh} />
+                <Field label={t.contact.fLocation} name="location" placeholder={t.contact.fLocationPh} />
               </>
             )}
 
             <Field
-              label="Anything else you'd like us to know?"
+              label={t.contact.fMessage}
               name="message"
               multiline
-              placeholder="Additional context, confidentiality requirements, or how you heard about TechExpats..."
+              placeholder={t.contact.fMessagePh}
             />
 
             <div className="pt-2">
@@ -129,10 +130,10 @@ function ContactForm() {
                 disabled={sending}
                 className="px-8 py-4 bg-gold text-navy font-body font-600 text-sm tracking-wide hover:bg-gold-light transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {sending ? "Sending..." : "Send Enquiry"}
+                {sending ? t.contact.sending : t.contact.submit}
               </button>
               <p className="text-cream/30 text-xs font-body mt-4">
-                We respond within 24 hours. All communications are treated with strict confidentiality.
+                {t.contact.disclaimer}
               </p>
             </div>
           </motion.form>
@@ -142,9 +143,9 @@ function ContactForm() {
             animate={{ opacity: 1, y: 0 }}
             className="border border-gold/20 bg-gold/5 p-10 text-center"
           >
-            <div className="text-gold text-4xl mb-5 font-display">Thank you.</div>
+            <div className="text-gold text-4xl mb-5 font-display">{t.contact.successHeading}</div>
             <p className="text-cream/60 font-body leading-relaxed">
-              Your message has been received. We will be in touch personally within 24 hours.
+              {t.contact.successBody}
             </p>
           </motion.div>
         )}

@@ -2,24 +2,21 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
+import type { Lang } from "@/i18n";
+import FlagUK from "./flags/FlagUK";
+import FlagNL from "./flags/FlagNL";
+import FlagIL from "./flags/FlagIL";
 
-const languages = [
-  { code: "en", label: "EN", flag: "🇬🇧" },
-  { code: "nl", label: "NL", flag: "🇳🇱" },
-  { code: "he", label: "HE", flag: "🇮🇱" },
-];
-
-const navLinks = [
-  { href: "#about", label: "About" },
-  { href: "#specialisations", label: "Expertise" },
-  { href: "#approach", label: "Our Approach" },
-  { href: "/insights", label: "Insights" },
-  { href: "/opportunities", label: "Opportunities" },
+const languages: { code: Lang; Flag: React.FC<{ className?: string }>; label: string }[] = [
+  { code: "en", Flag: FlagUK, label: "EN" },
+  { code: "nl", Flag: FlagNL, label: "NL" },
+  { code: "he", Flag: FlagIL, label: "HE" },
 ];
 
 export default function Navbar() {
+  const { t, lang, setLang } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
-  const [activeLang, setActiveLang] = useState("en");
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -27,6 +24,14 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const navLinks = [
+    { href: "#about", label: t.nav.about },
+    { href: "#specialisations", label: t.nav.expertise },
+    { href: "#approach", label: t.nav.approach },
+    { href: "/insights", label: t.nav.insights },
+    { href: "/opportunities", label: t.nav.opportunities },
+  ];
 
   return (
     <header
@@ -64,19 +69,22 @@ export default function Navbar() {
         {/* Right: language switcher + CTA */}
         <div className="hidden lg:flex items-center gap-6">
           {/* Language flags */}
-          <div className="flex items-center gap-2">
-            {languages.map((lang) => (
+          <div className="flex items-center gap-1.5">
+            {languages.map(({ code, Flag, label }) => (
               <button
-                key={lang.code}
-                onClick={() => setActiveLang(lang.code)}
-                className={`flex items-center gap-1 text-xs font-body tracking-wider transition-all duration-200 px-2 py-1 rounded ${
-                  activeLang === lang.code
-                    ? "text-gold border border-gold/40 bg-gold/5"
-                    : "text-cream/40 hover:text-cream/70 border border-transparent"
+                key={code}
+                onClick={() => setLang(code)}
+                aria-label={label}
+                className={`flex items-center gap-1.5 text-xs font-body tracking-wider transition-all duration-200 px-2 py-1 rounded ${
+                  lang === code
+                    ? "border border-gold/50 bg-gold/8"
+                    : "border border-transparent hover:border-cream/20"
                 }`}
               >
-                <span className="text-base">{lang.flag}</span>
-                <span>{lang.label}</span>
+                <Flag className="w-5 h-3.5 rounded-[2px] shadow-sm" />
+                <span className={lang === code ? "text-gold" : "text-cream/40 hover:text-cream/70"}>
+                  {label}
+                </span>
               </button>
             ))}
           </div>
@@ -86,7 +94,7 @@ export default function Navbar() {
             href="/contact"
             className="px-5 py-2.5 text-sm font-body font-500 tracking-wide border border-gold/60 text-gold hover:bg-gold hover:text-navy transition-all duration-300 rounded-sm"
           >
-            Start a Search
+            {t.nav.startSearch}
           </Link>
         </div>
 
@@ -121,19 +129,19 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <div className="flex items-center gap-3 pt-2 border-t border-gold/10">
-            {languages.map((lang) => (
+          <div className="flex items-center gap-2 pt-2 border-t border-gold/10">
+            {languages.map(({ code, Flag, label }) => (
               <button
-                key={lang.code}
-                onClick={() => setActiveLang(lang.code)}
-                className={`flex items-center gap-1 text-xs font-body tracking-wider transition-all px-2 py-1 rounded border ${
-                  activeLang === lang.code
+                key={code}
+                onClick={() => setLang(code)}
+                className={`flex items-center gap-1.5 text-xs font-body tracking-wider transition-all px-2 py-1.5 rounded border ${
+                  lang === code
                     ? "text-gold border-gold/40 bg-gold/5"
                     : "text-cream/40 border-transparent"
                 }`}
               >
-                <span>{lang.flag}</span>
-                <span>{lang.label}</span>
+                <Flag className="w-5 h-3.5 rounded-[2px]" />
+                <span>{label}</span>
               </button>
             ))}
           </div>
@@ -142,7 +150,7 @@ export default function Navbar() {
             className="mt-2 text-center px-5 py-3 text-sm font-body font-500 border border-gold/60 text-gold hover:bg-gold hover:text-navy transition-all duration-300"
             onClick={() => setMenuOpen(false)}
           >
-            Start a Search
+            {t.nav.startSearch}
           </Link>
         </div>
       </div>

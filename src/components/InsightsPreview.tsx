@@ -4,8 +4,10 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
 import type { InsightMeta } from "@/lib/insights";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function InsightsPreview({ insights }: { insights: InsightMeta[] }) {
+  const { t } = useLanguage();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -23,18 +25,18 @@ export default function InsightsPreview({ insights }: { insights: InsightMeta[] 
             <div className="flex items-center gap-3 mb-5">
               <div className="h-px w-8 bg-gold/60" />
               <span className="text-xs tracking-[0.3em] uppercase text-gold/70 font-body">
-                Insights
+                {t.insights.eyebrow}
               </span>
             </div>
             <h2 className="font-display text-display-lg text-cream">
-              Perspectives.
+              {t.insights.heading}
             </h2>
           </div>
           <Link
             href="/insights"
             className="inline-flex items-center gap-2 text-gold/60 hover:text-gold font-body text-sm tracking-wide transition-colors duration-200 pb-1"
           >
-            All articles
+            {t.insights.all}
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
@@ -72,7 +74,7 @@ export default function InsightsPreview({ insights }: { insights: InsightMeta[] 
                 </p>
 
                 <div className="flex items-center gap-2 text-gold/40 group-hover:text-gold/70 transition-colors duration-300 text-sm font-body">
-                  <span>Read</span>
+                  <span>{t.insights.read}</span>
                   <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>

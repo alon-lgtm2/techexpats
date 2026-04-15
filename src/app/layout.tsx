@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter, Heebo } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "@/context/LanguageContext";
+import LanguageEffect from "@/components/LanguageEffect";
 
 const cormorant = Playfair_Display({
   subsets: ["latin"],
@@ -27,11 +29,10 @@ const heebo = Heebo({
 export const metadata: Metadata = {
   title: "TechExpats - The Right Person Exists. We Know Them.",
   description:
-    "TechExpats is a boutique tech recruitment agency specialising in elite talent at the intersection of the Israeli tech ecosystem and European markets. Trusted since 2018.",
+    "TechExpats is a boutique tech recruitment agency connecting exceptional tech professionals with Europe's most demanding companies. Trusted since 2018.",
   keywords: [
     "tech recruitment",
     "boutique recruiter",
-    "Israeli tech",
     "expat talent",
     "cybersecurity recruitment",
     "Amsterdam",
@@ -56,10 +57,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      dir="ltr"
       className={`${cormorant.variable} ${inter.variable} ${heebo.variable}`}
     >
       <body className="font-body antialiased bg-navy text-cream">
-        {children}
+        <LanguageProvider>
+          <LanguageEffect />
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );

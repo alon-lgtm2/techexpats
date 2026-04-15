@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import OpportunitiesHeader from "@/components/OpportunitiesHeader";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -8,29 +9,61 @@ export const metadata: Metadata = {
   description: "TechExpats operates a small, selective portfolio of active searches at any given time.",
 };
 
+const mandates = [
+  {
+    sector: "Cyber-Intelligence",
+    title: "Head of European Expansion",
+    location: "Amsterdam",
+    seniority: "Executive",
+    discretion: "Confidential",
+    teaser:
+      "Scaling European commercial footprint for a growth-stage cyber-intelligence firm serving national security customers. Intelligence-community fluency essential; executive track record selling to governments preferred.",
+  },
+  {
+    sector: "National Security Tech",
+    title: "Director of Government Business Development",
+    location: "The Hague",
+    seniority: "Senior Leadership",
+    discretion: "Stealth Client",
+    teaser:
+      "Owning EU and NATO-adjacent public sector capture for a mission-critical platform. Established network across Dutch MoD, NCTV, Europol, and EU defence agencies non-negotiable.",
+  },
+  {
+    sector: "Offensive R&D",
+    title: "Principal Security Researcher",
+    location: "Amsterdam · Hybrid",
+    seniority: "Principal IC",
+    discretion: "Confidential",
+    teaser:
+      "Senior individual contributor role at a dual-use cyber company with Israeli origins and a European base. Published CVEs, advanced exploitation track record, or signals-intelligence technical pedigree.",
+  },
+  {
+    sector: "Threat Intelligence",
+    title: "VP Sales, EMEA Public Sector",
+    location: "The Hague",
+    seniority: "Executive",
+    discretion: "Confidential",
+    teaser:
+      "Leading European public sector revenue for a threat intelligence platform already deployed by allied governments. Candidates must bring direct relationships with senior buyers across EU defence, intelligence, and law enforcement.",
+  },
+  {
+    sector: "Dual-Use Cyber",
+    title: "Senior Product Manager, National Security Platform",
+    location: "Eindhoven · Amsterdam",
+    seniority: "Senior",
+    discretion: "Confidential",
+    teaser:
+      "Driving roadmap for a platform deployed by government customers across Europe and allied jurisdictions. Background bridging intelligence tradecraft and commercial product development.",
+  },
+];
+
 export default function OpportunitiesPage() {
   return (
     <>
       <Navbar />
       <main className="min-h-screen bg-navy pt-32 pb-20">
         <div className="max-w-5xl mx-auto px-6 lg:px-10">
-          {/* Header */}
-          <div className="mb-16">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="h-px w-8 bg-gold/60" />
-              <span className="text-xs tracking-[0.3em] uppercase text-gold/70 font-body">
-                Open Searches
-              </span>
-            </div>
-            <h1 className="font-display text-display-lg text-cream mb-5">
-              Current mandates.
-            </h1>
-            <p className="text-cream/50 font-body text-lg max-w-2xl leading-relaxed">
-              TechExpats works on a deliberately small portfolio of searches at any time -
-              ensuring each receives our full focus and the weight of our network.
-              Active searches are published selectively and with strict confidentiality.
-            </p>
-          </div>
+          <OpportunitiesHeader />
 
           {/* Notice */}
           <div className="border border-gold/15 bg-gold/3 p-8 mb-12">
@@ -43,25 +76,57 @@ export default function OpportunitiesPage() {
               <div>
                 <p className="text-cream/70 font-body text-sm leading-relaxed">
                   Most of our active searches are not publicly listed. If you are a senior professional
-                  in cybersecurity, engineering, data, or technology leadership - particularly with
-                  experience in European or Israeli markets - we encourage you to submit your profile.
-                  We maintain a trusted pool of candidates and make introductions when the right opportunity emerges.
+                  in cybersecurity, engineering, data, or technology leadership - we encourage you to
+                  submit your profile. We maintain a trusted pool of candidates and make introductions
+                  when the right opportunity emerges.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Placeholder for future searches */}
-          <div className="border-t border-cream/8">
-            <div className="py-20 text-center">
-              <p className="font-display text-2xl text-cream/25 italic mb-3">
-                No public listings at this time.
-              </p>
-              <p className="text-cream/30 font-body text-sm">
-                We are currently conducting searches on a confidential basis.
-              </p>
+          {/* Mandate cards */}
+          <div className="border-t border-cream/8 pt-12 pb-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {mandates.map((m) => (
+                <div
+                  key={m.title}
+                  className="group flex flex-col h-full border border-cream/6 bg-navy-light/20 p-7 hover:border-gold/20 hover:bg-navy-light/40 transition-all duration-400"
+                >
+                  <div className="flex items-center justify-between mb-6">
+                    <span className="text-[10px] tracking-wide uppercase font-body text-gold/50 border border-gold/15 px-2 py-0.5">
+                      {m.sector}
+                    </span>
+                    <span className="text-cream/25 font-body text-xs tracking-widest uppercase">
+                      {m.discretion}
+                    </span>
+                  </div>
+
+                  <h3 className="font-display text-xl font-500 text-cream group-hover:text-gold/90 transition-colors duration-300 mb-3">
+                    {m.title}
+                  </h3>
+
+                  <div className="flex items-center gap-2 text-cream/50 font-body text-xs mb-4">
+                    <span>{m.location}</span>
+                    <span className="text-cream/20">·</span>
+                    <span>{m.seniority}</span>
+                  </div>
+
+                  <p className="text-cream/55 font-body text-sm leading-relaxed mb-6 flex-1">
+                    {m.teaser}
+                  </p>
+
+                  <Link
+                    href="/contact?type=candidate"
+                    className="inline-flex items-center gap-2 text-gold/50 group-hover:text-gold font-body text-sm transition-colors duration-300"
+                  >
+                    Enquire in confidence
+                    <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </Link>
+                </div>
+              ))}
             </div>
-            <div className="border-b border-cream/8" />
           </div>
 
           {/* CTA */}
