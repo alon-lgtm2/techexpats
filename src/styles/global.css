@@ -1,0 +1,187 @@
+/* =============================================================
+   TechExpats — global styles + design directions
+   -------------------------------------------------------------
+   The whole look is driven by tokens. :root = the default
+   EDITORIAL direction. Each [data-theme="..."] block below is a
+   complete alternative direction. Set data-theme on <html> (via
+   the Base layout `theme` prop, or the switcher on /designs) to
+   reskin the entire site. To tune a direction, edit its block.
+   ============================================================= */
+
+:root {
+  /* ---- EDITORIAL (default): serif, warm paper, teal accent ---- */
+  --paper:      #faf9f6;
+  --paper-2:    #f1efea;
+  --ink:        #14110d;
+  --ink-2:      #4a463f;
+  --ink-3:      #8a857b;
+  --line:       rgba(20, 17, 13, 0.12);
+  --line-soft:  rgba(20, 17, 13, 0.07);
+  --accent:     #0f766e;
+  --accent-ink: #0b5750;
+
+  --display: "Newsreader", Georgia, "Times New Roman", serif;
+  --body:    "Inter", system-ui, -apple-system, sans-serif;
+  --mono:    "JetBrains Mono", ui-monospace, monospace;
+  --display-weight: 500;
+
+  --hero-em-color: var(--ink-3);
+  --hero-em-style: italic;
+
+  --radius: 0px;
+  --radius-btn: 0px;
+
+  --footer-bg: var(--ink);
+  --footer-fg: var(--paper);
+
+  /* fluid display scale */
+  --d-xl: clamp(2.6rem, 6vw, 5rem);
+  --d-lg: clamp(2rem, 4vw, 3.2rem);
+  --d-md: clamp(1.5rem, 2.6vw, 2.1rem);
+
+  --max: 72rem;
+  --pad: 1.5rem;
+  --pad-lg: 2.5rem;
+  --section: clamp(4.5rem, 9vw, 8rem);
+}
+
+/* ---- ENGINE: sharp, modern, Dutch orange, grotesk ---- */
+[data-theme="engine"] {
+  --paper:      #ffffff;
+  --paper-2:    #f4f4f3;
+  --ink:        #0a0a0a;
+  --ink-2:      #3f3f3f;
+  --ink-3:      #737370;
+  --line:       rgba(0, 0, 0, 0.13);
+  --line-soft:  rgba(0, 0, 0, 0.08);
+  --accent:     #f25c2a;
+  --accent-ink: #d63e16;
+  --display: "Space Grotesk", system-ui, sans-serif;
+  --display-weight: 700;
+  --hero-em-color: var(--accent);
+  --hero-em-style: normal;
+  --radius: 0px;
+  --radius-btn: 0px;
+  --footer-bg: #0a0a0a;
+  --footer-fg: #f4f4f3;
+}
+
+/* ---- SUN: warm, human, coral, rounded ---- */
+[data-theme="sun"] {
+  --paper:      #fff8f0;
+  --paper-2:    #fff1e6;
+  --ink:        #2a1f1a;
+  --ink-2:      #6b5d52;
+  --ink-3:      #a8917d;
+  --line:       rgba(42, 31, 26, 0.13);
+  --line-soft:  rgba(42, 31, 26, 0.07);
+  --accent:     #e94e5c;
+  --accent-ink: #c8384a;
+  --display: "Poppins", system-ui, sans-serif;
+  --body:    "Poppins", system-ui, sans-serif;
+  --display-weight: 700;
+  --hero-em-color: var(--accent);
+  --hero-em-style: normal;
+  --radius: 16px;
+  --radius-btn: 999px;
+  --footer-bg: #2a1f1a;
+  --footer-fg: #fff8f0;
+}
+
+/* ---- SLATE: premium dark, serif, muted gold ---- */
+[data-theme="slate"] {
+  --paper:      #0c0c0e;
+  --paper-2:    #151518;
+  --ink:        #f5f3ef;
+  --ink-2:      rgba(245, 243, 239, 0.72);
+  --ink-3:      rgba(245, 243, 239, 0.45);
+  --line:       rgba(255, 255, 255, 0.13);
+  --line-soft:  rgba(255, 255, 255, 0.07);
+  --accent:     #d9a441;
+  --accent-ink: #e8be6a;
+  --display: "Newsreader", Georgia, serif;
+  --display-weight: 500;
+  --hero-em-color: var(--ink-3);
+  --hero-em-style: italic;
+  --radius: 0px;
+  --radius-btn: 0px;
+  --footer-bg: #08080a;
+  --footer-fg: rgba(245, 243, 239, 0.7);
+}
+
+/* ---- Hebrew / RTL: Latin display fonts have no Hebrew glyphs ---- */
+[dir="rtl"] {
+  --display: "Heebo", system-ui, sans-serif;
+  --body: "Heebo", system-ui, sans-serif;
+  --display-weight: 800;
+}
+[dir="rtl"] .display-xl,
+[dir="rtl"] .display-lg,
+[dir="rtl"] .display-md { letter-spacing: -0.01em; }
+[dir="rtl"] .eyebrow::before { background: var(--accent); }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink-2);
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+.container { max-width: var(--max); margin: 0 auto; padding-inline: var(--pad); }
+@media (min-width: 1024px) { .container { padding-inline: var(--pad-lg); } }
+.section { padding-block: var(--section); }
+
+.display-xl {
+  font-family: var(--display); font-weight: var(--display-weight);
+  font-size: var(--d-xl); line-height: 1.0; letter-spacing: -0.022em;
+  color: var(--ink); text-wrap: balance;
+}
+.display-lg {
+  font-family: var(--display); font-weight: var(--display-weight);
+  font-size: var(--d-lg); line-height: 1.05; letter-spacing: -0.02em;
+  color: var(--ink); text-wrap: balance;
+}
+.display-md {
+  font-family: var(--display); font-weight: var(--display-weight);
+  font-size: var(--d-md); line-height: 1.15; letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.lead { font-size: 1.15rem; line-height: 1.6; color: var(--ink-2); font-weight: 300; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+.eyebrow::before { content: ""; width: 1.6rem; height: 1px; background: var(--accent); }
+.label {
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+
+.btn {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-family: var(--body); font-size: 0.9rem; font-weight: 500; letter-spacing: 0.01em;
+  padding: 0.9rem 1.5rem; border: 1px solid transparent; cursor: pointer;
+  border-radius: var(--radius-btn);
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+.btn-primary { background: var(--ink); color: var(--paper); }
+.btn-primary:hover { background: var(--accent-ink); }
+.btn-ghost { border-color: var(--line); color: var(--ink); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent-ink); }
+.btn .arrow { transition: transform 0.25s ease; }
+.btn:hover .arrow { transform: translateX(3px); }
+
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.rise { animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+@media (prefers-reduced-motion: reduce) { .rise { animation: none; } }

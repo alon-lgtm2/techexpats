@@ -1,0 +1,198 @@
+---
+import Nav from "../Nav.astro";
+import Footer from "../Footer.astro";
+import CTA from "../CTA.astro";
+import { getT, type Lang } from "../../i18n";
+interface Props { lang?: Lang }
+const { lang = "en" } = Astro.props;
+const t = getT(lang);
+const h = t.howItWorks;
+
+const principles = [
+  { k: h.p1k, t: h.p1t, d: h.p1d },
+  { k: h.p2k, t: h.p2t, d: h.p2d },
+  { k: h.p3k, t: h.p3t, d: h.p3d },
+];
+const stages = [
+  { n: "01", t: h.s1t, d: h.s1d, goal: h.s1goal },
+  { n: "02", t: h.s2t, d: h.s2d, goal: h.s2goal },
+  { n: "03", t: h.s3t, d: h.s3d, goal: h.s3goal },
+];
+const order = [h.oCompany, h.oDepartment, h.oPerson, h.oRole];
+const phases = [
+  { t: h.ph1t, head: h.ph1h, d: h.ph1d },
+  { t: h.ph2t, head: h.ph2h, d: h.ph2d },
+  { t: h.ph3t, head: h.ph3h, d: h.ph3d },
+];
+const includes = [h.incl1, h.incl2, h.incl3, h.incl4, h.incl5, h.incl6, h.incl7];
+const bring = [h.bring1, h.bring2, h.bring3, h.bring4];
+const ask = [h.ask1, h.ask2, h.ask3, h.ask4];
+---
+
+<Nav lang={lang} />
+
+<section class="hero section">
+  <div class="container">
+    <span class="eyebrow">{h.eyebrow}</span>
+    <h1 class="display-xl">{h.title}</h1>
+    <p class="lead">{h.lead}</p>
+  </div>
+</section>
+
+<!-- IDEA -->
+<section class="section alt">
+  <div class="container">
+    <span class="eyebrow">{h.ideaHeading}</span>
+    <p class="big-lead">{h.ideaLead}</p>
+    <div class="principles">
+      {principles.map((p) => (
+        <article class="principle">
+          <span class="label k">{p.k}</span>
+          <h3 class="display-md">{p.t}</h3>
+          <p>{p.d}</p>
+        </article>
+      ))}
+    </div>
+    <div class="bottom">
+      <span class="label">{h.ideaBottomLabel}</span>
+      <p>{h.ideaBottom}</p>
+    </div>
+  </div>
+</section>
+
+<!-- STAGES -->
+<section class="section">
+  <div class="container">
+    <span class="eyebrow">{h.stagesHeading}</span>
+    <p class="big-lead">{h.stagesLead}</p>
+    <div class="stages">
+      {stages.map((s) => (
+        <article class="stage">
+          <span class="stage-n">{s.n}</span>
+          <h3 class="display-md">{s.t}</h3>
+          <p>{s.d}</p>
+          <span class="goal">{s.goal}</span>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- REVERSE ORDER -->
+<section class="section alt">
+  <div class="container order-wrap">
+    <div>
+      <span class="eyebrow">{h.orderHeading}</span>
+      <p class="big-lead">{h.orderText}</p>
+    </div>
+    <ol class="order">
+      {order.map((o, i) => (
+        <li><span class="label">{String(i + 1).padStart(2, "0")}</span>{o}</li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<!-- RHYTHM -->
+<section class="section">
+  <div class="container">
+    <span class="eyebrow">{h.rhythmHeading}</span>
+    <p class="big-lead">{h.rhythmLead}</p>
+    <div class="phases">
+      {phases.map((p) => (
+        <article class="phase">
+          <span class="label k">{p.t}</span>
+          <h3>{p.head}</h3>
+          <p>{p.d}</p>
+        </article>
+      ))}
+    </div>
+    <div class="bottom">
+      <span class="label">{h.rhythmNoteLabel}</span>
+      <p>{h.rhythmNote}</p>
+    </div>
+  </div>
+</section>
+
+<!-- INCLUDES + CONTRACT -->
+<section class="section alt">
+  <div class="container two">
+    <div>
+      <span class="eyebrow">{h.inclHeading}</span>
+      <p class="sub">{h.inclLead}</p>
+      <ul class="check">{includes.map((i) => <li>{i}</li>)}</ul>
+    </div>
+    <div>
+      <span class="eyebrow">{h.contractHeading}</span>
+      <p class="sub">{h.contractLead}</p>
+      <div class="contract">
+        <div>
+          <span class="label">{h.bringHeading}</span>
+          <ul class="check">{bring.map((i) => <li>{i}</li>)}</ul>
+        </div>
+        <div>
+          <span class="label">{h.askHeading}</span>
+          <ul class="check ask">{ask.map((i) => <li>{i}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HONEST -->
+<section class="section honest-sec">
+  <div class="container">
+    <span class="label k">{h.honestLabel}</span>
+    <p class="honest">{h.honest}</p>
+    <p class="closing display-md">{h.closing}</p>
+  </div>
+</section>
+
+<CTA lang={lang} heading={h.ctaHeading} body={h.ctaBody} />
+<Footer lang={lang} />
+
+<style>
+  .hero .lead { max-width: 52ch; margin-top: 1.5rem; }
+  .alt { background: var(--paper-2); }
+  .big-lead { font-size: 1.15rem; line-height: 1.6; color: var(--ink-2); max-width: 60ch; margin: 1.2rem 0 3rem; }
+  .k { color: var(--accent); }
+
+  .principles, .phases { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+  .principle, .phase { border-top: 2px solid var(--ink); padding-top: 1.1rem; }
+  .principle h3 { margin: 0.8rem 0 0.6rem; }
+  .phase h3 { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.3rem; margin: 0.6rem 0 0.5rem; color: var(--ink); }
+  .principle p, .phase p { font-size: 0.95rem; }
+  @media (min-width: 820px) { .principles, .phases { grid-template-columns: repeat(3, 1fr); } }
+
+  .bottom { margin-top: 3rem; border-inline-start: 3px solid var(--accent); padding-inline-start: 1.5rem; max-width: 60ch; }
+  .bottom .label { display: block; margin-bottom: 0.6rem; }
+  .bottom p { color: var(--ink-2); }
+
+  .stages { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+  .stage { background: var(--paper-2); border: 1px solid var(--line); padding: 1.75rem; display: flex; flex-direction: column; gap: 0.7rem; }
+  .stage-n { font-family: var(--mono); font-size: 1.8rem; color: var(--accent); }
+  .stage .goal { margin-top: auto; padding-top: 0.8rem; font-weight: 600; color: var(--ink); font-size: 0.9rem; }
+  @media (min-width: 820px) { .stages { grid-template-columns: repeat(3, 1fr); } }
+
+  .order-wrap { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+  .order { list-style: none; display: flex; flex-direction: column; gap: 0; border: 1px solid var(--line); }
+  .order li { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.5rem; border-bottom: 1px solid var(--line); font-family: var(--display); font-weight: var(--display-weight); font-size: 1.5rem; color: var(--ink); background: var(--paper); }
+  .order li:last-child { border-bottom: 0; background: var(--ink); color: var(--paper); }
+  .order .label { color: var(--accent); }
+  @media (min-width: 820px) { .order-wrap { grid-template-columns: 1fr 1fr; align-items: center; } }
+
+  .two { display: grid; grid-template-columns: 1fr; gap: 3.5rem; }
+  .two .sub { color: var(--ink-2); margin: 1rem 0 1.5rem; max-width: 42ch; }
+  .check { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+  .check li { position: relative; padding-inline-start: 1.6rem; font-size: 0.95rem; color: var(--ink-2); }
+  .check li::before { content: "+"; position: absolute; inset-inline-start: 0; color: var(--accent); font-family: var(--mono); font-weight: 500; }
+  .check.ask li::before { content: "›"; }
+  .contract { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+  .contract .label { display: block; margin-bottom: 1rem; }
+  @media (min-width: 760px) { .two { grid-template-columns: 1fr 1fr; gap: 4rem; } .contract { grid-template-columns: 1fr 1fr; } }
+
+  .honest-sec { background: var(--ink); color: var(--paper); }
+  .honest-sec .k { color: var(--accent); }
+  .honest { font-size: 1.1rem; line-height: 1.65; color: color-mix(in srgb, var(--paper) 85%, transparent); max-width: 60ch; margin: 1rem 0 2.5rem; }
+  .closing { color: var(--paper); max-width: 24ch; }
+</style>

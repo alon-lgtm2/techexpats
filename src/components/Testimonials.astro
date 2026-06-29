@@ -1,0 +1,71 @@
+---
+import { getT, type Lang } from "../i18n";
+import { testimonials } from "../data/testimonials";
+
+interface Props { lang?: Lang; limit?: number }
+const { lang = "en", limit = 6 } = Astro.props;
+const t = getT(lang);
+
+const items = testimonials.slice(0, limit).map((r) => ({
+  quote: (r.quote as any)[lang] || r.quote.en || Object.values(r.quote)[0],
+  name: r.name,
+  role: r.role,
+  source: r.source === "hiring" ? t.testimonials.hiringClient : t.testimonials.coachingClient,
+  avatar: r.avatar,
+  initials: r.name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase(),
+}));
+---
+
+<section class="section testimonials">
+  <div class="container">
+    <span class="eyebrow">{t.testimonials.eyebrow}</span>
+    <h2 class="display-lg sec-h">{t.testimonials.heading}</h2>
+    <p class="sec-sub">{t.testimonials.sub}</p>
+    <div class="grid">
+      {items.map((r) => (
+        <figure class="card">
+          <blockquote>{r.quote}</blockquote>
+          <figcaption>
+            <span class="avatar" aria-hidden="true">
+              {r.avatar ? <img src={r.avatar} alt="" loading="lazy" /> : <span>{r.initials}</span>}
+            </span>
+            <span class="who">
+              <span class="name">{r.name}</span>
+              {r.role && <span class="role">{r.role}</span>}
+              <span class="src label">{r.source}</span>
+            </span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .sec-h { margin: 1.1rem 0 0.8rem; }
+  .sec-sub { color: var(--ink-2); max-width: 52ch; margin-bottom: 3rem; }
+  .grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+  .card {
+    border: 1px solid var(--line); background: var(--paper-2);
+    padding: 1.75rem; display: flex; flex-direction: column; gap: 1.5rem;
+    border-radius: var(--radius);
+  }
+  blockquote {
+    font-size: 0.98rem; line-height: 1.65; color: var(--ink-2);
+    display: -webkit-box; -webkit-line-clamp: 7; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  figcaption { display: flex; align-items: center; gap: 0.85rem; margin-top: auto; }
+  .avatar {
+    width: 2.6rem; height: 2.6rem; flex-shrink: 0; overflow: hidden;
+    border-radius: var(--radius-btn); background: var(--ink); color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 0.75rem;
+  }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .who { display: flex; flex-direction: column; gap: 0.1rem; }
+  .name { font-weight: 600; color: var(--ink); font-size: 0.92rem; }
+  .role { font-size: 0.8rem; color: var(--ink-3); }
+  .src { margin-top: 0.25rem; color: var(--accent); }
+  @media (min-width: 700px) { .grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .grid { grid-template-columns: 1fr 1fr 1fr; } }
+</style>

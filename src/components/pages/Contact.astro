@@ -1,0 +1,66 @@
+---
+import Nav from "../Nav.astro";
+import Footer from "../Footer.astro";
+import { getT, type Lang } from "../../i18n";
+interface Props { lang?: Lang }
+const { lang = "en" } = Astro.props;
+const t = getT(lang);
+const c = t.contact;
+// TODO(Alon): set the real Formspree form ID for techexpats (see site/ Next app).
+const FORMSPREE = "https://formspree.io/f/xzdjglaz";
+---
+
+<Nav lang={lang} />
+
+<section class="section">
+  <div class="container grid">
+    <div class="intro">
+      <span class="eyebrow">{c.eyebrow}</span>
+      <h1 class="display-lg head">{c.heading}</h1>
+      <p class="lead">{c.body}</p>
+      <p class="disclaimer">{c.disclaimer}</p>
+      <a class="email" href={`mailto:${t.cta.email}`}>{t.cta.email}</a>
+    </div>
+
+    <form class="form" action={FORMSPREE} method="POST">
+      <label>
+        <span>{c.fName}</span>
+        <input type="text" name="name" required />
+      </label>
+      <label>
+        <span>{c.fEmail}</span>
+        <input type="email" name="email" required />
+      </label>
+      <label>
+        <span>{c.fCurrentRole}</span>
+        <input type="text" name="role" />
+      </label>
+      <label>
+        <span>{c.fBackground}</span>
+        <textarea name="message" rows="5" placeholder={c.fBackgroundPh} required></textarea>
+      </label>
+      <button type="submit" class="btn btn-primary">{c.submit} <span class="arrow">&rarr;</span></button>
+    </form>
+  </div>
+</section>
+
+<Footer lang={lang} />
+
+<style>
+  .grid { display: grid; grid-template-columns: 1fr; gap: 3rem; }
+  .head { margin: 1.1rem 0 1rem; }
+  .intro .lead { max-width: 40ch; }
+  .disclaimer { margin-top: 1.5rem; font-size: 0.85rem; color: var(--ink-3); max-width: 40ch; }
+  .email { display: inline-block; margin-top: 1.5rem; font-family: var(--mono); font-size: 0.85rem; color: var(--accent); }
+  .form { display: flex; flex-direction: column; gap: 1.1rem; }
+  label { display: flex; flex-direction: column; gap: 0.4rem; }
+  label span { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
+  input, textarea {
+    font-family: var(--body); font-size: 0.95rem; color: var(--ink);
+    background: var(--paper-2); border: 1px solid var(--line); padding: 0.8rem 0.9rem; width: 100%;
+    border-radius: var(--radius);
+  }
+  input:focus, textarea:focus { outline: none; border-color: var(--accent); }
+  .form .btn { align-self: flex-start; margin-top: 0.5rem; }
+  @media (min-width: 820px) { .grid { grid-template-columns: 0.9fr 1.1fr; gap: 4rem; } }
+</style>

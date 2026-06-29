@@ -1,0 +1,34 @@
+---
+import { getT, localizePath, type Lang } from "../i18n";
+interface Props { lang?: Lang; heading?: string; body?: string }
+const { lang = "en", heading, body } = Astro.props;
+const t = getT(lang);
+---
+
+<section class="cta-band">
+  <div class="container">
+    <span class="eyebrow">{t.cta.eyebrow}</span>
+    <div class="cta-inner">
+      <div>
+        <h2 class="display-lg">{heading ?? t.cta.heading}</h2>
+        <p>{body ?? t.cta.body}</p>
+      </div>
+      <div class="cta-actions">
+        <a href={localizePath("/book", lang)} class="btn btn-primary">{t.nav.startSearch} <span class="arrow">&rarr;</span></a>
+        <a href={`mailto:${t.cta.email}`} class="btn btn-ghost">{t.cta.email}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band { background: var(--paper-2); border-top: 1px solid var(--line); padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .eyebrow { margin-bottom: 1.5rem; }
+  .cta-inner { display: flex; flex-direction: column; gap: 2rem; align-items: flex-start; }
+  .cta-inner .display-lg { max-width: 18ch; }
+  .cta-inner p { color: var(--ink-2); max-width: 48ch; margin-top: 1rem; }
+  .cta-actions { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+  @media (min-width: 820px) {
+    .cta-inner { flex-direction: row; justify-content: space-between; align-items: flex-end; }
+  }
+</style>

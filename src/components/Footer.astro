@@ -1,0 +1,58 @@
+---
+import { getT, localizePath, type Lang } from "../i18n";
+interface Props { lang?: Lang }
+const { lang = "en" } = Astro.props;
+const t = getT(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="display-md">TechExpats</span>
+        <p>{t.footer.tagline}</p>
+        <a href={localizePath("/book", lang)} class="btn btn-ghost">{t.nav.startSearch} <span class="arrow">&rarr;</span></a>
+      </div>
+      <div class="foot-cols">
+        <div>
+          <span class="label">{t.serve.coEyebrow}</span>
+          <a href={localizePath("/how-it-works", lang)}>{t.nav.howItWorks}</a>
+          <a href={localizePath("/career-advice", lang)}>{t.nav.careerAdvice}</a>
+          <a href={localizePath("/about", lang)}>{t.nav.about}</a>
+        </div>
+        <div>
+          <span class="label">{t.serve.taEyebrow}</span>
+          <a href={localizePath("/for-companies", lang)}>{t.nav.forCompanies}</a>
+          <a href={localizePath("/hiring-insights", lang)}>{t.nav.hiringInsights}</a>
+          <a href={localizePath("/opportunities", lang)}>{t.nav.opportunities}</a>
+        </div>
+        <div>
+          <span class="label">{t.footer.contactHeading}</span>
+          <a href={localizePath("/contact", lang)}>{t.cta.primary}</a>
+          <a href={`mailto:${t.cta.email}`}>{t.cta.email}</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; {year} TechExpats. {t.footer.copyright}</span>
+      <span class="mono">{t.footer.location}</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--footer-bg); color: color-mix(in srgb, var(--footer-fg) 75%, transparent); padding-block: 4rem 2rem; }
+  .footer .display-md { color: var(--footer-fg); }
+  .foot-top { display: grid; grid-template-columns: 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+  .foot-brand p { margin: 1rem 0 1.5rem; max-width: 34ch; font-size: 0.95rem; }
+  .footer .btn-ghost { border-color: rgba(255, 255, 255, 0.25); color: var(--footer-fg); }
+  .footer .btn-ghost:hover { border-color: var(--footer-fg); color: var(--footer-fg); }
+  .foot-cols { display: flex; gap: 3.5rem; flex-wrap: wrap; }
+  .foot-cols .label { display: block; margin-bottom: 1rem; color: rgba(255, 255, 255, 0.4); }
+  .foot-cols a { display: block; font-size: 0.92rem; padding: 0.3rem 0; color: color-mix(in srgb, var(--footer-fg) 70%, transparent); }
+  .foot-cols a:hover { color: var(--footer-fg); }
+  .foot-bottom { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; font-size: 0.8rem; color: rgba(255, 255, 255, 0.4); }
+  .foot-bottom .mono { font-family: var(--mono); letter-spacing: 0.06em; }
+  @media (min-width: 800px) { .foot-top { grid-template-columns: 1.4fr 1.4fr; gap: 4rem; } }
+</style>

@@ -1,0 +1,76 @@
+---
+import Nav from "../Nav.astro";
+import Footer from "../Footer.astro";
+import CTA from "../CTA.astro";
+import { getCollection } from "astro:content";
+import { getT, localizePath, type Lang } from "../../i18n";
+
+interface Props { lang?: Lang; audience: "individuals" | "companies" }
+const { lang = "en", audience } = Astro.props;
+const t = getT(lang);
+
+const isB2C = audience === "individuals";
+const head = {
+  eyebrow: isB2C ? t.insights.b2cEyebrow : t.insights.b2bEyebrow,
+  heading: isB2C ? t.insights.b2cHeading : t.insights.b2bHeading,
+  sub: isB2C ? t.insights.b2cSub : t.insights.b2bSub,
+};
+
+const all = await getCollection("insights");
+const articles = all
+  .filter((a) => a.data.lang === lang && (a.data.audience === audience || a.data.audience === "both"))
+  .sort((x, y) => +new Date(y.data.date) - +new Date(x.data.date));
+---
+
+<Nav lang={lang} />
+
+<section class="section">
+  <div class="container">
+    <span class="eyebrow">{head.eyebrow}</span>
+    <h1 class="display-lg head">{head.heading}</h1>
+    <p class="lead">{head.sub}</p>
+
+    {articles.length === 0 ? (
+      <p class="empty">{t.insights.empty}</p>
+    ) : (
+      <div class="articles">
+        {articles.map((a, i) => (
+          <a href={localizePath(`/insights/${a.id}`, lang)} class="article">
+            {a.data.image && <span class="thumb"><img src={a.data.image} alt="" loading="lazy" /></span>}
+            <span class="meta">
+              <span class="label k">{a.data.category}</span>
+              {a.data.readTime && <span class="label">{a.data.readTime}</span>}
+            </span>
+            <h2>{a.data.title}</h2>
+            <p>{a.data.excerpt}</p>
+            <span class="read">{t.insights.read} &rarr;</span>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+<CTA lang={lang} />
+<Footer lang={lang} />
+
+<style>
+  .head { margin: 1.1rem 0 1rem; }
+  .lead { max-width: 54ch; margin-bottom: 3rem; }
+  .empty { color: var(--ink-3); font-family: var(--mono); font-size: 0.9rem; padding: 2rem 0; }
+  .articles { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+  .article {
+    border: 1px solid var(--line); background: var(--paper); padding: 1.5rem;
+    display: flex; flex-direction: column; gap: 0.7rem; transition: border-color .2s ease, background .2s ease;
+  }
+  .article:hover { border-color: var(--accent); background: var(--paper-2); }
+  .thumb { display: block; aspect-ratio: 16/9; overflow: hidden; margin: -1.5rem -1.5rem 0.5rem; border-bottom: 1px solid var(--line); }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .meta { display: flex; gap: 1rem; align-items: center; }
+  .k { color: var(--accent); }
+  .article h2 { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.25rem; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
+  .article p { font-size: 0.92rem; color: var(--ink-2); }
+  .read { margin-top: auto; padding-top: 0.5rem; font-size: 0.85rem; color: var(--ink-3); font-family: var(--mono); }
+  @media (min-width: 700px) { .articles { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .articles { grid-template-columns: 1fr 1fr 1fr; } }
+</style>

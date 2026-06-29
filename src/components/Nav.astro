@@ -1,0 +1,114 @@
+---
+import { getT, localizePath, LANGS, LANG_LABELS, DEFAULT_LANG, type Lang } from "../i18n";
+
+interface Props { lang?: Lang }
+const { lang = "en" } = Astro.props;
+const t = getT(lang);
+
+// path without the locale prefix, so the switcher keeps you on the same page
+const parts = Astro.url.pathname.split("/").filter(Boolean);
+const basePath = (LANGS as string[]).includes(parts[0]) ? "/" + parts.slice(1).join("/") : Astro.url.pathname;
+const cleanBase = basePath === "" ? "/" : basePath;
+
+const links = [
+  { label: t.nav.howItWorks, href: "/how-it-works" },
+  { label: t.nav.careerAdvice, href: "/career-advice" },
+  { label: t.nav.about, href: "/about" },
+  { label: t.nav.forCompanies, href: "/for-companies" },
+];
+---
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a href={localizePath("/", lang)} class="brand">
+      TechExpats<span class="brand-mark">.</span>
+      <span class="brand-sub">Careers in Europe</span>
+    </a>
+
+    <nav class="links" aria-label="Primary">
+      {links.map((l) => <a href={localizePath(l.href, lang)}>{l.label}</a>)}
+    </nav>
+
+    <div class="nav-right">
+      <div class="langs" role="group" aria-label="Language">
+        {LANGS.map((l) => (
+          <a
+            href={localizePath(cleanBase, l)}
+            class:list={["lang", { active: l === lang }]}
+            hreflang={l}
+          >{LANG_LABELS[l]}</a>
+        ))}
+      </div>
+      <a href={localizePath("/book", lang)} class="btn btn-primary nav-cta">{t.nav.startSearch} <span class="arrow">&rarr;</span></a>
+      <button class="burger" aria-label="Menu" aria-expanded="false" id="burger">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="mobile" id="mobile-menu" aria-label="Mobile">
+    {links.map((l) => <a href={localizePath(l.href, lang)}>{l.label}</a>)}
+    <a href={localizePath("/for-companies", lang)} class="mobile-cta">{t.nav.startSearch} &rarr;</a>
+  </nav>
+</header>
+
+<style>
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { display: flex; align-items: center; gap: 1.5rem; height: 4.5rem; }
+  .brand {
+    font-family: var(--display); font-weight: var(--display-weight);
+    font-size: 1.2rem; letter-spacing: -0.03em; color: var(--ink);
+    display: flex; flex-direction: column; line-height: 1; white-space: nowrap;
+  }
+  .brand-mark { display: none; }
+  .brand-sub {
+    font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-3); margin-top: 0.3rem; font-weight: 400;
+  }
+  .links { display: none; gap: 1.6rem; margin-inline-start: auto; font-size: 0.88rem; color: var(--ink-2); }
+  .links a:hover { color: var(--accent-ink); }
+
+  .nav-right { display: flex; align-items: center; gap: 0.9rem; margin-inline-start: auto; }
+  .langs { display: flex; gap: 0.15rem; }
+  .lang {
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em;
+    padding: 0.25rem 0.45rem; color: var(--ink-3);
+  }
+  .lang:hover { color: var(--ink); }
+  .lang.active { color: var(--accent); font-weight: 500; }
+  .nav-cta { padding: 0.55rem 1rem; font-size: 0.8rem; }
+
+  .burger {
+    display: flex; flex-direction: column; gap: 5px; justify-content: center;
+    width: 2.4rem; height: 2.4rem; background: none; border: 1px solid var(--line); cursor: pointer;
+  }
+  .burger span { display: block; width: 1.1rem; height: 2px; background: var(--ink); margin-inline: auto; transition: transform .2s ease; }
+
+  .mobile { display: none; flex-direction: column; padding: 0.5rem var(--pad) 1.25rem; border-bottom: 1px solid var(--line); }
+  .mobile.open { display: flex; }
+  .mobile a { padding: 0.7rem 0; font-size: 1rem; color: var(--ink-2); border-bottom: 1px solid var(--line-soft); }
+  .mobile .mobile-cta { color: var(--accent); font-weight: 600; border-bottom: 0; }
+
+  @media (min-width: 920px) {
+    .links { display: flex; }
+    .nav-right { margin-inline-start: 0; }
+    .burger { display: none; }
+  }
+  @media (max-width: 919px) {
+    .nav-cta { display: none; }
+  }
+</style>
+
+<script>
+  const b = document.getElementById("burger");
+  const m = document.getElementById("mobile-menu");
+  b?.addEventListener("click", () => {
+    const open = m?.classList.toggle("open");
+    b.setAttribute("aria-expanded", String(!!open));
+  });
+</script>

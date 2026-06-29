@@ -1,0 +1,101 @@
+---
+import Nav from "../Nav.astro";
+import Footer from "../Footer.astro";
+import CTA from "../CTA.astro";
+import { getT, localizePath, type Lang } from "../../i18n";
+interface Props { lang?: Lang }
+const { lang = "en" } = Astro.props;
+const t = getT(lang);
+const f = t.forCompanies;
+
+const steps = [
+  { n: "01", t: f.s1t, d: f.s1d },
+  { n: "02", t: f.s2t, d: f.s2d },
+  { n: "03", t: f.s3t, d: f.s3d },
+];
+const what = [f.w1, f.w2, f.w3, f.w4];
+---
+
+<Nav lang={lang} />
+
+<section class="hero section">
+  <div class="container">
+    <span class="eyebrow">{f.eyebrow}</span>
+    <h1 class="display-xl">{f.h1}<br /><span class="accent">{f.h2}</span></h1>
+    <p class="lead">{f.sub}</p>
+    <div class="ctas">
+      <a href={localizePath("/contact", lang)} class="btn btn-primary">{f.ctaPrimary} <span class="arrow">&rarr;</span></a>
+      <a href={localizePath("/book", lang)} class="btn btn-ghost">{f.ctaSecondary}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section problem-sec">
+  <div class="container">
+    <h2 class="display-md p-head">{f.problemHeading}</h2>
+    <p class="p-body">{f.problemBody}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <span class="eyebrow">{f.processEyebrow}</span>
+    <h2 class="display-lg sec-h">{f.processHeading}</h2>
+    <div class="steps">
+      {steps.map((s) => (
+        <article class="step">
+          <span class="step-n">{s.n}</span>
+          <h3 class="display-md">{s.t}</h3>
+          <p>{s.d}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container two">
+    <div>
+      <span class="eyebrow">{f.whatEyebrow}</span>
+      <h2 class="display-lg sec-h">{f.whatHeading}</h2>
+      <ul class="check">{what.map((w) => <li>{w}</li>)}</ul>
+    </div>
+    <div class="why">
+      <span class="eyebrow">{f.whyEyebrow}</span>
+      <h3 class="display-md">{f.whyHeading}</h3>
+      <p>{f.whyBody}</p>
+      <p class="closing">{f.closing}</p>
+    </div>
+  </div>
+</section>
+
+<CTA lang={lang} heading={f.ctaHeading} body={f.ctaBody} />
+<Footer lang={lang} />
+
+<style>
+  .hero .display-xl .accent { color: var(--accent); }
+  .hero .lead { max-width: 50ch; margin: 1.5rem 0 2rem; }
+  .ctas { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+  .alt { background: var(--paper-2); }
+  .sec-h { margin: 1.1rem 0 2.5rem; max-width: 20ch; }
+
+  .problem-sec { background: var(--ink); color: var(--paper); }
+  .p-head { color: var(--paper); max-width: 22ch; }
+  .p-body { color: color-mix(in srgb, var(--paper) 80%, transparent); max-width: 60ch; margin-top: 1.2rem; font-size: 1.05rem; line-height: 1.65; }
+
+  .steps { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+  .step { border-top: 2px solid var(--ink); padding-top: 1.1rem; }
+  .step-n { font-family: var(--mono); font-size: 1.8rem; color: var(--accent); }
+  .step h3 { margin: 0.6rem 0; }
+  .step p { font-size: 0.95rem; }
+  @media (min-width: 820px) { .steps { grid-template-columns: repeat(3, 1fr); } }
+
+  .two { display: grid; grid-template-columns: 1fr; gap: 3rem; }
+  .check { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+  .check li { position: relative; padding-inline-start: 1.6rem; color: var(--ink-2); }
+  .check li::before { content: "+"; position: absolute; inset-inline-start: 0; color: var(--accent); font-family: var(--mono); }
+  .why h3 { margin-bottom: 1rem; }
+  .why p { color: var(--ink-2); max-width: 48ch; }
+  .why .closing { margin-top: 1.5rem; font-weight: 600; color: var(--ink); }
+  @media (min-width: 820px) { .two { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+</style>

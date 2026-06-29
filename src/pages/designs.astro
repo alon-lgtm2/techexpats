@@ -1,0 +1,88 @@
+---
+import Base from "../layouts/Base.astro";
+import Home from "../components/Home.astro";
+
+const themes = [
+  { id: "editorial", name: "Editorial", note: "Serif · monochrome · teal" },
+  { id: "engine", name: "Engine", note: "Grotesk · white · Dutch orange" },
+  { id: "sun", name: "Sun", note: "Rounded · warm · coral" },
+  { id: "slate", name: "Slate", note: "Dark · serif · gold" },
+];
+---
+
+<Base theme="editorial" title="TechExpats — Design directions">
+  <div class="switcher" role="group" aria-label="Design direction">
+    <span class="switcher-label">Direction</span>
+    <div class="switcher-btns">
+      {themes.map((t) => (
+        <button class="sw-btn" data-set={t.id}>
+          <span class="sw-name">{t.name}</span>
+          <span class="sw-note">{t.note}</span>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <Home />
+</Base>
+
+<style>
+  .switcher {
+    position: fixed;
+    z-index: 100;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.6rem 0.7rem 0.6rem 1.1rem;
+    background: rgba(20, 20, 22, 0.92);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.55);
+    max-width: calc(100vw - 2rem);
+  }
+  .switcher-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    white-space: nowrap;
+  }
+  .switcher-btns { display: flex; gap: 0.35rem; }
+  .sw-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0.45rem 0.85rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    text-align: left;
+  }
+  .sw-btn:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+  .sw-btn[aria-pressed="true"] { background: #fff; color: #111; }
+  .sw-name { font-family: "Inter", sans-serif; font-size: 0.82rem; font-weight: 600; }
+  .sw-note { font-size: 0.6rem; opacity: 0.7; }
+  @media (max-width: 640px) {
+    .switcher { flex-direction: column; gap: 0.5rem; padding: 0.7rem; border-radius: 16px; }
+    .sw-note { display: none; }
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const btns = Array.from(document.querySelectorAll<HTMLButtonElement>(".sw-btn"));
+  function setTheme(id: string) {
+    root.setAttribute("data-theme", id);
+    btns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.set === id)));
+  }
+  btns.forEach((b) => b.addEventListener("click", () => setTheme(b.dataset.set!)));
+  setTheme("editorial");
+</script>

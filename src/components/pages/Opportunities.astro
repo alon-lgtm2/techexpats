@@ -1,0 +1,54 @@
+---
+import Nav from "../Nav.astro";
+import Footer from "../Footer.astro";
+import { getT, localizePath, type Lang } from "../../i18n";
+interface Props { lang?: Lang }
+const { lang = "en" } = Astro.props;
+const t = getT(lang);
+const o = t.opps;
+---
+
+<Nav lang={lang} />
+
+<section class="section">
+  <div class="container">
+    <span class="eyebrow">{o.eyebrow}</span>
+    <h1 class="display-lg head">{o.heading}</h1>
+    <p class="lead">{o.body}</p>
+
+    <div class="notice">
+      <span class="label">// {o.noListings}</span>
+      <p>{o.confidential}</p>
+      <p class="muted">{o.notice}</p>
+    </div>
+
+    <div class="two">
+      <article class="panel">
+        <span class="label k">{o.coTitle}</span>
+        <p>{o.coBody}</p>
+        <a href={localizePath("/contact", lang)} class="btn btn-primary">{o.coCta} <span class="arrow">&rarr;</span></a>
+      </article>
+      <article class="panel">
+        <span class="label k">{o.taTitle}</span>
+        <p>{o.taBody}</p>
+        <a href={localizePath("/contact", lang)} class="btn btn-ghost">{o.taCta}</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<Footer lang={lang} />
+
+<style>
+  .head { margin: 1.1rem 0 1rem; }
+  .lead { max-width: 54ch; }
+  .notice { margin: 2.5rem 0 3.5rem; border: 1px solid var(--line); border-inline-start: 3px solid var(--accent); padding: 1.75rem; background: var(--paper-2); }
+  .notice .label { color: var(--accent); display: block; margin-bottom: 0.8rem; }
+  .notice p { color: var(--ink); max-width: 60ch; }
+  .notice .muted { color: var(--ink-2); margin-top: 0.8rem; font-size: 0.95rem; }
+  .two { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+  .panel { border: 1px solid var(--line); padding: 1.75rem; display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+  .panel .k { color: var(--accent); }
+  .panel p { color: var(--ink-2); }
+  @media (min-width: 760px) { .two { grid-template-columns: 1fr 1fr; } }
+</style>
