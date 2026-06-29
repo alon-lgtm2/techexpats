@@ -2,48 +2,148 @@
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
 import CTA from "../CTA.astro";
-import { getT, localizePath, type Lang } from "../../i18n";
+import { localizePath, type Lang } from "../../i18n";
 interface Props { lang?: Lang }
-const { lang = "en" } = Astro.props;
-const t = getT(lang);
-const a = t.aboutPage;
+const { lang = "he" } = Astro.props;
 
-const facts = [a.fact1, a.fact2, a.fact3, a.fact4];
-const blocks = [
-  { h: a.introHeading, p: [a.intro1, a.intro2] },
-  { h: a.bothHeading, p: [a.both1, a.both2] },
-  { h: a.europeHeading, p: [a.europe1, a.europe2] },
-  { h: a.howHeading, p: [a.how1] },
-];
+const COPY = {
+  en: {
+    eyebrow: "About",
+    name: "Alon Gildoni",
+    role: "Hiring leader, headhunter, and career coach",
+    tagline: "Twenty years on the hiring side of the table. Now in your corner.",
+    photoAlt: "Alon Gildoni speaking to an audience",
+    facts: ["~20 years hiring", "Harvard Business School", "Amsterdam · Europe", "EN · NL · HE"],
+    blocks: [
+      {
+        h: "On both sides of the table",
+        p: [
+          "For nearly two decades I built and led product and technology organizations, which means I spent nearly two decades hiring: sitting on the side of the table that decides. I read the CVs, ran the interviews, made the offers, and lived with the results. Today I bring that experience to the other side, as an advisor to the people and companies navigating it.",
+          "I am not a consultant who studied hiring from the outside. I am an operator who did it, at scale, for years. That is the difference between advice that sounds right and advice that works.",
+        ],
+      },
+      {
+        h: "Why that matters to you",
+        p: [
+          "When I coach you, you get the view from inside the room: what actually gets a CV read, why strong people get passed over, what a hiring manager is really worried about, and how to position yourself so the answer is yes.",
+          "When I run a search for your company, you get someone who has sat in your seat and can have the honest conversation that turns a strong, passive candidate into your next hire.",
+        ],
+      },
+      {
+        h: "Built on community",
+        p: [
+          "Driven by a commitment to community resilience, I established the Israeli Tech Network in the Netherlands. Out of it grew HateCheck, an AI-powered, agentic OSINT platform built to confront antisemitism and digital hate.",
+          "I also advise leaders globally on decision quality and on embedding AI into the way organizations actually work.",
+        ],
+      },
+      {
+        h: "A personal legacy",
+        p: [
+          "My work is rooted in family. I am the grandson of Channa Gildoni: a Holocaust survivor, a bridge-builder for German-Israeli reconciliation, and the first woman to receive honorary citizenship of Leipzig. In 2025 I dedicated a commemorative monument in the city to her legacy of truth and human dignity.",
+        ],
+      },
+      {
+        h: "A life of service",
+        p: [
+          "I served as an intelligence officer and as a Jewish Agency emissary to the Caribbean and the United Kingdom. I volunteer as an emergency medical technician with United Hatzalah, and I mentor at Give & Tech, a nonprofit channeling tech talent toward social impact.",
+        ],
+      },
+      {
+        h: "The person",
+        p: [
+          "I am an alumnus of Harvard Business School, and I hold two degrees, in Musicology and in Jewish Thought, from the Hebrew University of Jerusalem. I live in Amsterdam with my wife and our three children, and I am always glad to connect with people who want to make meaningful impact.",
+        ],
+      },
+    ],
+    closeHeading: "Let's talk.",
+    closeBody: "Whether you are planning your next move or your next hire, the first conversation is free and honest.",
+    ctaPrimary: "Start a conversation",
+    ctaInsights: "Read my writing",
+  },
+  he: {
+    eyebrow: "אודות",
+    name: "אלון גילדוני",
+    role: "מנהל גיוס, צייד ראשים ומאמן קריירה",
+    tagline: "עשרים שנה בצד המגייס של השולחן. עכשיו, לצידכם.",
+    photoAlt: "אלון גילדוני נואם מול קהל",
+    facts: ["כ-20 שנות גיוס", "Harvard Business School", "אמסטרדם · אירופה", "EN · NL · HE"],
+    blocks: [
+      {
+        h: "משני צידי השולחן",
+        p: [
+          "במשך קרוב לשני עשורים בניתי והובלתי ארגוני מוצר וטכנולוגיה, ומשמעות הדבר היא שכמעט שני עשורים גייסתי: ישבתי בצד של מי שמחליט. קראתי את קורות החיים, ניהלתי את הראיונות, נתתי את ההצעות וחייתי עם התוצאות. היום אני מביא את הניסיון הזה לצד השני, כיועץ לאנשים ולחברות שמתמודדים עם זה.",
+          "אינני יועץ שלמד גיוס מבחוץ. אני איש מקצוע שעשה את זה, בקנה מידה, במשך שנים. זה ההבדל בין עצה שנשמעת נכון לעצה שעובדת.",
+        ],
+      },
+      {
+        h: "למה זה חשוב לכם",
+        p: [
+          "כשאני מלווה אתכם, אתם מקבלים את המבט מתוך החדר: מה באמת גורם לקורות חיים להיקרא, למה אנשים מצוינים נדחים, ממה מנהל הגיוס באמת חושש, ואיך למצב את עצמכם כך שהתשובה תהיה כן.",
+          "כשאני מנהל חיפוש עבור החברה שלכם, אתם מקבלים מישהו שישב בכיסא שלכם ויודע לנהל את השיחה הכנה שהופכת מועמד פסיבי וחזק לגיוס הבא שלכם.",
+        ],
+      },
+      {
+        h: "נבנה על קהילה",
+        p: [
+          "מתוך מחויבות עמוקה לחוסן קהילתי הקמתי את רשת ההייטק הישראלית בהולנד. מתוכה צמח HateCheck, פלטפורמת OSINT אג'נטית מבוססת בינה מלאכותית שנועדה להתמודד עם אנטישמיות ושנאה דיגיטלית.",
+          "אני גם מייעץ למנהלים ברחבי העולם על איכות קבלת החלטות ועל הטמעת בינה מלאכותית בדרך שבה ארגונים באמת עובדים.",
+        ],
+      },
+      {
+        h: "מורשת אישית",
+        p: [
+          "העבודה שלי מושרשת במשפחה. אני נכדהּ של חנה גילדוני: ניצולת שואה, בונת גשרים לפיוס גרמני-ישראלי, והאישה הראשונה שקיבלה אזרחות כבוד של העיר לייפציג. בשנת 2025 חנכתי בעיר אנדרטה לזכר מורשתה של אמת וכבוד האדם.",
+        ],
+      },
+      {
+        h: "חיים של שליחות",
+        p: [
+          "שירתי כקצין מודיעין וכשליח הסוכנות היהודית לאיים הקריביים ולבריטניה. אני מתנדב כחובש בארגון איחוד הצלה, ומשמש מנטור ב-Give & Tech, עמותה שרותמת כישרון טכנולוגי לעשייה חברתית.",
+        ],
+      },
+      {
+        h: "האדם",
+        p: [
+          "אני בוגר Harvard Business School, ובעל שני תארים, במוזיקולוגיה ובמחשבת ישראל, מהאוניברסיטה העברית בירושלים. אני גר באמסטרדם עם אשתי ושלושת ילדינו, ותמיד שמח להכיר אנשים שרוצים לייצר השפעה משמעותית.",
+        ],
+      },
+    ],
+    closeHeading: "בואו נדבר.",
+    closeBody: "בין אם אתם מתכננים את הצעד הבא שלכם או את הגיוס הבא, השיחה הראשונה חינמית וכנה.",
+    ctaPrimary: "פתחו בשיחה",
+    ctaInsights: "לקריאת המאמרים",
+  },
+};
+
+const c = COPY[lang as "en" | "he"] ?? COPY.en;
 ---
 
 <Nav lang={lang} />
 
 <section class="hero section">
   <div class="container grid">
-    <div>
-      <span class="eyebrow">{a.eyebrow}</span>
-      <h1 class="display-xl">{a.name}</h1>
-      <p class="role label">{a.role}</p>
-      <p class="lead">{a.tagline}</p>
+    <div class="copy">
+      <span class="eyebrow">{c.eyebrow}</span>
+      <h1 class="display-xl">{c.name}</h1>
+      <p class="role label">{c.role}</p>
+      <p class="lead">{c.tagline}</p>
       <div class="ctas">
-        <a href={localizePath("/contact", lang)} class="btn btn-primary">{a.ctaPrimary} <span class="arrow">&rarr;</span></a>
-        <a href={localizePath("/career-advice", lang)} class="btn btn-ghost">{a.ctaInsights}</a>
+        <a href={localizePath("/contact", lang)} class="btn btn-primary">{c.ctaPrimary} <span class="arrow">&rarr;</span></a>
+        <a href={localizePath("/career-advice", lang)} class="btn btn-ghost">{c.ctaInsights}</a>
       </div>
     </div>
-    <div class="portrait">
-      <img src="/alon.jpg" alt={a.photoAlt} />
-      <span class="portrait-tag">ALON GILDONI / FOUNDER</span>
-    </div>
+    <figure class="portrait">
+      <img src="/alon-speaking.jpg" alt={c.photoAlt} />
+    </figure>
   </div>
 </section>
 
 <section class="facts">
   <div class="container facts-grid">
-    {facts.map((f, i) => (
+    {c.facts.map((f, i) => (
       <div class="fact">
         <span class="fact-n label">{String(i + 1).padStart(2, "0")}</span>
-        <p>{f}</p>
+        <span class="fact-t">{f}</span>
       </div>
     ))}
   </div>
@@ -51,10 +151,10 @@ const blocks = [
 
 <section class="section">
   <div class="container blocks">
-    {blocks.map((b, i) => (
+    {c.blocks.map((b, i) => (
       <article class="block">
         <span class="block-n label">{String(i + 1).padStart(2, "0")} /</span>
-        <div>
+        <div class="block-body">
           <h2 class="display-md">{b.h}</h2>
           {b.p.map((para) => <p>{para}</p>)}
         </div>
@@ -63,32 +163,31 @@ const blocks = [
   </div>
 </section>
 
-<CTA lang={lang} heading={a.closeHeading} body={a.close1} />
+<CTA lang={lang} heading={c.closeHeading} body={c.closeBody} />
 <Footer lang={lang} />
 
 <style>
   .hero { padding-top: clamp(2.5rem, 5vw, 4rem); }
   .grid { display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: center; }
-  .role { display: block; margin: 1.2rem 0 1.2rem; color: var(--accent); }
-  .lead { max-width: 34ch; }
+  .role { display: block; margin: 1.2rem 0; color: var(--accent); }
+  .lead { max-width: 32ch; }
   .ctas { display: flex; gap: 0.9rem; flex-wrap: wrap; margin-top: 2rem; }
-  .portrait { position: relative; }
-  .portrait img { width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: center top; filter: grayscale(1) contrast(1.04); border-radius: var(--radius); }
-  .portrait-tag { position: absolute; bottom: 0; inset-inline-start: 0; background: var(--accent); color: #fff; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; padding: 0.45rem 0.85rem; }
-  @media (min-width: 860px) { .grid { grid-template-columns: 1.3fr 0.85fr; gap: 4rem; } }
+  .portrait { margin: 0; position: relative; }
+  .portrait img { width: 100%; aspect-ratio: 3/2; object-fit: cover; filter: grayscale(1) contrast(1.04); border-radius: var(--radius); }
+  @media (min-width: 860px) { .grid { grid-template-columns: 1fr 1.1fr; gap: 4rem; } .portrait img { aspect-ratio: 4/3; } }
 
   .facts { background: var(--ink); color: var(--paper); }
-  .facts-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; padding-block: 2.5rem; }
-  .fact { display: flex; gap: 0.85rem; align-items: flex-start; }
-  .fact-n { color: var(--accent); flex-shrink: 0; }
-  .fact p { font-size: 0.92rem; color: color-mix(in srgb, var(--paper) 80%, transparent); }
+  .facts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem 1.5rem; padding-block: 2.5rem; }
+  .fact { display: flex; flex-direction: column; gap: 0.3rem; }
+  .fact-n { color: var(--accent); }
+  .fact-t { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.05rem; color: var(--paper); }
   @media (min-width: 760px) { .facts-grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; } }
 
-  .blocks { display: flex; flex-direction: column; gap: 3.5rem; max-width: 64rem; }
+  .blocks { display: flex; flex-direction: column; gap: 3rem; max-width: 66rem; }
   .block { display: grid; grid-template-columns: 1fr; gap: 1rem; border-top: 2px solid var(--ink); padding-top: 1.5rem; }
   .block-n { color: var(--accent); font-size: 0.9rem; }
-  .block h2 { margin-bottom: 1rem; }
-  .block p { color: var(--ink-2); max-width: 60ch; }
-  .block p + p { margin-top: 1rem; }
-  @media (min-width: 760px) { .block { grid-template-columns: 6rem 1fr; gap: 2rem; } }
+  .block-body h2 { margin-bottom: 1rem; }
+  .block-body p { color: var(--ink-2); max-width: 64ch; }
+  .block-body p + p { margin-top: 1rem; }
+  @media (min-width: 760px) { .block { grid-template-columns: 7rem 1fr; gap: 2rem; } }
 </style>

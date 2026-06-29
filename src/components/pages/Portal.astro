@@ -1,0 +1,219 @@
+---
+import Nav from "../Nav.astro";
+import Footer from "../Footer.astro";
+import CTA from "../CTA.astro";
+import { type Lang } from "../../i18n";
+interface Props { lang?: Lang }
+const { lang = "he" } = Astro.props;
+
+const COPY = {
+  en: {
+    eyebrow: "Example portal",
+    h1: "Your search, in one place.",
+    sub: "Every candidate I work with gets a private portal: profile, target companies, next actions, and progress, kept current together between our sessions. Below is an anonymized sample, your real portal is private.",
+    sampleTag: "Illustrative sample",
+    candidate: "Sample Candidate",
+    candidateRole: "Senior Product Manager · relocating to NL",
+    statTargets: "Target companies",
+    statActions: "Actions this week",
+    statToday: "Today",
+    nav: ["Overview", "Target companies", "Next actions", "Activity", "Resources"],
+    nextTitle: "Next actions",
+    next: [
+      "Warm intro to VP Product at a fintech scale-up",
+      "Tailored note to a hiring manager (recognised sponsor)",
+      "Follow up after the second interview",
+    ],
+    dueToday: "Due today",
+    dueTomorrow: "Tomorrow",
+    companiesTitle: "Target companies",
+    companies: [
+      { n: "Fintech scale-up", s: "In conversation", r: 5 },
+      { n: "SaaS platform", s: "Applied", r: 4 },
+      { n: "Cybersecurity firm", s: "Researching", r: 4 },
+      { n: "Insurtech (EU HQ)", s: "Intro requested", r: 3 },
+    ],
+    rating: "Fit",
+    progressTitle: "This week",
+    progressLabel: "5 of 7 daily actions",
+    note: "This is an illustrative sample with placeholder data. Real portals are private to each candidate.",
+    closeHeading: "Want a portal like this for your search?",
+    closeBody: "It comes with the work, not as an add-on. The first conversation is free.",
+  },
+  he: {
+    eyebrow: "פורטל לדוגמה",
+    h1: "כל החיפוש, במקום אחד.",
+    sub: "כל מועמד שאני עובד איתו מקבל פורטל פרטי: פרופיל, חברות מטרה, פעולות הבאות והתקדמות, מעודכן יחד בין הפגישות. למטה דוגמה אנונימית, הפורטל האמיתי שלכם פרטי.",
+    sampleTag: "דוגמה להמחשה",
+    candidate: "מועמד/ת לדוגמה",
+    candidateRole: "מנהל/ת מוצר בכיר/ה · רילוקיישן להולנד",
+    statTargets: "חברות מטרה",
+    statActions: "פעולות השבוע",
+    statToday: "היום",
+    nav: ["סקירה", "חברות מטרה", "פעולות הבאות", "פעילות", "משאבים"],
+    nextTitle: "פעולות הבאות",
+    next: [
+      "היכרות חמה עם סמנכ\"ל מוצר בסטארטאפ פינטק",
+      "פנייה אישית למנהל גיוס (נותן חסות מוכר)",
+      "מעקב אחרי הראיון השני",
+    ],
+    dueToday: "להיום",
+    dueTomorrow: "מחר",
+    companiesTitle: "חברות מטרה",
+    companies: [
+      { n: "סטארטאפ פינטק", s: "בשיחה", r: 5 },
+      { n: "פלטפורמת SaaS", s: "הוגשה מועמדות", r: 4 },
+      { n: "חברת סייבר", s: "במחקר", r: 4 },
+      { n: "אינשורטק (מטה אירופי)", s: "התבקשה היכרות", r: 3 },
+    ],
+    rating: "התאמה",
+    progressTitle: "השבוע",
+    progressLabel: "5 מתוך 7 פעולות יומיות",
+    note: "זוהי דוגמה להמחשה עם נתונים מומצאים. הפורטלים האמיתיים פרטיים לכל מועמד.",
+    closeHeading: "רוצים פורטל כזה לחיפוש שלכם?",
+    closeBody: "הוא מגיע עם העבודה, לא כתוספת. השיחה הראשונה חינמית.",
+  },
+};
+
+const c = COPY[lang as "en" | "he"] ?? COPY.en;
+const stars = (n: number) => "●".repeat(n) + "○".repeat(5 - n);
+---
+
+<Nav lang={lang} />
+
+<section class="hero section">
+  <div class="container">
+    <span class="eyebrow">{c.eyebrow}</span>
+    <h1 class="display-xl">{c.h1}</h1>
+    <p class="lead">{c.sub}</p>
+  </div>
+</section>
+
+<section class="section pt0">
+  <div class="container">
+    <div class="portal" aria-label={c.sampleTag}>
+      <!-- window bar -->
+      <div class="pbar">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="pbar-title label">TechExpats Portal</span>
+        <span class="pbar-tag label">{c.sampleTag}</span>
+      </div>
+
+      <div class="pgrid">
+        <!-- sidebar -->
+        <aside class="pside">
+          <div class="who">
+            <span class="who-name">{c.candidate}</span>
+            <span class="who-role">{c.candidateRole}</span>
+          </div>
+          <nav class="pnav">
+            {c.nav.map((n, i) => <span class:list={["pnav-item", { on: i === 0 }]}>{n}</span>)}
+          </nav>
+        </aside>
+
+        <!-- main -->
+        <div class="pmain">
+          <div class="pstats">
+            <div class="pstat"><b>12</b><span class="label">{c.statTargets}</span></div>
+            <div class="pstat"><b>23</b><span class="label">{c.statActions}</span></div>
+            <div class="pstat"><b>5/7</b><span class="label">{c.statToday}</span></div>
+          </div>
+
+          <div class="pcols">
+            <section class="pcard">
+              <h3 class="label">{c.nextTitle}</h3>
+              <ul class="pnext">
+                {c.next.map((n, i) => (
+                  <li>
+                    <span class="dot"></span>
+                    <span class="pnext-t">{n}</span>
+                    <span class="pnext-due label">{i === 0 ? c.dueToday : c.dueTomorrow}</span>
+                  </li>
+                ))}
+              </ul>
+              <div class="pprog">
+                <span class="label">{c.progressTitle} · {c.progressLabel}</span>
+                <div class="pbarline"><span style="width:71%"></span></div>
+              </div>
+            </section>
+
+            <section class="pcard">
+              <h3 class="label">{c.companiesTitle}</h3>
+              <ul class="pco">
+                {c.companies.map((co) => (
+                  <li>
+                    <span class="pco-n">{co.n}</span>
+                    <span class="pco-fit" title={c.rating}>{stars(co.r)}</span>
+                    <span class="pco-s label">{co.s}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="disclaimer label">{c.note}</p>
+  </div>
+</section>
+
+<CTA lang={lang} heading={c.closeHeading} body={c.closeBody} />
+<Footer lang={lang} />
+
+<style>
+  .hero .lead { max-width: 58ch; margin-top: 1.5rem; }
+  .pt0 { padding-top: 0; }
+
+  .portal { border: 1px solid var(--line); background: var(--paper); box-shadow: 0 30px 80px -40px rgba(0,0,0,0.35); }
+  .pbar { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem; background: var(--ink); }
+  .dots { display: flex; gap: 0.4rem; }
+  .dots i { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: rgba(255,255,255,0.3); }
+  .pbar-title { color: var(--paper); }
+  .pbar-tag { margin-inline-start: auto; color: var(--accent); border: 1px solid rgba(242,92,42,0.5); padding: 0.2rem 0.6rem; }
+
+  .pgrid { display: grid; grid-template-columns: 1fr; }
+  .pside { border-bottom: 1px solid var(--line); padding: 1.5rem; background: var(--paper-2); }
+  .who { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 1.5rem; }
+  .who-name { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.2rem; color: var(--ink); }
+  .who-role { font-size: 0.85rem; color: var(--ink-3); }
+  .pnav { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .pnav-item { font-size: 0.85rem; color: var(--ink-2); padding: 0.4rem 0.7rem; border: 1px solid var(--line); }
+  .pnav-item.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  .pmain { padding: 1.5rem; }
+  .pstats { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-bottom: 1.5rem; }
+  .pstat { border: 1px solid var(--line); padding: 1rem; display: flex; flex-direction: column; gap: 0.3rem; }
+  .pstat b { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.8rem; color: var(--ink); }
+  .pstat .label { color: var(--ink-3); }
+
+  .pcols { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  .pcard { border: 1px solid var(--line); padding: 1.25rem; }
+  .pcard h3 { color: var(--accent); margin-bottom: 1rem; }
+  .pnext { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+  .pnext li { display: flex; align-items: center; gap: 0.7rem; }
+  .pnext .dot { width: 0.7rem; height: 0.7rem; border: 2px solid var(--accent); border-radius: 50%; flex-shrink: 0; }
+  .pnext-t { flex: 1; font-size: 0.92rem; color: var(--ink); }
+  .pnext-due { color: var(--ink-3); white-space: nowrap; }
+  .pprog { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+  .pprog .label { display: block; margin-bottom: 0.5rem; color: var(--ink-2); }
+  .pbarline { height: 0.5rem; background: var(--paper-2); border: 1px solid var(--line); }
+  .pbarline span { display: block; height: 100%; background: var(--accent); }
+
+  .pco { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
+  .pco li { display: grid; grid-template-columns: 1fr auto; gap: 0.2rem 0.8rem; align-items: center; }
+  .pco-n { font-weight: 600; color: var(--ink); font-size: 0.92rem; }
+  .pco-fit { color: var(--accent); font-size: 0.7rem; letter-spacing: 0.1em; }
+  .pco-s { grid-column: 1 / -1; color: var(--ink-3); }
+
+  .disclaimer { display: block; margin-top: 1.25rem; color: var(--ink-3); }
+
+  @media (min-width: 820px) {
+    .pgrid { grid-template-columns: 14rem 1fr; }
+    .pside { border-bottom: 0; border-inline-end: 1px solid var(--line); }
+    .pnav { flex-direction: column; gap: 0.3rem; }
+    .pnav-item { border: 0; padding: 0.5rem 0.7rem; }
+    .pcols { grid-template-columns: 1fr 1fr; }
+    .pco li { grid-template-columns: 1fr auto auto; }
+    .pco-s { grid-column: auto; }
+  }
+</style>

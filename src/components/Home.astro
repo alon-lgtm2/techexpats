@@ -146,7 +146,7 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
       </div>
       <div class="wgrid">
         {latest.map((a) => (
-          <a href={localizePath(`/insights/${a.id}`, lang)} class="wcard">
+          <a href={`/insights/${a.id}`} class="wcard">
             {a.data.image && <span class="wthumb"><img src={a.data.image} alt="" loading="lazy" /></span>}
             <span class="wmeta">
               <span class="label k">{a.data.category}</span>

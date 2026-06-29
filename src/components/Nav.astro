@@ -1,8 +1,8 @@
 ---
 import { getT, localizePath, LANGS, LANG_LABELS, DEFAULT_LANG, type Lang } from "../i18n";
 
-interface Props { lang?: Lang }
-const { lang = "en" } = Astro.props;
+interface Props { lang?: Lang; localePaths?: Record<string, string> }
+const { lang = "he", localePaths } = Astro.props;
 const t = getT(lang);
 
 // path without the locale prefix, so the switcher keeps you on the same page
@@ -10,9 +10,17 @@ const parts = Astro.url.pathname.split("/").filter(Boolean);
 const basePath = (LANGS as string[]).includes(parts[0]) ? "/" + parts.slice(1).join("/") : Astro.url.pathname;
 const cleanBase = basePath === "" ? "/" : basePath;
 
+const extra = {
+  tech: { he: "טכנולוגיה", en: "Technology", nl: "Technologie" },
+  resources: { he: "מידע ומשאבים", en: "Resources", nl: "Informatie" },
+} as const;
+const pick = (m: Record<string, string>) => m[lang] ?? m.en;
+
 const links = [
   { label: t.nav.howItWorks, href: "/how-it-works" },
   { label: t.nav.careerAdvice, href: "/career-advice" },
+  { label: pick(extra.tech), href: "/technology" },
+  { label: pick(extra.resources), href: "/resources" },
   { label: t.nav.about, href: "/about" },
   { label: t.nav.forCompanies, href: "/for-companies" },
 ];
@@ -33,7 +41,7 @@ const links = [
       <div class="langs" role="group" aria-label="Language">
         {LANGS.map((l) => (
           <a
-            href={localizePath(cleanBase, l)}
+            href={localePaths?.[l] ?? localizePath(cleanBase, l)}
             class:list={["lang", { active: l === lang }]}
             hreflang={l}
           >{LANG_LABELS[l]}</a>

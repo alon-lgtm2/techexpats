@@ -11,7 +11,7 @@ export default defineConfig({
   outDir: './out',
   integrations: [mdx()],
   i18n: {
-    defaultLocale: 'en',
+    defaultLocale: 'he',
     locales: ['en', 'nl', 'he'],
     routing: {
       prefixDefaultLocale: false,

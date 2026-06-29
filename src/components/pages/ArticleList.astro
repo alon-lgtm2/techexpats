@@ -35,7 +35,7 @@ const articles = all
     ) : (
       <div class="articles">
         {articles.map((a, i) => (
-          <a href={localizePath(`/insights/${a.id}`, lang)} class="article">
+          <a href={`/insights/${a.id}`} class="article">
             {a.data.image && <span class="thumb"><img src={a.data.image} alt="" loading="lazy" /></span>}
             <span class="meta">
               <span class="label k">{a.data.category}</span>

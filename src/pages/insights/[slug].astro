@@ -8,10 +8,23 @@ import { getT, localizePath, type Lang } from "../../i18n";
 
 export async function getStaticPaths() {
   const all = await getCollection("insights");
-  return all.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  const ids = new Set(all.map((e) => e.id));
+  const baseOf = (id: string) => id.replace(/-(he|nl)$/, "");
+  return all.map((entry) => {
+    const base = baseOf(entry.id);
+    const backHref = entry.data.audience === "companies" ? "/hiring-insights" : "/career-advice";
+    // Each language points to its translated article if it exists, else that
+    // language's article list (so switching language never hits a dead URL).
+    const variants: Record<string, string> = { en: base, he: `${base}-he`, nl: `${base}-nl` };
+    const localePaths: Record<string, string> = {};
+    for (const [lng, vid] of Object.entries(variants)) {
+      localePaths[lng] = ids.has(vid) ? `/insights/${vid}` : localizePath(backHref, lng as Lang);
+    }
+    return { params: { slug: entry.id }, props: { entry, localePaths } };
+  });
 }
 
-const { entry } = Astro.props;
+const { entry, localePaths } = Astro.props;
 const lang = (entry.data.lang ?? "en") as Lang;
 const t = getT(lang);
 const { Content } = await render(entry);
@@ -19,8 +32,8 @@ const backHref = entry.data.audience === "companies" ? "/hiring-insights" : "/ca
 const dateStr = entry.data.date;
 ---
 
-<Base lang={lang} title={`${entry.data.title} — TechExpats`} description={entry.data.excerpt}>
-  <Nav lang={lang} />
+<Base lang={lang} title={`${entry.data.title} - TechExpats`} description={entry.data.excerpt}>
+  <Nav lang={lang} localePaths={localePaths} />
 
   <article class="section">
     <div class="container narrow">

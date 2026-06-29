@@ -1,0 +1,213 @@
+---
+import Nav from "../Nav.astro";
+import Footer from "../Footer.astro";
+import CTA from "../CTA.astro";
+import { type Lang } from "../../i18n";
+import { companies, sectors } from "../../data/companies";
+interface Props { lang?: Lang }
+const { lang = "he" } = Astro.props;
+
+const COPY = {
+  en: {
+    eyebrow: "Resources",
+    h1: "Know the ground you're standing on.",
+    sub: "Practical, up-to-date information for building a career in the Netherlands and across Europe: the rules that affect you, who can sponsor a visa, and where the opportunities are.",
+    newsKicker: "News",
+    newsDate: "June 2026",
+    newsTitle: "New EU pay-transparency rules, explained",
+    newsBody: "A directive now rolling out across the EU is changing how pay is handled in hiring. What it means in practice:",
+    newsPoints: [
+      "Employers must show a salary or salary range in the job posting or before the interview",
+      "They can no longer ask about your salary history",
+      "You gain the right to information on pay levels for comparable roles; firms with 100+ staff report their gender pay gap",
+    ],
+    newsTake: "For you: more leverage and less guesswork in salary talks. For employers: recruitment and pay practices need to adjust.",
+    newsLink: "Read the EU explainer",
+    newsUrl: "https://commission.europa.eu/news-and-media/news/new-eu-rules-pay-transparency-explained-2026-06-05_en",
+    officialTitle: "Official resources",
+    indTitle: "IND — Register of Recognised Sponsors",
+    indBody: "Only an IND-recognised sponsor can sponsor a highly-skilled-migrant residence permit. Before you accept an offer, check that the employer is on this register. It is searchable and updated monthly.",
+    indCta: "Open the register",
+    links: [
+      { t: "Highly skilled migrant (IND)", d: "Permit, conditions, salary thresholds.", u: "https://ind.nl/en/highly-skilled-migrant" },
+      { t: "Orientation year (search year)", d: "A year to find work after graduating or a degree.", u: "https://ind.nl/en/residence-permits/study/orientation-year-for-highly-educated-persons" },
+      { t: "The 30% facility", d: "The tax ruling for incoming skilled workers.", u: "https://business.gov.nl/subsidy/30-percent-facility/" },
+    ],
+    dirTitle: "Israeli companies in NL & the EU",
+    dirSub: "A curated, growing selection, the backbone of a target-company search. Always confirm current openings and that the employer is an IND recognised sponsor before counting on visa support.",
+    dirAll: "All",
+    visit: "Visit",
+    closeHeading: "Want help turning this into a plan?",
+    closeBody: "Information is the start. The work is knowing which doors to knock on, and how. The first conversation is free.",
+  },
+  he: {
+    eyebrow: "מידע ומשאבים",
+    h1: "להכיר את השטח שעליו אתם עומדים.",
+    sub: "מידע מעשי ועדכני לבניית קריירה בהולנד ובאירופה: הכללים שמשפיעים עליכם, מי יכול להעניק חסות לוויזה, ואיפה ההזדמנויות.",
+    newsKicker: "חדשות",
+    newsDate: "יוני 2026",
+    newsTitle: "כללי שקיפות השכר החדשים של האיחוד האירופי",
+    newsBody: "דירקטיבה שנכנסת לתוקף ברחבי האיחוד משנה את האופן שבו השכר מטופל בגיוס. מה זה אומר בפועל:",
+    newsPoints: [
+      "מעסיקים חייבים להציג שכר או טווח שכר במשרה או לפני הראיון",
+      "אסור להם עוד לשאול על היסטוריית השכר שלכם",
+      "אתם זוכים בזכות למידע על רמות שכר בתפקידים דומים; חברות עם 100+ עובדים מדווחות על פערי שכר מגדריים",
+    ],
+    newsTake: "בשבילכם: יותר כוח ופחות ניחושים בשיחות שכר. למעסיקים: נוהלי הגיוס והשכר צריכים להתעדכן.",
+    newsLink: "להסבר של האיחוד האירופי",
+    newsUrl: "https://commission.europa.eu/news-and-media/news/new-eu-rules-pay-transparency-explained-2026-06-05_en",
+    officialTitle: "מקורות רשמיים",
+    indTitle: "IND — מרשם נותני החסות המוכרים",
+    indBody: "רק נותן חסות המוכר על ידי ה-IND יכול להעניק חסות לאשרת מומחה (highly skilled migrant). לפני שאתם מקבלים הצעה, ודאו שהמעסיק מופיע במרשם הזה. הוא ניתן לחיפוש ומתעדכן אחת לחודש.",
+    indCta: "פתחו את המרשם",
+    links: [
+      { t: "מומחה זר (IND)", d: "אשרה, תנאים וסף שכר.", u: "https://ind.nl/en/highly-skilled-migrant" },
+      { t: "שנת התמצאות (search year)", d: "שנה למציאת עבודה אחרי תואר.", u: "https://ind.nl/en/residence-permits/study/orientation-year-for-highly-educated-persons" },
+      { t: "הטבת ה-30%", d: "הטבת המס לעובדים מיומנים שמגיעים להולנד.", u: "https://business.gov.nl/subsidy/30-percent-facility/" },
+    ],
+    dirTitle: "חברות ישראליות בהולנד ובאיחוד האירופי",
+    dirSub: "מבחר אוצר ומתרחב, עמוד השדרה של חיפוש מבוסס חברות-מטרה. תמיד ודאו משרות פתוחות ושהמעסיק הוא נותן חסות מוכר ב-IND לפני שאתם סומכים על תמיכה בוויזה.",
+    dirAll: "הכול",
+    visit: "לאתר",
+    closeHeading: "רוצים עזרה להפוך את זה לתוכנית?",
+    closeBody: "מידע הוא ההתחלה. העבודה היא לדעת על אילו דלתות לדפוק, ואיך. השיחה הראשונה חינמית.",
+  },
+};
+
+const c = COPY[lang as "en" | "he"] ?? COPY.en;
+---
+
+<Nav lang={lang} />
+
+<section class="hero section">
+  <div class="container">
+    <span class="eyebrow">{c.eyebrow}</span>
+    <h1 class="display-xl">{c.h1}</h1>
+    <p class="lead">{c.sub}</p>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section class="section alt">
+  <div class="container">
+    <article class="news">
+      <div class="news-meta">
+        <span class="label k">{c.newsKicker}</span>
+        <span class="label">{c.newsDate}</span>
+      </div>
+      <h2 class="display-md">{c.newsTitle}</h2>
+      <p class="news-body">{c.newsBody}</p>
+      <ul class="points">{c.newsPoints.map((p) => <li>{p}</li>)}</ul>
+      <p class="take">{c.newsTake}</p>
+      <a href={c.newsUrl} target="_blank" rel="noopener" class="btn btn-ghost">{c.newsLink} <span class="arrow">&rarr;</span></a>
+    </article>
+  </div>
+</section>
+
+<!-- OFFICIAL RESOURCES -->
+<section class="section">
+  <div class="container">
+    <span class="eyebrow">{c.officialTitle}</span>
+    <div class="ind">
+      <div>
+        <h2 class="display-md">{c.indTitle}</h2>
+        <p>{c.indBody}</p>
+      </div>
+      <a href="https://ind.nl/en/public-register-recognised-sponsors" target="_blank" rel="noopener" class="btn btn-primary">{c.indCta} <span class="arrow">&rarr;</span></a>
+    </div>
+    <div class="links">
+      {c.links.map((l) => (
+        <a href={l.u} target="_blank" rel="noopener" class="lcard">
+          <h3>{l.t}</h3>
+          <p>{l.d}</p>
+          <span class="lgo label">&rarr;</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- DIRECTORY -->
+<section class="section alt">
+  <div class="container">
+    <span class="eyebrow">{c.dirTitle}</span>
+    <p class="dir-sub">{c.dirSub}</p>
+    <div class="filters" id="filters">
+      <button class="chip active" data-sector="all">{c.dirAll}</button>
+      {sectors.map((s) => <button class="chip" data-sector={s}>{s}</button>)}
+    </div>
+    <div class="companies" id="companies">
+      {companies.map((co) => (
+        <a href={co.url} target="_blank" rel="noopener" class="co" data-sector={co.sector}>
+          <span class="co-sector label">{co.sector}</span>
+          <h3>{co.name}</h3>
+          <p>{co.note}</p>
+          <span class="co-visit label">{c.visit} &rarr;</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<CTA lang={lang} heading={c.closeHeading} body={c.closeBody} />
+<Footer lang={lang} />
+
+<style>
+  .hero .lead { max-width: 58ch; margin-top: 1.5rem; }
+  .alt { background: var(--paper-2); }
+  .k { color: var(--accent); }
+
+  .news { max-width: 60rem; }
+  .news-meta { display: flex; gap: 1rem; margin-bottom: 0.8rem; }
+  .news h2 { margin-bottom: 1rem; }
+  .news-body { color: var(--ink-2); margin-bottom: 1rem; }
+  .points { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.2rem; }
+  .points li { position: relative; padding-inline-start: 1.6rem; color: var(--ink-2); }
+  .points li::before { content: "+"; position: absolute; inset-inline-start: 0; color: var(--accent); font-family: var(--mono); }
+  .take { font-weight: 600; color: var(--ink); margin-bottom: 1.5rem; max-width: 60ch; }
+
+  .ind { display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: center; margin: 1.5rem 0 2.5rem; border: 1px solid var(--line); border-inline-start: 3px solid var(--accent); padding: 1.75rem; background: var(--paper-2); }
+  .ind h2 { margin-bottom: 0.8rem; }
+  .ind p { color: var(--ink-2); max-width: 60ch; }
+  .ind .btn { white-space: nowrap; }
+  @media (min-width: 820px) { .ind { grid-template-columns: 1fr auto; gap: 2.5rem; } }
+
+  .links { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .lcard { background: var(--paper); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.4rem; transition: background .2s ease; }
+  .lcard:hover { background: var(--paper-2); }
+  .lcard h3 { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.1rem; color: var(--ink); }
+  .lcard p { font-size: 0.9rem; color: var(--ink-2); }
+  .lgo { color: var(--accent); margin-top: auto; }
+  @media (min-width: 760px) { .links { grid-template-columns: repeat(3, 1fr); } }
+
+  .dir-sub { color: var(--ink-2); max-width: 60ch; margin: 1rem 0 2rem; }
+  .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+  .chip { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.04em; padding: 0.45rem 0.85rem; border: 1px solid var(--line); background: var(--paper); color: var(--ink-2); cursor: pointer; transition: all .15s ease; }
+  .chip:hover { border-color: var(--accent); color: var(--ink); }
+  .chip.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .companies { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .co { background: var(--paper); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.4rem; transition: background .2s ease; }
+  .co:hover { background: var(--paper-2); }
+  .co[hidden] { display: none; }
+  .co-sector { color: var(--accent); }
+  .co h3 { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.2rem; color: var(--ink); }
+  .co p { font-size: 0.9rem; color: var(--ink-2); }
+  .co-visit { color: var(--ink-3); margin-top: auto; }
+  @media (min-width: 640px) { .companies { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .companies { grid-template-columns: repeat(3, 1fr); } }
+</style>
+
+<script>
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>("#filters .chip"));
+  const cards = Array.from(document.querySelectorAll<HTMLElement>("#companies .co"));
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const sector = chip.dataset.sector;
+      chips.forEach((c) => c.classList.toggle("active", c === chip));
+      cards.forEach((card) => {
+        const show = sector === "all" || card.dataset.sector === sector;
+        card.hidden = !show;
+      });
+    });
+  });
+</script>

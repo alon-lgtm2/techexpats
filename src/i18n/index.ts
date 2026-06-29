@@ -4,7 +4,7 @@ import he from "./he.json";
 
 export type Lang = "en" | "nl" | "he";
 export const LANGS: Lang[] = ["en", "nl", "he"];
-export const DEFAULT_LANG: Lang = "en";
+export const DEFAULT_LANG: Lang = "he";
 
 export const LANG_LABELS: Record<Lang, string> = { en: "EN", nl: "NL", he: "HE" };
 export const LANG_NAMES: Record<Lang, string> = { en: "English", nl: "Nederlands", he: "עברית" };
