@@ -3,6 +3,7 @@ import Nav from "./Nav.astro";
 import Footer from "./Footer.astro";
 import Testimonials from "./Testimonials.astro";
 import CTA from "./CTA.astro";
+import { getCollection } from "astro:content";
 import { getT, localizePath, type Lang } from "../i18n";
 
 interface Props { lang?: Lang }
@@ -30,6 +31,12 @@ const steps = [
   { n: "02", title: t.approach.s2title, body: t.approach.s2body },
   { n: "03", title: t.approach.s3title, body: t.approach.s3body },
 ];
+const allArticles = await getCollection("insights");
+const latest = allArticles
+  .filter((a) => a.data.lang === lang && (a.data.audience === "individuals" || a.data.audience === "both"))
+  .sort((x, y) => +new Date(y.data.date) - +new Date(x.data.date))
+  .slice(0, 3);
+
 const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER COACHING + HEADHUNTING — ";
 ---
 
@@ -126,6 +133,35 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
   </div>
 </section>
 
+<!-- ===== WRITING (sneak peek) ===== -->
+{latest.length > 0 && (
+  <section class="section writing">
+    <div class="container">
+      <div class="writing-head">
+        <div>
+          <span class="eyebrow">{t.insights.eyebrow}</span>
+          <h2 class="display-lg sec-h">{t.insights.heading}</h2>
+        </div>
+        <a href={localizePath("/career-advice", lang)} class="all label">{t.insights.all} &rarr;</a>
+      </div>
+      <div class="wgrid">
+        {latest.map((a) => (
+          <a href={localizePath(`/insights/${a.id}`, lang)} class="wcard">
+            {a.data.image && <span class="wthumb"><img src={a.data.image} alt="" loading="lazy" /></span>}
+            <span class="wmeta">
+              <span class="label k">{a.data.category}</span>
+              {a.data.readTime && <span class="label">{a.data.readTime}</span>}
+            </span>
+            <h3>{a.data.title}</h3>
+            <p>{a.data.excerpt}</p>
+            <span class="wread">{t.insights.read} &rarr;</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
 <Testimonials lang={lang} limit={6} />
 <CTA lang={lang} />
 <Footer lang={lang} />
@@ -189,4 +225,21 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
   .step h3 { margin: 0.5rem 0 0.6rem; }
   .step p { font-size: 0.95rem; max-width: 34ch; }
   @media (min-width: 820px) { .steps { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+
+  /* writing sneak peek */
+  .writing-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1.5rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+  .writing-head .sec-h { margin: 1.1rem 0 0; }
+  .writing-head .all { color: var(--accent); white-space: nowrap; }
+  .writing-head .all:hover { color: var(--accent-ink); }
+  .wgrid { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .wcard { background: var(--paper); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.7rem; transition: background .2s ease; }
+  .wcard:hover { background: var(--paper-2); }
+  .wthumb { display: block; aspect-ratio: 16/9; overflow: hidden; margin: -1.5rem -1.5rem 0.5rem; border-bottom: 1px solid var(--line); }
+  .wthumb img { width: 100%; height: 100%; object-fit: cover; }
+  .wmeta { display: flex; gap: 1rem; align-items: center; }
+  .wmeta .k { color: var(--accent); }
+  .wcard h3 { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.2rem; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
+  .wcard p { font-size: 0.9rem; color: var(--ink-2); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .wread { margin-top: auto; padding-top: 0.4rem; font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); }
+  @media (min-width: 760px) { .wgrid { grid-template-columns: 1fr 1fr 1fr; } }
 </style>

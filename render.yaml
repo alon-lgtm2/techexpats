@@ -1,0 +1,15 @@
+# Render Blueprint for the Astro build of techexpats.nl
+# Static site: build with Astro, publish the ./out directory.
+# Astro 7 requires Node >= 22.12, so NODE_VERSION is pinned accordingly.
+# NOTE: if the existing Render service was configured via the dashboard (not this
+# Blueprint), this file is ignored — set there: Build Command "npm install && npm run build",
+# Publish Directory "out", and Node version 22.12.0 (or newer).
+services:
+  - type: web
+    runtime: static
+    name: techexpats
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./out
+    envVars:
+      - key: NODE_VERSION
+        value: "22.12.0"

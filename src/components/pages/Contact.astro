@@ -6,7 +6,9 @@ interface Props { lang?: Lang }
 const { lang = "en" } = Astro.props;
 const t = getT(lang);
 const c = t.contact;
-// TODO(Alon): set the real Formspree form ID for techexpats (see site/ Next app).
+// TEMP (2026-06-29): reusing the jobs.israelis Formspree form ID to go live.
+// Submissions land in that project's Formspree inbox until a dedicated
+// techexpats form is created. TODO(Alon): swap for a techexpats-only form ID.
 const FORMSPREE = "https://formspree.io/f/xzdjglaz";
 ---
 

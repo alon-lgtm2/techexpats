@@ -6,6 +6,9 @@ import mdx from '@astrojs/mdx';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://techexpats.nl',
+  // Output to ./out so the existing Render service (configured for the Next.js
+  // static export, which also published ./out) serves this build unchanged.
+  outDir: './out',
   integrations: [mdx()],
   i18n: {
     defaultLocale: 'en',
