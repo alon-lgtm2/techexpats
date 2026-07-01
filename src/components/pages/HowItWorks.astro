@@ -2,11 +2,79 @@
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
 import CTA from "../CTA.astro";
-import { getT, type Lang } from "../../i18n";
+import { getT, localizePath, type Lang } from "../../i18n";
 interface Props { lang?: Lang }
 const { lang = "en" } = Astro.props;
 const t = getT(lang);
 const h = t.howItWorks;
+
+const deliverables = [
+  { t: h.del1t, d: h.del1d }, { t: h.del2t, d: h.del2d }, { t: h.del3t, d: h.del3d },
+  { t: h.del4t, d: h.del4d }, { t: h.del5t, d: h.del5d }, { t: h.del6t, d: h.del6d },
+  { t: h.del7t, d: h.del7d }, { t: h.del8t, d: h.del8d }, { t: h.del9t, d: h.del9d },
+];
+
+// Technology, folded in from the former /technology page (no companies directory).
+const TECH = {
+  en: {
+    eyebrow: "The technology behind the search",
+    sub: "AI woven through the work, sensibly and reliably. Real tools that make a deliberate search faster and sharper, never a substitute for the relationship.",
+    portalTitle: "A personal portal for every candidate",
+    portalBody: "Each person I work with gets a private workspace: your profile, your target companies, your next actions, and your progress, all in one place and kept current together. It is where the search lives between our sessions.",
+    portalCta: "See an example portal",
+    sevenKicker: "The engine",
+    sevenTitle: "Seven-a-Day",
+    sevenTagline: "A custom app that turns the method into a daily practice.",
+    sevenBody: "Job searching done right is a discipline, not a lottery. Seven-a-Day gives that discipline a home: a focused rhythm of high-value actions each day, a pipeline of the right companies, and the momentum to keep going.",
+    sevenFeatures: [
+      "Seven focused actions a day, with streaks and momentum to keep you moving",
+      "A company pipeline: rate, track next actions, and log every interaction",
+      "A “Freezer” to park companies for a few days, and a parking lot for leads",
+      "Built-in AI prompts for CV, LinkedIn, cover letters, and interview prep",
+    ],
+    aiTitle: "AI, used well",
+    aiBody: "Generative tools where they genuinely help, drafting, research, preparation, and human judgment where it counts. Reliable and private, calibrated to your real situation, never a black box you have to trust blindly.",
+  },
+  he: {
+    eyebrow: "הטכנולוגיה שמאחורי החיפוש",
+    sub: "בינה מלאכותית שזורה בעבודה, בצורה שקולה ואמינה. כלים אמיתיים שהופכים חיפוש ממוקד למהיר וחד יותר, בלי תחליף ליחס האישי.",
+    portalTitle: "פורטל אישי לכל מועמד",
+    portalBody: "כל אדם שאני עובד איתו מקבל סביבת עבודה פרטית: הפרופיל שלכם, חברות המטרה, הפעולות הבאות וההתקדמות, הכול במקום אחד ומעודכן יחד. שם החיפוש חי בין הפגישות שלנו.",
+    portalCta: "לדוגמת פורטל",
+    sevenKicker: "המנוע",
+    sevenTitle: "שבע ביום",
+    sevenTagline: "אפליקציה ייעודית שהופכת את השיטה לתרגול יומי.",
+    sevenBody: "חיפוש עבודה שנעשה נכון הוא משמעת, לא הגרלה. “שבע ביום” נותן למשמעת הזו בית: קצב ממוקד של פעולות בעלות ערך בכל יום, מאגר של החברות הנכונות, והתנופה להמשיך.",
+    sevenFeatures: [
+      "שבע פעולות ממוקדות ביום, עם רצפים ותנופה שמחזיקים אתכם בתנועה",
+      "מאגר חברות: דירוג, מעקב אחר הפעולה הבאה, ותיעוד כל אינטראקציה",
+      "“פריזר” להקפאת חברות לכמה ימים, ו“מגרש חניה” לרעיונות ולידים",
+      "פרומפטים מובנים ל-CV, ללינקדאין, למכתבי מקדמה ולהכנה לראיונות",
+    ],
+    aiTitle: "בינה מלאכותית, בשימוש נכון",
+    aiBody: "כלים גנרטיביים במקומות שבהם הם באמת עוזרים, ניסוח, מחקר והכנה, ושיקול דעת אנושי במקומות שבהם זה קובע. אמין ופרטי, מותאם למצב האמיתי שלכם, ולא קופסה שחורה שצריך לתת בה אמון עיוור.",
+  },
+  nl: {
+    eyebrow: "De technologie achter de zoektocht",
+    sub: "AI verweven door het werk, verstandig en betrouwbaar. Echte tools die een doelgerichte zoektocht sneller en scherper maken, nooit een vervanging voor de relatie.",
+    portalTitle: "Een persoonlijk portaal voor elke kandidaat",
+    portalBody: "Iedereen met wie ik werk krijgt een privéwerkruimte: je profiel, je doelbedrijven, je volgende acties en je voortgang, allemaal op één plek en samen actueel gehouden. Daar leeft de zoektocht tussen onze sessies.",
+    portalCta: "Bekijk een voorbeeldportaal",
+    sevenKicker: "De motor",
+    sevenTitle: "Seven-a-Day",
+    sevenTagline: "Een eigen app die de methode tot dagelijkse praktijk maakt.",
+    sevenBody: "Goed solliciteren is een discipline, geen loterij. Seven-a-Day geeft die discipline een thuis: een gericht ritme van waardevolle acties per dag, een pijplijn van de juiste bedrijven, en het momentum om door te gaan.",
+    sevenFeatures: [
+      "Zeven gerichte acties per dag, met reeksen en momentum om je in beweging te houden",
+      "Een bedrijvenpijplijn: beoordeel, volg de volgende actie en log elke interactie",
+      "Een “Freezer” om bedrijven een paar dagen te parkeren, en een parkeerplaats voor leads",
+      "Ingebouwde AI-prompts voor cv, LinkedIn, motivatiebrieven en sollicitatievoorbereiding",
+    ],
+    aiTitle: "AI, goed gebruikt",
+    aiBody: "Generatieve tools waar ze echt helpen, opstellen, onderzoek, voorbereiding, en menselijk oordeel waar het telt. Betrouwbaar en privé, afgestemd op jouw echte situatie, nooit een black box die je blind moet vertrouwen.",
+  },
+};
+const c = (TECH as any)[lang] ?? TECH.en;
 
 const principles = [
   { k: h.p1k, t: h.p1t, d: h.p1d },
@@ -36,6 +104,23 @@ const ask = [h.ask1, h.ask2, h.ask3, h.ask4];
     <span class="eyebrow">{h.eyebrow}</span>
     <h1 class="display-xl">{h.title}</h1>
     <p class="lead">{h.lead}</p>
+  </div>
+</section>
+
+<!-- DELIVERABLES (front and center) -->
+<section class="section deliverables-sec">
+  <div class="container">
+    <span class="eyebrow">{h.delEyebrow}</span>
+    <p class="big-lead">{h.delLead}</p>
+    <div class="deliverables">
+      {deliverables.map((d, i) => (
+        <article class="deliverable">
+          <span class="d-n">{String(i + 1).padStart(2, "0")}</span>
+          <h3>{d.t}</h3>
+          <p>{d.d}</p>
+        </article>
+      ))}
+    </div>
   </div>
 </section>
 
@@ -90,6 +175,68 @@ const ask = [h.ask1, h.ask2, h.ask3, h.ask4];
         <li><span class="label">{String(i + 1).padStart(2, "0")}</span>{o}</li>
       ))}
     </ol>
+  </div>
+</section>
+
+<!-- TECHNOLOGY (folded in) -->
+<section class="section tech-intro">
+  <div class="container">
+    <span class="eyebrow">{c.eyebrow}</span>
+    <p class="big-lead">{c.sub}</p>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container split">
+    <div>
+      <span class="label k">01 / {h.del5t}</span>
+      <h3 class="display-lg">{c.portalTitle}</h3>
+      <p>{c.portalBody}</p>
+      <a href={localizePath("/portal-example", lang)} class="btn btn-ghost">{c.portalCta} <span class="arrow">&rarr;</span></a>
+    </div>
+    <div class="mock-portal" aria-hidden="true">
+      <div class="mp-bar"><span></span><span></span><span></span></div>
+      <div class="mp-body">
+        <div class="mp-row"><b>15+</b><i></i></div>
+        <div class="mp-row"><b>7/7</b><i></i></div>
+        <div class="mp-row"><i></i></div>
+        <div class="mp-row"><i></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section seven">
+  <div class="container">
+    <div class="seven-grid">
+      <div>
+        <span class="label k">02 / {c.sevenKicker}</span>
+        <h3 class="display-lg seven-h">{c.sevenTitle}</h3>
+        <p class="seven-tag">{c.sevenTagline}</p>
+        <p class="seven-body">{c.sevenBody}</p>
+        <ul class="features">{c.sevenFeatures.map((f) => <li>{f}</li>)}</ul>
+      </div>
+      <div class="mock-app" aria-hidden="true">
+        <div class="ma-head"><span class="ma-title">{c.sevenTitle}</span><span class="ma-streak">7</span></div>
+        <ul class="ma-list">
+          <li class="done"><span class="ma-check">✓</span><i></i></li>
+          <li class="done"><span class="ma-check">✓</span><i></i></li>
+          <li class="done"><span class="ma-check">✓</span><i></i></li>
+          <li><span class="ma-check"></span><i></i></li>
+          <li><span class="ma-check"></span><i></i></li>
+          <li><span class="ma-check"></span><i></i></li>
+          <li><span class="ma-check"></span><i></i></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section ai-sec">
+  <div class="container">
+    <span class="label k">03</span>
+    <h3 class="display-md">{c.aiTitle}</h3>
+    <p class="ai-body">{c.aiBody}</p>
   </div>
 </section>
 
@@ -190,6 +337,51 @@ const ask = [h.ask1, h.ask2, h.ask3, h.ask4];
   .contract { display: grid; grid-template-columns: 1fr; gap: 2rem; }
   .contract .label { display: block; margin-bottom: 1rem; }
   @media (min-width: 760px) { .two { grid-template-columns: 1fr 1fr; gap: 4rem; } .contract { grid-template-columns: 1fr 1fr; } }
+
+  /* deliverables (front and center) */
+  .deliverables-sec { border-top: 2px solid var(--ink); }
+  .deliverables { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .deliverable { background: var(--paper); padding: 1.6rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .deliverable .d-n { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); letter-spacing: 0.08em; }
+  .deliverable h3 { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.15rem; color: var(--ink); margin-top: 0.2rem; }
+  .deliverable p { font-size: 0.92rem; color: var(--ink-2); }
+  @media (min-width: 680px) { .deliverables { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .deliverables { grid-template-columns: repeat(3, 1fr); } }
+
+  /* technology (folded in) */
+  .tech-intro .big-lead { margin-bottom: 0; }
+  .split { display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: center; }
+  .split h3 { margin: 0.8rem 0 1rem; }
+  .split p { color: var(--ink-2); max-width: 44ch; margin-bottom: 1.5rem; }
+  @media (min-width: 860px) { .split { grid-template-columns: 1.1fr 0.9fr; gap: 4rem; } }
+  .mock-portal { border: 1px solid var(--line); background: var(--paper); }
+  .mp-bar { display: flex; gap: 0.4rem; padding: 0.75rem 1rem; border-bottom: 1px solid var(--line); background: var(--ink); }
+  .mp-bar span { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: rgba(255,255,255,0.35); }
+  .mp-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.9rem; }
+  .mp-row { display: flex; align-items: center; gap: 0.9rem; }
+  .mp-row b { font-family: var(--mono); color: var(--accent); font-size: 1.1rem; min-width: 2.6rem; }
+  .mp-row i { display: block; height: 0.8rem; flex: 1; background: var(--paper-2); border: 1px solid var(--line); }
+
+  .seven-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: center; }
+  @media (min-width: 860px) { .seven-grid { grid-template-columns: 1.1fr 0.9fr; gap: 4rem; } }
+  .seven-h { margin: 0.8rem 0 0.5rem; }
+  .seven-tag { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.3rem; color: var(--ink); margin-bottom: 1rem; }
+  .seven-body { color: var(--ink-2); max-width: 52ch; margin-bottom: 1.5rem; }
+  .features { list-style: none; display: grid; grid-template-columns: 1fr; gap: 0.7rem; }
+  .features li { position: relative; padding-inline-start: 1.6rem; color: var(--ink-2); font-size: 0.95rem; }
+  .features li::before { content: "+"; position: absolute; inset-inline-start: 0; color: var(--accent); font-family: var(--mono); }
+  .mock-app { border: 1px solid var(--line); background: var(--paper); padding: 1.25rem; max-width: 22rem; margin-inline: auto; }
+  .ma-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.9rem; margin-bottom: 1rem; border-bottom: 1px solid var(--line); }
+  .ma-title { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.05rem; color: var(--ink); }
+  .ma-streak { font-family: var(--mono); font-size: 0.8rem; color: #fff; background: var(--accent); padding: 0.15rem 0.55rem; }
+  .ma-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+  .ma-list li { display: flex; align-items: center; gap: 0.8rem; }
+  .ma-check { width: 1.2rem; height: 1.2rem; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: #fff; flex: none; }
+  .ma-list li.done .ma-check { background: var(--accent); border-color: var(--accent); }
+  .ma-list li i { display: block; height: 0.7rem; flex: 1; background: var(--paper-2); border: 1px solid var(--line); }
+  .ma-list li.done i { background: color-mix(in srgb, var(--accent) 14%, var(--paper)); }
+
+  .ai-sec .ai-body { color: var(--ink-2); max-width: 60ch; margin-top: 0.8rem; }
 
   .honest-sec { background: var(--ink); color: var(--paper); }
   .honest-sec .k { color: var(--accent); }

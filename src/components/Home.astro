@@ -4,7 +4,7 @@ import Footer from "./Footer.astro";
 import Testimonials from "./Testimonials.astro";
 import CTA from "./CTA.astro";
 import { getCollection } from "astro:content";
-import { getT, localizePath, type Lang } from "../i18n";
+import { getT, localizePath, whatsappUrl, type Lang } from "../i18n";
 
 interface Props { lang?: Lang }
 const { lang = "en" } = Astro.props;
@@ -57,7 +57,7 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
       </h1>
       <p class="lead rise" style="animation-delay:.25s">{t.hero.sub}</p>
       <div class="hero-ctas rise" style="animation-delay:.4s">
-        <a href={localizePath("/book", lang)} class="btn btn-primary">{t.hero.ctaCompany} <span class="arrow">&rarr;</span></a>
+        <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="btn btn-primary">{t.cta.talk} <span class="arrow">&rarr;</span></a>
         <a href={localizePath("/career-advice", lang)} class="btn btn-ghost">{t.hero.ctaCandidate}</a>
       </div>
     </div>
@@ -75,6 +75,54 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
           <span class="label">{s.l}</span>
         </div>
       ))}
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRACK RECORD ===== -->
+<section class="section track">
+  <div class="container">
+    <span class="eyebrow">{t.track.eyebrow}</span>
+    <h2 class="display-lg sec-h">{t.track.heading}</h2>
+    <p class="sec-sub">{t.track.sub}</p>
+
+    <div class="track-grid">
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-top">
+            <span class="metric-v display-md">{t.track.m1Value}</span>
+            <span class="metric-l">{t.track.m1Label}</span>
+          </div>
+          <div class="bar"><span class="bar-fill" style="width:70%"></span></div>
+        </div>
+        <div class="metric">
+          <div class="metric-top">
+            <span class="metric-v display-md">{t.track.m2Value}</span>
+            <span class="metric-l">{t.track.m2Label}</span>
+          </div>
+          <div class="bar"><span class="bar-fill alt" style="width:85%"></span></div>
+        </div>
+      </div>
+
+      <div class="split-card">
+        <span class="label">{t.track.splitLabel}</span>
+        <div class="split-bar">
+          <span class="seg seg-tech" style="width:50%"><i>{t.track.splitTech}</i></span>
+          <span class="seg seg-nontech" style="width:50%"><i>{t.track.splitNonTech}</i></span>
+        </div>
+        <p class="split-note">{t.track.splitNote}</p>
+      </div>
+    </div>
+
+    <div class="track-foot">
+      <div class="foot-item">
+        <span class="label k">{t.track.selectLabel}</span>
+        <p>{t.track.selectNote}</p>
+      </div>
+      <div class="foot-item disclaimer">
+        <span class="label">{t.track.disclaimerLabel}</span>
+        <p>{t.track.disclaimer}</p>
+      </div>
     </div>
   </div>
 </section>
@@ -193,6 +241,31 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
   .stat-v { color: var(--ink); }
   @media (min-width: 720px) { .stat-row { grid-template-columns: repeat(4, 1fr); } }
   @media (min-width: 860px) { .hero-grid { grid-template-columns: 1.5fr 0.85fr; gap: 4rem; } }
+
+  /* track record */
+  .track-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; margin-top: 1rem; }
+  .metrics { display: flex; flex-direction: column; gap: 2rem; }
+  .metric-top { display: flex; align-items: baseline; gap: 0.8rem; margin-bottom: 0.7rem; flex-wrap: wrap; }
+  .metric-v { color: var(--accent); }
+  .metric-l { color: var(--ink-2); font-size: 0.95rem; }
+  .bar { height: 0.7rem; background: var(--paper-2); border: 1px solid var(--line); overflow: hidden; }
+  .bar-fill { display: block; height: 100%; background: var(--accent); }
+  .bar-fill.alt { background: var(--ink); }
+  .split-card { border: 1px solid var(--line); background: var(--paper); padding: 1.5rem; }
+  .split-card > .label { display: block; margin-bottom: 1rem; }
+  .split-bar { display: flex; height: 3rem; border: 1px solid var(--line); overflow: hidden; }
+  .seg { display: flex; align-items: center; justify-content: center; }
+  .seg i { font-style: normal; font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.05em; text-transform: uppercase; text-align: center; padding: 0 0.3rem; line-height: 1.2; }
+  .seg-tech { background: var(--ink); color: var(--paper); }
+  .seg-nontech { background: var(--accent); color: #fff; }
+  .split-note { color: var(--ink-2); font-size: 0.9rem; margin-top: 1rem; }
+  .track-foot { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  .foot-item p { color: var(--ink-2); font-size: 0.92rem; margin-top: 0.5rem; max-width: 48ch; }
+  .foot-item .k { color: var(--accent); }
+  .foot-item.disclaimer { border-inline-start: 3px solid var(--line); padding-inline-start: 1.2rem; }
+  .foot-item.disclaimer p { color: var(--ink-3); font-style: italic; }
+  @media (min-width: 860px) { .track-grid { grid-template-columns: 1.2fr 0.8fr; gap: 3.5rem; align-items: start; } }
+  @media (min-width: 760px) { .track-foot { grid-template-columns: 1fr 1fr; gap: 2.5rem; } }
 
   /* shared section heads */
   .alt { background: var(--paper-2); }

@@ -4,7 +4,7 @@ import he from "./he.json";
 
 export type Lang = "en" | "nl" | "he";
 export const LANGS: Lang[] = ["en", "nl", "he"];
-export const DEFAULT_LANG: Lang = "he";
+export const DEFAULT_LANG: Lang = "en";
 
 export const LANG_LABELS: Record<Lang, string> = { en: "EN", nl: "NL", he: "HE" };
 export const LANG_NAMES: Record<Lang, string> = { en: "English", nl: "Nederlands", he: "עברית" };
@@ -33,6 +33,21 @@ export function getT(lang: Lang) {
 
 export function isRTL(lang: Lang): boolean {
   return lang === "he";
+}
+
+/** Alon's WhatsApp number (international format, no +). */
+export const WHATSAPP_NUMBER = "31644295691";
+
+const WHATSAPP_TEXT: Record<Lang, string> = {
+  he: "היי אלון, אשמח לדבר. אני מחפש/ת",
+  en: "Hi Alon, I'd love to talk. I'm looking for",
+  nl: "Hoi Alon, ik wil graag praten. Ik ben op zoek naar",
+};
+
+/** A wa.me link with a friendly, language-appropriate pre-filled opener. */
+export function whatsappUrl(lang: Lang): string {
+  const text = WHATSAPP_TEXT[lang] ?? WHATSAPP_TEXT.en;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 }
 
 /** Prefix a root-relative path with the locale (default locale stays at root). */

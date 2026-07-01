@@ -1,8 +1,8 @@
 ---
-import { getT, localizePath, LANGS, LANG_LABELS, DEFAULT_LANG, type Lang } from "../i18n";
+import { getT, localizePath, whatsappUrl, LANGS, LANG_LABELS, DEFAULT_LANG, type Lang } from "../i18n";
 
 interface Props { lang?: Lang; localePaths?: Record<string, string> }
-const { lang = "he", localePaths } = Astro.props;
+const { lang = "en", localePaths } = Astro.props;
 const t = getT(lang);
 
 // path without the locale prefix, so the switcher keeps you on the same page
@@ -11,15 +11,13 @@ const basePath = (LANGS as string[]).includes(parts[0]) ? "/" + parts.slice(1).j
 const cleanBase = basePath === "" ? "/" : basePath;
 
 const extra = {
-  tech: { he: "טכנולוגיה", en: "Technology", nl: "Technologie" },
-  resources: { he: "מידע ומשאבים", en: "Resources", nl: "Informatie" },
+  resources: { he: "מידע שימושי", en: "Useful Information", nl: "Nuttige informatie" },
 } as const;
 const pick = (m: Record<string, string>) => m[lang] ?? m.en;
 
 const links = [
   { label: t.nav.howItWorks, href: "/how-it-works" },
   { label: t.nav.careerAdvice, href: "/career-advice" },
-  { label: pick(extra.tech), href: "/technology" },
   { label: pick(extra.resources), href: "/resources" },
   { label: t.nav.about, href: "/about" },
   { label: t.nav.forCompanies, href: "/for-companies" },
@@ -30,7 +28,7 @@ const links = [
   <div class="container nav-inner">
     <a href={localizePath("/", lang)} class="brand">
       TechExpats<span class="brand-mark">.</span>
-      <span class="brand-sub">Careers in Europe</span>
+      <span class="brand-sub">Career Moves</span>
     </a>
 
     <nav class="links" aria-label="Primary">
@@ -47,7 +45,7 @@ const links = [
           >{LANG_LABELS[l]}</a>
         ))}
       </div>
-      <a href={localizePath("/book", lang)} class="btn btn-primary nav-cta">{t.nav.startSearch} <span class="arrow">&rarr;</span></a>
+      <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="btn btn-primary nav-cta">{t.cta.talk} <span class="arrow">&rarr;</span></a>
       <button class="burger" aria-label="Menu" aria-expanded="false" id="burger">
         <span></span><span></span>
       </button>
@@ -56,7 +54,7 @@ const links = [
 
   <nav class="mobile" id="mobile-menu" aria-label="Mobile">
     {links.map((l) => <a href={localizePath(l.href, lang)}>{l.label}</a>)}
-    <a href={localizePath("/for-companies", lang)} class="mobile-cta">{t.nav.startSearch} &rarr;</a>
+    <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="mobile-cta">{t.cta.talk} &rarr;</a>
   </nav>
 </header>
 

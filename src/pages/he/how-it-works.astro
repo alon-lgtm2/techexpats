@@ -1,0 +1,9 @@
+---
+import Base from "../../layouts/Base.astro";
+import HowItWorks from "../../components/pages/HowItWorks.astro";
+import { getT } from "../../i18n";
+const t = getT("he");
+---
+<Base lang="he" title={`${t.howItWorks.title} - TechExpats`} description={t.howItWorks.lead}>
+  <HowItWorks lang="he" />
+</Base>

@@ -3,13 +3,12 @@ import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
 import CTA from "../CTA.astro";
 import { type Lang } from "../../i18n";
-import { companies, sectors } from "../../data/companies";
 interface Props { lang?: Lang }
 const { lang = "he" } = Astro.props;
 
 const COPY = {
   en: {
-    eyebrow: "Resources",
+    eyebrow: "Useful Information",
     h1: "Know the ground you're standing on.",
     sub: "Practical, up-to-date information for building a career in the Netherlands and across Europe: the rules that affect you, who can sponsor a visa, and where the opportunities are.",
     newsKicker: "News",
@@ -29,19 +28,15 @@ const COPY = {
     indBody: "Only an IND-recognised sponsor can sponsor a highly-skilled-migrant residence permit. Before you accept an offer, check that the employer is on this register. It is searchable and updated monthly.",
     indCta: "Open the register",
     links: [
-      { t: "Highly skilled migrant (IND)", d: "Permit, conditions, salary thresholds.", u: "https://ind.nl/en/highly-skilled-migrant" },
-      { t: "Orientation year (search year)", d: "A year to find work after graduating or a degree.", u: "https://ind.nl/en/residence-permits/study/orientation-year-for-highly-educated-persons" },
-      { t: "The 30% facility", d: "The tax ruling for incoming skilled workers.", u: "https://business.gov.nl/subsidy/30-percent-facility/" },
+      { t: "Highly skilled migrant (IND)", d: "Permit, conditions, salary thresholds.", u: "https://ind.nl/en/residence-permits/work/highly-skilled-migrant" },
+      { t: "Orientation year (search year)", d: "A year to find work after graduating or a degree.", u: "https://ind.nl/en/residence-permits/work/residence-permit-for-orientation-year" },
+      { t: "The 30% facility", d: "The tax ruling for incoming skilled workers.", u: "https://business.gov.nl/staff/employing-staff/the-expat-scheme-30-percent-ruling-in-the-netherlands/" },
     ],
-    dirTitle: "Israeli companies in NL & the EU",
-    dirSub: "A curated, growing selection, the backbone of a target-company search. Always confirm current openings and that the employer is an IND recognised sponsor before counting on visa support.",
-    dirAll: "All",
-    visit: "Visit",
     closeHeading: "Want help turning this into a plan?",
     closeBody: "Information is the start. The work is knowing which doors to knock on, and how. The first conversation is free.",
   },
   he: {
-    eyebrow: "מידע ומשאבים",
+    eyebrow: "מידע שימושי",
     h1: "להכיר את השטח שעליו אתם עומדים.",
     sub: "מידע מעשי ועדכני לבניית קריירה בהולנד ובאירופה: הכללים שמשפיעים עליכם, מי יכול להעניק חסות לוויזה, ואיפה ההזדמנויות.",
     newsKicker: "חדשות",
@@ -61,14 +56,10 @@ const COPY = {
     indBody: "רק נותן חסות המוכר על ידי ה-IND יכול להעניק חסות לאשרת מומחה (highly skilled migrant). לפני שאתם מקבלים הצעה, ודאו שהמעסיק מופיע במרשם הזה. הוא ניתן לחיפוש ומתעדכן אחת לחודש.",
     indCta: "פתחו את המרשם",
     links: [
-      { t: "מומחה זר (IND)", d: "אשרה, תנאים וסף שכר.", u: "https://ind.nl/en/highly-skilled-migrant" },
-      { t: "שנת התמצאות (search year)", d: "שנה למציאת עבודה אחרי תואר.", u: "https://ind.nl/en/residence-permits/study/orientation-year-for-highly-educated-persons" },
-      { t: "הטבת ה-30%", d: "הטבת המס לעובדים מיומנים שמגיעים להולנד.", u: "https://business.gov.nl/subsidy/30-percent-facility/" },
+      { t: "מומחה זר (IND)", d: "אשרה, תנאים וסף שכר.", u: "https://ind.nl/en/residence-permits/work/highly-skilled-migrant" },
+      { t: "שנת התמצאות (search year)", d: "שנה למציאת עבודה אחרי תואר.", u: "https://ind.nl/en/residence-permits/work/residence-permit-for-orientation-year" },
+      { t: "הטבת ה-30%", d: "הטבת המס לעובדים מיומנים שמגיעים להולנד.", u: "https://business.gov.nl/staff/employing-staff/the-expat-scheme-30-percent-ruling-in-the-netherlands/" },
     ],
-    dirTitle: "חברות ישראליות בהולנד ובאיחוד האירופי",
-    dirSub: "מבחר אוצר ומתרחב, עמוד השדרה של חיפוש מבוסס חברות-מטרה. תמיד ודאו משרות פתוחות ושהמעסיק הוא נותן חסות מוכר ב-IND לפני שאתם סומכים על תמיכה בוויזה.",
-    dirAll: "הכול",
-    visit: "לאתר",
     closeHeading: "רוצים עזרה להפוך את זה לתוכנית?",
     closeBody: "מידע הוא ההתחלה. העבודה היא לדעת על אילו דלתות לדפוק, ואיך. השיחה הראשונה חינמית.",
   },
@@ -127,28 +118,6 @@ const c = COPY[lang as "en" | "he"] ?? COPY.en;
   </div>
 </section>
 
-<!-- DIRECTORY -->
-<section class="section alt">
-  <div class="container">
-    <span class="eyebrow">{c.dirTitle}</span>
-    <p class="dir-sub">{c.dirSub}</p>
-    <div class="filters" id="filters">
-      <button class="chip active" data-sector="all">{c.dirAll}</button>
-      {sectors.map((s) => <button class="chip" data-sector={s}>{s}</button>)}
-    </div>
-    <div class="companies" id="companies">
-      {companies.map((co) => (
-        <a href={co.url} target="_blank" rel="noopener" class="co" data-sector={co.sector}>
-          <span class="co-sector label">{co.sector}</span>
-          <h3>{co.name}</h3>
-          <p>{co.note}</p>
-          <span class="co-visit label">{c.visit} &rarr;</span>
-        </a>
-      ))}
-    </div>
-  </div>
-</section>
-
 <CTA lang={lang} heading={c.closeHeading} body={c.closeBody} />
 <Footer lang={lang} />
 
@@ -179,35 +148,4 @@ const c = COPY[lang as "en" | "he"] ?? COPY.en;
   .lcard p { font-size: 0.9rem; color: var(--ink-2); }
   .lgo { color: var(--accent); margin-top: auto; }
   @media (min-width: 760px) { .links { grid-template-columns: repeat(3, 1fr); } }
-
-  .dir-sub { color: var(--ink-2); max-width: 60ch; margin: 1rem 0 2rem; }
-  .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
-  .chip { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.04em; padding: 0.45rem 0.85rem; border: 1px solid var(--line); background: var(--paper); color: var(--ink-2); cursor: pointer; transition: all .15s ease; }
-  .chip:hover { border-color: var(--accent); color: var(--ink); }
-  .chip.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-  .companies { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
-  .co { background: var(--paper); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.4rem; transition: background .2s ease; }
-  .co:hover { background: var(--paper-2); }
-  .co[hidden] { display: none; }
-  .co-sector { color: var(--accent); }
-  .co h3 { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.2rem; color: var(--ink); }
-  .co p { font-size: 0.9rem; color: var(--ink-2); }
-  .co-visit { color: var(--ink-3); margin-top: auto; }
-  @media (min-width: 640px) { .companies { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1000px) { .companies { grid-template-columns: repeat(3, 1fr); } }
 </style>
-
-<script>
-  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>("#filters .chip"));
-  const cards = Array.from(document.querySelectorAll<HTMLElement>("#companies .co"));
-  chips.forEach((chip) => {
-    chip.addEventListener("click", () => {
-      const sector = chip.dataset.sector;
-      chips.forEach((c) => c.classList.toggle("active", c === chip));
-      cards.forEach((card) => {
-        const show = sector === "all" || card.dataset.sector === sector;
-        card.hidden = !show;
-      });
-    });
-  });
-</script>

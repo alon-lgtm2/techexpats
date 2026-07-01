@@ -4,7 +4,7 @@ import Footer from "../Footer.astro";
 import CTA from "../CTA.astro";
 import { localizePath, type Lang } from "../../i18n";
 interface Props { lang?: Lang }
-const { lang = "he" } = Astro.props;
+const { lang = "en" } = Astro.props;
 
 const COPY = {
   en: {
@@ -32,26 +32,14 @@ const COPY = {
       {
         h: "Built on community",
         p: [
-          "Driven by a commitment to community resilience, I established the Israeli Tech Network in the Netherlands. Out of it grew HateCheck, an AI-powered, agentic OSINT platform built to confront antisemitism and digital hate.",
+          "Driven by a commitment to the community around me, I founded the Israeli tech community in the Netherlands, which has grown into one of Europe's most connected professional networks. I stay closely involved in it, and I mentor founders and professionals building careers across the continent.",
           "I also advise leaders globally on decision quality and on embedding AI into the way organizations actually work.",
         ],
       },
       {
-        h: "A personal legacy",
+        h: "Background",
         p: [
-          "My work is rooted in family. I am the grandson of Channa Gildoni: a Holocaust survivor, a bridge-builder for German-Israeli reconciliation, and the first woman to receive honorary citizenship of Leipzig. In 2025 I dedicated a commemorative monument in the city to her legacy of truth and human dignity.",
-        ],
-      },
-      {
-        h: "A life of service",
-        p: [
-          "I served as an intelligence officer and as a Jewish Agency emissary to the Caribbean and the United Kingdom. I volunteer as an emergency medical technician with United Hatzalah, and I mentor at Give & Tech, a nonprofit channeling tech talent toward social impact.",
-        ],
-      },
-      {
-        h: "The person",
-        p: [
-          "I am an alumnus of Harvard Business School, and I hold two degrees, in Musicology and in Jewish Thought, from the Hebrew University of Jerusalem. I live in Amsterdam with my wife and our three children, and I am always glad to connect with people who want to make meaningful impact.",
+          "I am an alumnus of Harvard Business School. I am based in Amsterdam and work across the Netherlands and Europe, in English, Dutch, and Hebrew, and I am always glad to connect with people who want to make meaningful impact.",
         ],
       },
     ],
@@ -85,26 +73,14 @@ const COPY = {
       {
         h: "נבנה על קהילה",
         p: [
-          "מתוך מחויבות עמוקה לחוסן קהילתי הקמתי את רשת ההייטק הישראלית בהולנד. מתוכה צמח HateCheck, פלטפורמת OSINT אג'נטית מבוססת בינה מלאכותית שנועדה להתמודד עם אנטישמיות ושנאה דיגיטלית.",
+          "מתוך מחויבות עמוקה לקהילה שסביבי הקמתי את קהילת ההייטק הישראלית בהולנד, שצמחה לאחת הרשתות המקצועיות המחוברות באירופה. אני ממשיך להיות מעורב בה מקרוב, ומלווה יזמים ואנשי מקצוע שבונים קריירה ברחבי היבשת.",
           "אני גם מייעץ למנהלים ברחבי העולם על איכות קבלת החלטות ועל הטמעת בינה מלאכותית בדרך שבה ארגונים באמת עובדים.",
         ],
       },
       {
-        h: "מורשת אישית",
+        h: "רקע",
         p: [
-          "העבודה שלי מושרשת במשפחה. אני נכדהּ של חנה גילדוני: ניצולת שואה, בונת גשרים לפיוס גרמני-ישראלי, והאישה הראשונה שקיבלה אזרחות כבוד של העיר לייפציג. בשנת 2025 חנכתי בעיר אנדרטה לזכר מורשתה של אמת וכבוד האדם.",
-        ],
-      },
-      {
-        h: "חיים של שליחות",
-        p: [
-          "שירתי כקצין מודיעין וכשליח הסוכנות היהודית לאיים הקריביים ולבריטניה. אני מתנדב כחובש בארגון איחוד הצלה, ומשמש מנטור ב-Give & Tech, עמותה שרותמת כישרון טכנולוגי לעשייה חברתית.",
-        ],
-      },
-      {
-        h: "האדם",
-        p: [
-          "אני בוגר Harvard Business School, ובעל שני תארים, במוזיקולוגיה ובמחשבת ישראל, מהאוניברסיטה העברית בירושלים. אני גר באמסטרדם עם אשתי ושלושת ילדינו, ותמיד שמח להכיר אנשים שרוצים לייצר השפעה משמעותית.",
+          "אני בוגר Harvard Business School. אני גר באמסטרדם ופועל ברחבי הולנד ואירופה, באנגלית, הולנדית ועברית, ותמיד שמח להכיר אנשים שרוצים לייצר השפעה משמעותית.",
         ],
       },
     ],

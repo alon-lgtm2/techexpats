@@ -10,8 +10,13 @@ export default defineConfig({
   // static export, which also published ./out) serves this build unchanged.
   outDir: './out',
   integrations: [mdx()],
+  redirects: {
+    '/technology': '/how-it-works',
+    '/he/technology': '/he/how-it-works',
+    '/nl/technology': '/nl/how-it-works',
+  },
   i18n: {
-    defaultLocale: 'he',
+    defaultLocale: 'en',
     locales: ['en', 'nl', 'he'],
     routing: {
       prefixDefaultLocale: false,
