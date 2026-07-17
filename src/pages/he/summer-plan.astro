@@ -1,0 +1,137 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { whatsappUrl } from "../../i18n";
+
+const wa = whatsappUrl("he");
+// Non-indexed, unlisted deliverable. Reached only via the "Plan" DM.
+// Structure, not secrets: the WHAT lives here; the HOW stays in the room.
+---
+
+<Base
+  lang="he"
+  title="תוכנית שישה שבועות - TechExpats"
+  description="המפה המעשית: שני שלבים, חמישה צעדים, לשישה השבועות שקובעים את הרבעון הרביעי שלכם."
+  noindex={true}
+>
+  <Nav lang="he" />
+
+  <article class="section">
+    <div class="container narrow">
+      <span class="label k">תוכנית עבודה</span>
+      <h1 class="display-lg title">שישה שבועות. שני שלבים. חמישה צעדים.</h1>
+      <p class="lead">
+        זאת המפה, לא השטח. היא אומרת לכם מה לעשות ובאיזה סדר, כדי שתיכנסו לספטמבר
+        כשם מוכר ולא כעוד קורות חיים בערימה. סמנו כל משימה כשהיא נסגרת. איפה שצריך
+        יד מכוונת, ואי אפשר אחרת, סימנתי לכם.
+      </p>
+
+      <div class="phase">
+        <span class="label phase-k">שלב א' · מעכשיו עד אמצע אוגוסט · איסוף</span>
+      </div>
+
+      <section class="step">
+        <h2>1. זהו את ההזדמנויות הנכונות</h2>
+        <p class="hint">הצעד שרוב האנשים מדלגים עליו, ומשלמים עליו חודשים.</p>
+        <ul class="checks">
+          <li><label><input type="checkbox" /> בנו לעצמכם כלי מחקר (עידן ה-AI הפך את זה לפשוט) וצללו למגמות בתעשייה שלכם: מה צומח, מה מצטמצם, איפה הכאב.</label></li>
+          <li><label><input type="checkbox" /> גזרו מהמחקר רשימה של חמש עד עשר חברות שה-DNA שלהן הולם אתכם, בלי קשר לשאלה אם יש להן מודעה באוויר.</label></li>
+          <li><label><input type="checkbox" /> על כל חברה: מה האתגר האמיתי שלה עכשיו, במשפט אחד.</label></li>
+        </ul>
+        <p class="reserve">איך יודעים שחברה באמת נכונה לכם, ולא רק נראית טוב מבחוץ? זאת בדיוק הנקודה שבה רוב האנשים מנחשים. כאן לא מנחשים.</p>
+      </section>
+
+      <section class="step">
+        <h2>2. חדדו את הפרופיל</h2>
+        <p class="hint">לא "לרענן קורות חיים". לחדד.</p>
+        <ul class="checks">
+          <li><label><input type="checkbox" /> נסחו סיפור אחד קוהרנטי: מסע, צמיחה, כיוון. לא רשימת טכנולוגיות.</label></li>
+          <li><label><input type="checkbox" /> כתבו תשובה של משפט אחד לשאלה "מה אני עושה טוב יותר מרוב האנשים". אם צריך שלוש פסקאות, עוד לא שם.</label></li>
+          <li><label><input type="checkbox" /> קורות חיים מוכנים ומצוינים, יושבים במגירה. לא נשלחים.</label></li>
+        </ul>
+      </section>
+
+      <section class="step">
+        <h2>3. בנו תוכנית התקפה</h2>
+        <p class="hint">מסמך אחד, שורה לכל חברה.</p>
+        <ul class="checks">
+          <li><label><input type="checkbox" /> מי האנשים הרלוונטיים בכל חברה ברשימה.</label></li>
+          <li><label><input type="checkbox" /> מה אתם מביאים לשולחן שפוגש בדיוק את הכאב שלה.</label></li>
+          <li><label><input type="checkbox" /> מה הצעד הראשון על כל מטרה, ומתי הוא יוצא.</label></li>
+        </ul>
+        <p class="reserve">חכות, ווים, פתיונות, תפורים לכל מטרה בנפרד. זה ההפך מ-Spray & Pray, וזה בדיוק למה זה עובד. הצורה המדויקת של הוו משתנה מאדם לאדם, ומשם זה כבר אישי.</p>
+      </section>
+
+      <div class="phase">
+        <span class="label phase-k">שלב ב' · מאמצע אוגוסט · הנעה</span>
+      </div>
+
+      <section class="step">
+        <h2>4. צאו לדרך, בסגנון שלכם</h2>
+        <p class="hint">אולי הצעד החשוב מכולם.</p>
+        <ul class="checks">
+          <li><label><input type="checkbox" /> שתיים-שלוש פניות חמות בשבוע: קולגות עבר, בוגרי אותה חברה, מכרים של מכרים.</label></li>
+          <li><label><input type="checkbox" /> עשרים דקות, עצה על השוק המקומי, אפס בקשות עבודה בפנייה הראשונה.</label></li>
+          <li><label><input type="checkbox" /> בקול שלכם. העברתם חיים שלמים ללמוד איך לדבר עם אנשים, אל תחליפו את זה בתבנית מהאינטרנט. מי שמצחיק שיצחיק, מי שמעמיק שיעמיק.</label></li>
+        </ul>
+      </section>
+
+      <section class="step">
+        <h2>5. תבלטו</h2>
+        <p class="hint">בשבועיים שבין אמצע אוגוסט לתחילת ספטמבר נקבע מי מוכר ומי בערימה.</p>
+        <ul class="checks">
+          <li><label><input type="checkbox" /> בחרו דרך אחת או שתיים לבלוט, שמתאימות דווקא לכם.</label></li>
+          <li><label><input type="checkbox" /> ודאו שהשם שלכם נמצא top of mind אצל האנשים הנכונים, בדיוק כשהם חוזרים מהחופש נחושים לסגור.</label></li>
+        </ul>
+        <p class="reserve">יש דרכים מצוינות לבלוט, ויש עוד יותר דרכים לשרוף את עצמכם תוך כדי ניסיון. החוכמה היא לדעת את ההבדל.</p>
+      </section>
+
+      <div class="phase">
+        <span class="label phase-k">אמצע אוגוסט · יציאה לדרך</span>
+      </div>
+      <p class="finale">
+        הפניות הממוקדות יוצאות עכשיו, כשאתם כבר לא זרים לאף אחד ברשימה. ספטמבר פוגש
+        אתכם באמצע שיחות, בזמן שכל השאר רק פותחים את הלינקדאין. אתם לא מחפשים משהו.
+        אתם בוחרים את המקום הנכון.
+      </p>
+
+      <hr />
+      <div class="cta-box">
+        <p>רוצים יד מכוונת על הביצוע, או את החלקים שהמפה הזאת משאירה בכוונה פתוחים?</p>
+        <a class="wa" href={wa}>דברו איתי בוואטסאפ</a>
+      </div>
+    </div>
+  </article>
+
+  <Footer lang="he" />
+</Base>
+
+<style>
+  .narrow { max-width: 46rem; }
+  .k { color: var(--accent); }
+  .title { margin: 0.6rem 0 1.2rem; }
+  .lead { font-size: 1.15rem; line-height: 1.7; color: var(--ink-2); margin-bottom: 2.5rem; }
+
+  .phase { margin: 2.5rem 0 0.5rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--line); }
+  .phase-k { color: var(--accent); font-weight: 600; }
+
+  .step { margin: 1.8rem 0; }
+  .step h2 { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.45rem; color: var(--ink); margin: 0 0 0.3rem; }
+  .hint { color: var(--ink-3); margin: 0 0 0.9rem; font-size: 0.98rem; }
+
+  .checks { list-style: none; margin: 0; padding: 0; }
+  .checks li { margin-bottom: 0.7rem; }
+  .checks label { display: flex; gap: 0.7rem; align-items: flex-start; line-height: 1.6; color: var(--ink-2); cursor: pointer; }
+  .checks input { margin-top: 0.35rem; accent-color: var(--accent); width: 1.05rem; height: 1.05rem; flex-shrink: 0; }
+
+  .reserve { margin: 0.9rem 0 0; padding-inline-start: 1rem; border-inline-start: 3px solid var(--accent); color: var(--ink); font-style: italic; line-height: 1.65; }
+
+  .finale { font-size: 1.1rem; line-height: 1.7; color: var(--ink); margin: 1rem 0 0; }
+
+  hr { border: 0; border-top: 1px solid var(--line); margin: 2.5rem 0; }
+  .cta-box { text-align: center; }
+  .cta-box p { color: var(--ink-2); margin-bottom: 1.2rem; font-size: 1.05rem; }
+  .wa { display: inline-block; background: var(--accent); color: #fff; padding: 0.8rem 1.8rem; border-radius: 0.4rem; font-weight: 600; text-decoration: none; }
+  .wa:hover { opacity: 0.9; }
+</style>
