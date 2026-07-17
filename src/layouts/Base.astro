@@ -7,13 +7,19 @@ export interface Props {
   description?: string;
   theme?: "editorial" | "engine" | "sun" | "slate";
   lang?: Lang;
+  ogImage?: string;
+  ogType?: "website" | "article";
 }
 const {
   title = "TechExpats — Career Moves, led by Alon Gildoni",
   description = "Career coaching and headhunting across Europe. A deliberate search: not just a job, the job. By Alon Gildoni, Amsterdam.",
   theme = "engine",
   lang = "en",
+  ogImage,
+  ogType = "website",
 } = Astro.props;
+
+const ogImageAbs = ogImage ? new URL(ogImage, Astro.site).href : undefined;
 
 const dir = isRTL(lang) ? "rtl" : "ltr";
 ---
@@ -29,7 +35,10 @@ const dir = isRTL(lang) ? "rtl" : "ltr";
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    {ogImageAbs && <meta property="og:image" content={ogImageAbs} />}
+    {ogImageAbs && <meta name="twitter:card" content="summary_large_image" />}
+    {ogImageAbs && <meta name="twitter:image" content={ogImageAbs} />}
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

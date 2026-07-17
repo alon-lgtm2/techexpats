@@ -32,7 +32,7 @@ const backHref = entry.data.audience === "companies" ? "/hiring-insights" : "/ca
 const dateStr = entry.data.date;
 ---
 
-<Base lang={lang} title={`${entry.data.title} - TechExpats`} description={entry.data.excerpt}>
+<Base lang={lang} title={`${entry.data.title} - TechExpats`} description={entry.data.excerpt} ogImage={entry.data.image} ogType="article">
   <Nav lang={lang} localePaths={localePaths} />
 
   <article class="section">
