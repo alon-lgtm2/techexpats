@@ -1,0 +1,182 @@
+---
+import Nav from "../Nav.astro";
+import Footer from "../Footer.astro";
+import CTA from "../CTA.astro";
+import { whatsappUrl, type Lang } from "../../i18n";
+import { CV_PROMPT } from "../../data/cv-prompt";
+
+interface Props { lang?: Lang }
+const { lang = "he" } = Astro.props;
+const wa = whatsappUrl(lang);
+
+const ATS_URL = "https://www.jobscan.co/";
+const ARTICLE = "/insights/great-cv-dont-send-it-he";
+
+// Hebrew-only page. Send en/nl to the English and Dutch versions of the article
+// this tool belongs to, rather than to a URL that does not exist.
+const localePaths = {
+  en: "/insights/great-cv-dont-send-it",
+  nl: "/insights/great-cv-dont-send-it-nl",
+  he: "/he/ai-tools/cv-upgrade",
+};
+---
+
+<Nav lang={lang} localePaths={localePaths} />
+
+<article class="section">
+  <div class="container narrow">
+    <a href="/he/ai-tools" class="back label">&rarr; כל הכלים</a>
+    <span class="label k">כלי · חינם</span>
+    <h1 class="display-lg title">שדרוג קורות חיים</h1>
+    <p class="lead">
+      פרומפט אחד שהופך את ה-AI למגייס בכיר שמראיין אתכם. הוא לא כותב לכם קורות
+      חיים בלחיצה, הוא עובר איתכם עשרה שלבים ובונה אותם מהיסוד.
+    </p>
+
+    <div class="ctx">
+      <span class="label">הרקע לכלי הזה</span>
+      <p>
+        הכלי הזה נולד מתוך רעיון אחד: קורות חיים מצוינים לא נשלחים לכל כיוון, הם
+        מחכים לרגע הנכון. אם לא קראתם את המאמר, כדאי להתחיל שם. הוא מסביר למה
+        Spray &amp; Pray לא רק לא עובד אלא עלול לחסום אתכם.
+      </p>
+      <a href={ARTICLE} class="ctx-link">לקריאת המאמר: תבנו את קורות החיים הכי טובים. ואז, אל תשלחו אותם <span class="arrow">&larr;</span></a>
+    </div>
+
+    <h2>מה הוא עושה</h2>
+    <p>
+      עשרה שלבים, לפי הסדר: הסיפור המקצועי שלכם, הכותרת הכפולה, פסקת הפתיחה
+      (מבחן המעלית), המומחיות, ההישגים בכל תפקיד, המסלול והקוהרנטיות, מבחן כנות,
+      מה כדאי דווקא להוריד, עיצוב ונגישות ל-ATS, ולבסוף הרכבה. בסוף מתקבל מסמך
+      מלוטש, ציון, ורשימה של מה השתפר.
+    </p>
+
+    <h2>החוק שעושה את ההבדל</h2>
+    <p>
+      <strong>שאלה אחת בכל פעם.</strong> לא רשימה שמציפה אתכם, לא "ועוד דבר".
+      שאלה, תשובה, ורק אז הלאה. זה נשמע טכני, אבל זה מה שהופך את זה לשיחה במקום
+      לטופס. אותו עיקרון עצמו עומד מאחורי האופן שבו אני עובד עם אנשים.
+    </p>
+
+    <div class="tip">
+      <strong>טיפ שמשנה את התוצאה:</strong> אם הפלטפורמה שלכם תומכת בקלט קולי,
+      דברו במקום להקליד. כשמדברים, הסיפור יוצא טבעי. כשמקלידים, נוטים לכתוב
+      ב"שפת קורות חיים".
+    </div>
+
+    <h2>איך מפעילים</h2>
+    <ol class="steps">
+      <li><span class="n">1</span> העתיקו את הפרומפט והדביקו ב-ChatGPT, Claude או Gemini.</li>
+      <li><span class="n">2</span> ענו על השאלות בטבעיות. אחת בכל פעם.</li>
+      <li><span class="n">3</span> קבלו קורות חיים מוכנים, בשפת המקור של המסמך.</li>
+    </ol>
+
+    <div class="promptbox">
+      <div class="promptbar">
+        <span class="label">הפרומפט המלא</span>
+        <button class="btn btn-primary copy" id="copy-cv" data-label="העתיקו את הפרומפט" data-done="הועתק">
+          העתיקו את הפרומפט
+        </button>
+      </div>
+      <pre id="cv-prompt">{CV_PROMPT}</pre>
+    </div>
+
+    <h2>ואחרי זה</h2>
+    <p>
+      שווה לבדוק שקורות החיים עוברים מערכות סינון אוטומטיות.
+      <a href={ATS_URL} target="_blank" rel="noopener">הנה כלי חינמי לבדיקה</a>.
+      והדבר החשוב: עכשיו הם צריכים לחכות במגירה. אל תשלחו אותם לכל כיוון. תשקיעו
+      בבניית קשרים עם האנשים הנכונים, וחכו שיבקשו מכם אותם.
+    </p>
+
+    <div class="next">
+      <span class="label">הכלי הבא</span>
+      <a href="/he/ai-tools/target-companies" class="ctx-link">שורטליסט חברות: למי בכלל לפנות <span class="arrow">&larr;</span></a>
+    </div>
+  </div>
+</article>
+
+<CTA lang={lang} />
+<Footer lang={lang} />
+
+<script>
+  const btn = document.getElementById("copy-cv");
+  const src = document.getElementById("cv-prompt");
+  btn?.addEventListener("click", async () => {
+    if (!src?.textContent) return;
+    try {
+      await navigator.clipboard.writeText(src.textContent);
+    } catch {
+      const r = document.createRange();
+      r.selectNodeContents(src);
+      const s = window.getSelection();
+      s?.removeAllRanges();
+      s?.addRange(r);
+      return;
+    }
+    const done = btn.getAttribute("data-done") || "Copied";
+    const label = btn.getAttribute("data-label") || "Copy";
+    btn.textContent = done;
+    btn.classList.add("is-done");
+    setTimeout(() => { btn.textContent = label; btn.classList.remove("is-done"); }, 2200);
+  });
+</script>
+
+<style>
+  .narrow { max-width: 46rem; }
+  .back { display: inline-block; margin-bottom: 2rem; color: var(--ink-3); }
+  .back:hover { color: var(--accent); }
+  .k { color: var(--accent); }
+  .title { margin: 0.75rem 0 1rem; }
+  .lead { color: var(--ink-2); font-size: 1.15rem; line-height: 1.7; max-width: 60ch; }
+
+  h2 { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.5rem; color: var(--ink); margin: 2.5rem 0 0.9rem; }
+  p { color: var(--ink-2); line-height: 1.75; }
+  p strong { color: var(--ink); font-weight: 600; }
+  p a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+
+  .ctx, .next {
+    border: 1px solid var(--line);
+    border-inline-start: 3px solid var(--accent);
+    padding: 1.25rem 1.4rem;
+    margin: 2rem 0;
+    background: var(--paper-2);
+  }
+  .ctx p { margin: 0.6rem 0 0.9rem; }
+  .ctx-link { display: inline-block; color: var(--accent); font-weight: 600; }
+  .ctx-link:hover { text-decoration: underline; }
+  .next { margin-top: 3rem; }
+
+  .tip {
+    border-inline-start: 3px solid var(--accent);
+    padding: 0.9rem 1.1rem;
+    margin: 1.75rem 0;
+    background: color-mix(in srgb, var(--accent) 6%, transparent);
+    line-height: 1.7;
+    color: var(--ink-2);
+  }
+  .tip strong { color: var(--ink); }
+
+  .steps { list-style: none; padding: 0; margin: 1.25rem 0; display: grid; gap: 0.7rem; }
+  .steps li { display: flex; gap: 0.8rem; align-items: baseline; color: var(--ink-2); line-height: 1.6; }
+  .steps .n { flex: none; font-family: var(--display); font-weight: var(--display-weight); color: var(--accent); min-width: 1.2rem; }
+
+  .promptbox { border: 1px solid var(--line); margin: 1.5rem 0; }
+  .promptbar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--ink) 4%, transparent);
+  }
+  .copy { font-size: 0.85rem; padding: 0.45rem 0.9rem; cursor: pointer; border: none; }
+  .copy.is-done { opacity: 0.7; }
+
+  pre {
+    margin: 0; padding: 1.25rem;
+    max-height: 26rem; overflow: auto;
+    white-space: pre-wrap; word-break: break-word;
+    font-family: var(--mono, "JetBrains Mono", monospace);
+    font-size: 0.82rem; line-height: 1.65; color: var(--ink-2);
+    direction: rtl; text-align: start;
+  }
+</style>

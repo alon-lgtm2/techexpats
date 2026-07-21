@@ -1,0 +1,121 @@
+---
+import Nav from "../Nav.astro";
+import Footer from "../Footer.astro";
+import CTA from "../CTA.astro";
+import { whatsappUrl, type Lang } from "../../i18n";
+
+interface Props { lang?: Lang }
+const { lang = "he" } = Astro.props;
+const wa = whatsappUrl(lang);
+
+const GEM_URL = "https://gemini.google.com/gem/1Uky3t9Mn3gEEdP_8i6e8YfeEnyG59WBO?usp=sharing";
+const ARTICLE = "/insights/stop-looking-for-a-job-he";
+
+// Hebrew-only page. Send en/nl to the English and Dutch versions of the article
+// this tool belongs to, rather than to a URL that does not exist.
+const localePaths = {
+  en: "/insights/stop-looking-for-a-job",
+  nl: "/insights/stop-looking-for-a-job-nl",
+  he: "/he/ai-tools/target-companies",
+};
+---
+
+<Nav lang={lang} localePaths={localePaths} />
+
+<article class="section">
+  <div class="container narrow">
+    <a href="/he/ai-tools" class="back label">&rarr; כל הכלים</a>
+    <span class="label k">כלי · חינם</span>
+    <h1 class="display-lg title">שורטליסט חברות</h1>
+    <p class="lead">
+      Deep Research Gem שבונה לכם רשימת חברות מטרה בשוק ההולנדי, על בסיס הניסיון
+      והשאיפות שלכם. זאת שיטת המחקר שאני עובד לפיה, מזוקקת לכלי שאתם מפעילים לבד.
+    </p>
+
+    <div class="ctx">
+      <span class="label">הרקע לכלי הזה</span>
+      <p>
+        הכלי הזה הוא הצד המעשי של טיעון אחד: חיפוש עבודה שמתחיל ממשרה פתוחה
+        מתחיל במקום הלא נכון. המאמר מסביר למה מערכת ההפעלה הישנה קרסה, ומה בא
+        במקומה. אם קוראים רק דבר אחד כאן, שיהיה זה.
+      </p>
+      <a href={ARTICLE} class="ctx-link">לקריאת המאמר: הדרך הכי טובה למצוא עבודה היא להפסיק לחפש <span class="arrow">&larr;</span></a>
+    </div>
+
+    <h2>למה זה הכלי החשוב מהשניים</h2>
+    <p>
+      משרה פתוחה היא לעיתים קרובות הגדרה שרירותית שנכתבה במשאבי אנוש, והסיכוי
+      שהיא תתאים לכם כמו כפפה ליד נמוך. חברה, לעומת זאת, היא גוף חי עם אתגרים
+      שאתם יכולים לזהות ולפתור. ההצעות הטובות באמת לרוב נסגרות עוד לפני שהמשרה
+      פורסמה.
+    </p>
+    <p>
+      <strong>אל תחפשו משרות. תצודו חברות.</strong> וכשניגשים לחברה הנכונה עם
+      הערך הנכון, תקנים יודעים להיפתח יש מאין. זה קורה לא מעט.
+    </p>
+
+    <h2>מה מקבלים</h2>
+    <p>
+      שורטליסט של חברות שה-DNA שלהן הולם אתכם, בלי קשר לשאלה אם יש להן מודעה
+      באוויר כרגע. לכל חברה, הבנה של מה האתגר שלה עכשיו ואיפה המומחיות שלכם
+      פוגשת את הצורך. זאת נקודת הפתיחה לפנייה יזומה במקום לתגובה פסיבית.
+    </p>
+
+    <h2>איך מפעילים</h2>
+    <ol class="steps">
+      <li><span class="n">1</span> פתחו את ה-Gem ב-Gemini (צריך חשבון גוגל).</li>
+      <li><span class="n">2</span> ענו על השאלות על הניסיון, החוזקות והשאיפות שלכם.</li>
+      <li><span class="n">3</span> קבלו שורטליסט ממוקד להתחיל לעבוד איתו.</li>
+    </ol>
+
+    <a href={GEM_URL} target="_blank" rel="noopener" class="btn btn-primary big">
+      פתחו את ה-Gem <span class="arrow">&larr;</span>
+    </a>
+
+    <h2>ומה עושים עם הרשימה</h2>
+    <p>
+      כאן נגמר מה שכלי יכול לעשות בשבילכם. הרשימה היא ההתחלה, לא הסוף. השאלות
+      הבאות הן למי בדיוק לפנות בכל חברה, מה לכתוב לו, ומה עושים כשעונים. אם בא
+      לכם לעבור את זה עם מישהו, השיחה הראשונה חינם.
+    </p>
+
+    <div class="next">
+      <span class="label">הכלי הקודם</span>
+      <a href="/he/ai-tools/cv-upgrade" class="ctx-link">שדרוג קורות חיים: המסמך שמחכה במגירה <span class="arrow">&larr;</span></a>
+    </div>
+  </div>
+</article>
+
+<CTA lang={lang} />
+<Footer lang={lang} />
+
+<style>
+  .narrow { max-width: 46rem; }
+  .back { display: inline-block; margin-bottom: 2rem; color: var(--ink-3); }
+  .back:hover { color: var(--accent); }
+  .k { color: var(--accent); }
+  .title { margin: 0.75rem 0 1rem; }
+  .lead { color: var(--ink-2); font-size: 1.15rem; line-height: 1.7; max-width: 60ch; }
+
+  h2 { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.5rem; color: var(--ink); margin: 2.5rem 0 0.9rem; }
+  p { color: var(--ink-2); line-height: 1.75; }
+  p strong { color: var(--ink); font-weight: 600; }
+
+  .ctx, .next {
+    border: 1px solid var(--line);
+    border-inline-start: 3px solid var(--accent);
+    padding: 1.25rem 1.4rem;
+    margin: 2rem 0;
+    background: var(--paper-2);
+  }
+  .ctx p { margin: 0.6rem 0 0.9rem; }
+  .ctx-link { display: inline-block; color: var(--accent); font-weight: 600; }
+  .ctx-link:hover { text-decoration: underline; }
+  .next { margin-top: 3rem; }
+
+  .steps { list-style: none; padding: 0; margin: 1.25rem 0; display: grid; gap: 0.7rem; }
+  .steps li { display: flex; gap: 0.8rem; align-items: baseline; color: var(--ink-2); line-height: 1.6; }
+  .steps .n { flex: none; font-family: var(--display); font-weight: var(--display-weight); color: var(--accent); min-width: 1.2rem; }
+
+  .big { margin-top: 0.5rem; display: inline-block; }
+</style>

@@ -10,6 +10,12 @@ export interface Props {
   ogImage?: string;
   ogType?: "website" | "article";
   noindex?: boolean;
+  /**
+   * Locale alternates for this page, as { en, nl, he } root-relative paths.
+   * Only pass this when the page genuinely exists in those locales, otherwise
+   * hreflang would advertise URLs that 404. Emits hreflang + x-default (English).
+   */
+  alternates?: Partial<Record<Lang, string>>;
 }
 const {
   title = "TechExpats — Career Moves, led by Alon Gildoni",
@@ -19,9 +25,22 @@ const {
   ogImage,
   ogType = "website",
   noindex = false,
+  alternates,
 } = Astro.props;
 
 const ogImageAbs = ogImage ? new URL(ogImage, Astro.site).href : undefined;
+
+// Canonical: tells search engines which URL is the real one, so the same page
+// reached with a trailing slash, query string or www variant is not treated as
+// duplicate content.
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+// hreflang: tells search engines these are the same page in different languages,
+// so an English searcher is shown the English home page rather than the Hebrew one.
+// x-default points at English, which is the site default (astro.config: defaultLocale 'en').
+const altEntries = alternates
+  ? Object.entries(alternates).map(([l, p]) => [l, new URL(p as string, Astro.site).href] as const)
+  : [];
 
 const dir = isRTL(lang) ? "rtl" : "ltr";
 ---
@@ -35,6 +54,11 @@ const dir = isRTL(lang) ? "rtl" : "ltr";
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {!noindex && <link rel="canonical" href={canonical} />}
+    {!noindex && altEntries.map(([l, href]) => <link rel="alternate" hreflang={l} href={href} />)}
+    {!noindex && altEntries.length > 0 && (
+      <link rel="alternate" hreflang="x-default" href={alternates?.en ? new URL(alternates.en, Astro.site).href : canonical} />
+    )}
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

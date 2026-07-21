@@ -66,6 +66,114 @@ const COPY = {
 };
 
 const c = COPY[lang as "en" | "he"] ?? COPY.en;
+
+// ---------------------------------------------------------------------------
+// LIBRARY. Harvested from jobs.israelis.nl/library before its sunset (2026-07-21).
+// The value here is the commentary and the curation, not the links themselves.
+// Every URL below was HTTP-checked on 2026-07-21.
+// Removed as dead: Stack Overflow Jobs (service shut down), Honeypot.io (offline),
+// IT Amsterdam (domain no longer resolves). Otta now redirects into Welcome to the
+// Jungle, so the two are merged. Repaired: KVK, Netherlands Worldwide, Rotterdam.
+// ---------------------------------------------------------------------------
+const LIB_HEAD: Record<string, { eyebrow: string; h2: string; sub: string }> = {
+  en: { eyebrow: "The library", h2: "Everything worth bookmarking, in one place.", sub: "I went through hundreds of sources and kept only what actually helps. Checked and repaired July 2026." },
+  he: { eyebrow: "הספרייה", h2: "כל מה ששווה לשמור, במקום אחד.", sub: "עברתי על מאות מקורות והשארתי רק מה שבאמת עוזר. נבדק ותוקן ביולי 2026." },
+  nl: { eyebrow: "De bibliotheek", h2: "Alles wat het bewaren waard is, op één plek.", sub: "Ik heb honderden bronnen doorgenomen en alleen bewaard wat echt helpt. Gecontroleerd en hersteld in juli 2026." },
+};
+const lh = LIB_HEAD[lang] ?? LIB_HEAD.en;
+
+const LIBRARY = [
+  {
+    title: { en: "Job boards", he: "לוחות דרושים", nl: "Vacaturesites" },
+    note: {
+      en: "Most boards drown you in roles that already closed. These are the ones known for being current, or for a specific niche. Remember: a job board is a bonus, not a strategy.",
+      he: "רוב הלוחות מציפים אתכם במשרות שכבר נסגרו. אלה שאני ממליץ עליהם ידועים בעדכניות שלהם או בנישה ספציפית. תזכרו: לוח דרושים זה בונוס, לא אסטרטגיה.",
+      nl: "De meeste vacaturesites overspoelen je met functies die al gesloten zijn. Dit zijn de sites die bekendstaan om actuele vacatures of om een specifieke niche. Onthoud: een vacaturesite is een bonus, geen strategie.",
+    },
+    items: [
+      { t: "LinkedIn Jobs", u: "https://www.linkedin.com/jobs" },
+      { t: "Indeed NL", u: "https://www.indeed.nl" },
+      { t: "Nationale Vacaturebank", u: "https://www.nationalevacaturebank.nl" },
+      { t: "Glassdoor NL", u: "https://www.glassdoor.com/Job/jobs.htm?countryId=178" },
+      { t: "Jooble NL", u: "https://nl.jooble.org" },
+      { t: "Welcome to the Jungle NL", u: "https://www.welcometothejungle.com/en/nl/jobs" },
+      { t: "Wellfound", u: "https://wellfound.com" },
+      { t: "Startup.jobs", u: "https://startup.jobs" },
+      { t: "TechLeap.nl", u: "https://techleap.nl" },
+      { t: "RemoteOK", u: "https://remoteok.com" },
+      { t: "We Work Remotely", u: "https://weworkremotely.com" },
+    ],
+  },
+  {
+    title: { en: "Visas, tax and legal", he: "ויזות, מסים וחוק", nl: "Visa, belasting en recht" },
+    note: {
+      en: "Mostly English, some Dutch with translation available. Always start from the official source before trusting a forum post. And on anything that touches tax or immigration, talk to a professional.",
+      he: "רובם באנגלית, חלקם בהולנדית עם תרגום זמין. תמיד עדיף להתחיל מהמקור הרשמי לפני שמסתמכים על פוסטים בפייסבוק. ובכל מה שנוגע למס והגירה, דברו עם איש מקצוע.",
+      nl: "Grotendeels in het Engels, deels in het Nederlands. Begin altijd bij de officiële bron voordat je op een forumbericht vertrouwt. En bij alles wat met belasting of immigratie te maken heeft: raadpleeg een professional.",
+    },
+    items: [
+      { t: "IND", u: "https://ind.nl/en" },
+      { t: "Netherlands Worldwide", u: "https://www.netherlandsworldwide.nl/" },
+      { t: "Dutch citizenship", u: "https://www.government.nl/themes/migration-and-travel/dutch-citizenship" },
+      { t: "Business.gov.nl", u: "https://business.gov.nl" },
+      { t: "Permits and visas", u: "https://business.gov.nl/coming-to-the-netherlands/permits-and-visa/" },
+      { t: "Belastingdienst", u: "https://www.belastingdienst.nl/wps/wcm/connect/en/home/home" },
+      { t: "KVK", u: "https://www.kvk.nl/en/" },
+    ],
+  },
+  {
+    title: { en: "Communities and people", he: "קהילות וקשרים", nl: "Community en mensen" },
+    note: {
+      en: "Most jobs here are filled through people, not postings. These are the first step to meeting the right ones.",
+      he: "רוב העבודות בהולנד נסגרות דרך אנשים, לא דרך פוסטינגים. הקהילות האלה הן הצעד הראשון להתחבר לאנשים הנכונים.",
+      nl: "De meeste banen hier worden ingevuld via mensen, niet via vacatures. Deze plekken zijn de eerste stap om de juiste mensen te leren kennen.",
+    },
+    items: [
+      { t: "israelis.nl", u: "https://israelis.nl" },
+      { t: "ישראלים בהולנד · Facebook", u: "https://www.facebook.com/groups/1550032319015043/" },
+      { t: "Meetup Amsterdam", u: "https://www.meetup.com/cities/nl/amsterdam/" },
+      { t: "IamExpat", u: "https://www.iamexpat.nl" },
+      { t: "Expatica NL", u: "https://www.expatica.com/nl" },
+      { t: "I amsterdam", u: "https://www.iamsterdam.com" },
+    ],
+  },
+  {
+    title: { en: "Practical tools", he: "כלי עבודה", nl: "Praktische tools" },
+    note: {
+      en: "Tools I use myself, and update when something better shows up. Check what a role actually pays before you name a number.",
+      he: "כלים שאני משתמש בהם בעצמי, ומעדכן את הרשימה כשמשהו טוב יותר מגיע. בדקו כמה תפקיד באמת משלם לפני שאתם נוקבים במספר.",
+      nl: "Tools die ik zelf gebruik, en ik werk de lijst bij zodra er iets beters is. Kijk wat een functie echt betaalt voordat je een bedrag noemt.",
+    },
+    items: [
+      { t: "Levels.fyi", u: "https://www.levels.fyi" },
+      { t: "Glassdoor salaries", u: "https://www.glassdoor.com" },
+      { t: "PayScale", u: "https://www.payscale.com" },
+      { t: "Jobscan · ATS check", u: "https://www.jobscan.co/" },
+      { t: "Resume.io", u: "https://resume.io" },
+      { t: "LinkedIn Learning", u: "https://www.linkedin.com/learning" },
+      { t: "Coursera", u: "https://www.coursera.org" },
+      { t: "edX", u: "https://www.edx.org" },
+    ],
+  },
+  {
+    title: { en: "News and cities", he: "חדשות וערים", nl: "Nieuws en steden" },
+    note: {
+      en: "What is going on around you, in English. Worth reading before an interview: knowing the local story is a signal in itself.",
+      he: "מה קורה סביבכם, באנגלית. שווה לקרוא לפני ראיון: להכיר את הסיפור המקומי זה סיגנל בפני עצמו.",
+      nl: "Wat er om je heen gebeurt, in het Engels. De moeite waard voor een gesprek: het lokale verhaal kennen is op zichzelf al een signaal.",
+    },
+    items: [
+      { t: "NL Times", u: "https://nltimes.nl" },
+      { t: "DutchNews.nl", u: "https://www.dutchnews.nl/" },
+      { t: "DutchReview", u: "https://dutchreview.com" },
+      { t: "Amsterdam", u: "https://www.amsterdam.nl/en" },
+      { t: "Rotterdam", u: "https://www.rotterdam.nl/en/" },
+      { t: "Den Haag", u: "https://denhaag.com/en" },
+      { t: "Israeli Embassy NL", u: "https://embassies.gov.il/netherlands/en" },
+    ],
+  },
+];
+const pickL = (m: Record<string, string>) => m[lang] ?? m.en;
 ---
 
 <Nav lang={lang} />
@@ -118,6 +226,27 @@ const c = COPY[lang as "en" | "he"] ?? COPY.en;
   </div>
 </section>
 
+<!-- LIBRARY (harvested from jobs.israelis.nl, 2026-07-21) -->
+<section class="section alt library">
+  <div class="container">
+    <span class="eyebrow">{lh.eyebrow}</span>
+    <h2 class="display-md lib-h2">{lh.h2}</h2>
+    <p class="lib-sub">{lh.sub}</p>
+
+    {LIBRARY.map((g) => (
+      <div class="group">
+        <h3 class="ghead">{pickL(g.title)}</h3>
+        <p class="gnote">{pickL(g.note)}</p>
+        <ul class="chips">
+          {g.items.map((i) => (
+            <li><a href={i.u} target="_blank" rel="noopener">{i.t}</a></li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
+
 <CTA lang={lang} heading={c.closeHeading} body={c.closeBody} />
 <Footer lang={lang} />
 
@@ -140,6 +269,23 @@ const c = COPY[lang as "en" | "he"] ?? COPY.en;
   .ind p { color: var(--ink-2); max-width: 60ch; }
   .ind .btn { white-space: nowrap; }
   @media (min-width: 820px) { .ind { grid-template-columns: 1fr auto; gap: 2.5rem; } }
+
+  .library .lib-h2 { margin-top: 0.5rem; }
+  .library .lib-sub { color: var(--ink-2); max-width: 60ch; margin-top: 0.8rem; }
+  .group { margin-top: 2.5rem; padding-top: 1.75rem; border-top: 1px solid var(--line); }
+  .ghead { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.25rem; color: var(--ink); }
+  .gnote { color: var(--ink-2); max-width: 62ch; margin: 0.6rem 0 1.1rem; line-height: 1.7; }
+  .chips { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chips a {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink-2);
+    font-size: 0.9rem;
+    transition: border-color .2s ease, color .2s ease;
+  }
+  .chips a:hover { border-color: var(--accent); color: var(--accent); }
 
   .links { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
   .lcard { background: var(--paper); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.4rem; transition: background .2s ease; }

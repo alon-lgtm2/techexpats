@@ -1,8 +1,9 @@
 ---
 import Base from "../layouts/Base.astro";
 import Home from "../components/Home.astro";
+const alternates = { en: "/", nl: "/nl/", he: "/he/" };
 ---
 
-<Base lang="en">
+<Base lang="en" alternates={alternates}>
   <Home lang="en" />
 </Base>

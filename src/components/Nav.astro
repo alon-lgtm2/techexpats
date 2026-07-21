@@ -18,6 +18,9 @@ const pick = (m: Record<string, string>) => m[lang] ?? m.en;
 const links = [
   { label: t.nav.howItWorks, href: "/how-it-works" },
   { label: t.nav.careerAdvice, href: "/career-advice" },
+  // Hebrew-only: the AI tools are written in Hebrew and coach in Hebrew,
+  // so they are surfaced on the Hebrew track only (harvested from jobs.israelis.nl, 2026-07-21).
+  ...(lang === "he" ? [{ label: "כלי AI", href: "/ai-tools" }] : []),
   { label: pick(extra.resources), href: "/resources" },
   { label: t.nav.about, href: "/about" },
   { label: t.nav.forCompanies, href: "/for-companies" },

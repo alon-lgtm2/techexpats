@@ -1,0 +1,102 @@
+---
+import Nav from "../Nav.astro";
+import Footer from "../Footer.astro";
+import CTA from "../CTA.astro";
+import { type Lang } from "../../i18n";
+
+interface Props { lang?: Lang }
+const { lang = "he" } = Astro.props;
+
+// Hebrew-only page: without this the language switcher would offer /ai-tools and
+// /nl/ai-tools, which do not exist. Send en/nl to their nearest equivalent instead.
+const localePaths = { en: "/resources", nl: "/nl/resources", he: "/he/ai-tools" };
+
+const TOOLS = [
+  {
+    n: "01",
+    href: "/he/ai-tools/cv-upgrade",
+    title: "שדרוג קורות חיים",
+    blurb:
+      "פרומפט שהופך את ה-AI למגייס בכיר שמראיין אתכם. עשרה שלבים, שאלה אחת בכל פעם, ובסוף מסמך מלוטש עם ציון ורשימה של מה השתפר.",
+    meta: "פרומפט להעתקה · ChatGPT, Claude או Gemini",
+    article: { href: "/insights/great-cv-dont-send-it-he", label: "המאמר: תבנו את הקו״ח הכי טובים. ואז, אל תשלחו אותם" },
+  },
+  {
+    n: "02",
+    href: "/he/ai-tools/target-companies",
+    title: "שורטליסט חברות",
+    blurb:
+      "Deep Research Gem שבונה רשימת חברות מטרה בהולנד לפי הניסיון והשאיפות שלכם. שיטת המחקר שאני עובד לפיה, מזוקקת לכלי.",
+    meta: "Gem מוכן · Gemini",
+    article: { href: "/insights/stop-looking-for-a-job-he", label: "המאמר: הדרך הכי טובה למצוא עבודה היא להפסיק לחפש" },
+  },
+];
+---
+
+<Nav lang={lang} localePaths={localePaths} />
+
+<section class="hero section">
+  <div class="container">
+    <span class="eyebrow">כלי AI</span>
+    <h1 class="display-xl">שני כלים. בחינם. בלי הרשמה.</h1>
+    <p class="lead">
+      אלה שני הכלים שאני נותן ללקוחות שלי בתחילת התהליך. הראשון בונה איתכם קורות
+      חיים. השני ממפה את החברות שכדאי לכם לפנות אליהן. שניהם עובדים עם כל מודל AI
+      שיש לכם, ואין צורך לתת לי שום דבר בתמורה.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid">
+      {TOOLS.map((t) => (
+        <div class="card">
+          <span class="label k">{t.n}</span>
+          <h2 class="display-md"><a href={t.href}>{t.title}</a></h2>
+          <p class="blurb">{t.blurb}</p>
+          <span class="label meta">{t.meta}</span>
+          <a href={t.href} class="btn btn-primary go">לכלי <span class="arrow">&larr;</span></a>
+          <a href={t.article.href} class="art">{t.article.label} <span class="arrow">&larr;</span></a>
+        </div>
+      ))}
+    </div>
+
+    <p class="foot">
+      כל כלי יושב בעמוד משלו, עם ההסבר והמאמר שהוא נשען עליו. אפשר לשלוח קישור
+      ישיר לכלי אחד בלי לשלוח את כל העמוד.
+    </p>
+  </div>
+</section>
+
+<CTA lang={lang} />
+<Footer lang={lang} />
+
+<style>
+  .hero { padding-bottom: 1rem; }
+  .hero .lead { max-width: 60ch; margin-top: 1.5rem; }
+  .k { color: var(--accent); }
+
+  .grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  @media (min-width: 820px) { .grid { grid-template-columns: 1fr 1fr; } }
+
+  .card { background: var(--paper); padding: 2rem; display: flex; flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .card h2 { margin: 0.25rem 0 0; }
+  .card h2 a { color: var(--ink); }
+  .card h2 a:hover { color: var(--accent); }
+  .blurb { color: var(--ink-2); line-height: 1.7; }
+  .meta { color: var(--ink-3); }
+  .go { margin-top: 0.5rem; }
+  .art {
+    margin-top: 0.5rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--line);
+    width: 100%;
+    color: var(--ink-3);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .art:hover { color: var(--accent); }
+
+  .foot { margin-top: 2rem; color: var(--ink-3); max-width: 60ch; line-height: 1.7; }
+</style>

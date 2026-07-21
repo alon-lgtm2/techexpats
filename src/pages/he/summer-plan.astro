@@ -7,6 +7,11 @@ import { whatsappUrl } from "../../i18n";
 const wa = whatsappUrl("he");
 // Non-indexed, unlisted deliverable. Reached only via the "Plan" DM.
 // Structure, not secrets: the WHAT lives here; the HOW stays in the room.
+
+// Hebrew-only page. Without this the language switcher offered /summer-plan and
+// /nl/summer-plan, which do not exist, so a lead clicking EN or NL hit a 404.
+// Fixed 2026-07-21. Send en/nl to their nearest equivalent instead.
+const localePaths = { en: "/career-advice", nl: "/nl/career-advice", he: "/he/summer-plan" };
 ---
 
 <Base
@@ -15,7 +20,7 @@ const wa = whatsappUrl("he");
   description="המפה המעשית: שני שלבים, חמישה צעדים, לשישה השבועות שקובעים את הרבעון הרביעי שלכם."
   noindex={true}
 >
-  <Nav lang="he" />
+  <Nav lang="he" localePaths={localePaths} />
 
   <article class="section">
     <div class="container narrow">
