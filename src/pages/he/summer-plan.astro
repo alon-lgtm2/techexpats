@@ -18,6 +18,8 @@ const localePaths = { en: "/career-advice", nl: "/nl/career-advice", he: "/he/su
   lang="he"
   title="תוכנית שישה שבועות - TechExpats"
   description="המפה המעשית: שני שלבים, חמישה צעדים, לשישה השבועות שקובעים את הרבעון הרביעי שלכם."
+  ogImage="/insights/summer-hunt.jpg"
+  ogType="article"
   noindex={true}
 >
   <Nav lang="he" localePaths={localePaths} />
@@ -129,6 +131,18 @@ const localePaths = { en: "/career-advice", nl: "/nl/career-advice", he: "/he/su
   </article>
 
   <Footer lang="he" />
+
+  <script>
+    const KEY = "te-summer-plan-checks";
+    const boxes = Array.from(document.querySelectorAll(".checks input[type=checkbox]"));
+    try {
+      const saved = JSON.parse(localStorage.getItem(KEY) || "[]");
+      boxes.forEach((b, i) => { if (saved[i]) b.checked = true; });
+    } catch (e) {}
+    boxes.forEach((b) => b.addEventListener("change", () => {
+      localStorage.setItem(KEY, JSON.stringify(boxes.map((x) => x.checked)));
+    }));
+  </script>
 </Base>
 
 <style>
