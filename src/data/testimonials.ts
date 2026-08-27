@@ -29,6 +29,17 @@ export interface Testimonial {
 
 export const testimonials: Testimonial[] = [
   {
+    name: "Yair Sepunaru",
+    role: "Software Engineer, ex-Adyen",
+    source: "coaching",
+    avatar: "/testimonials/yair-sepunaru.jpg",
+    quote: {
+      he: "אלון עזר לי לאחרונה בהכנה לקראת תהליכי ראיונות. מענטש ומקצוען אמיתי. מעבר להיותו נכס צאן ברזל לקהילה הישראלית בהולנד על שלל פעילותיו ותרומתו. בין אם אתם מחפשים את התפקיד הראשון שלכם בהולנד, מנסים לשדרג או צריכים להתייעץ על נושאים מורכבים, אלון הוא הכתובת.",
+      en: "Alon recently helped me prepare for a set of interview processes. A mensch and a real professional. On top of which he is an institution in the Israeli community in the Netherlands, for everything he does there and everything he has given it. Whether you are looking for your first role in the Netherlands, trying to move up, or need to think through something complicated, Alon is the person to go to.",
+      nl: "Alon heeft me onlangs geholpen bij de voorbereiding op een reeks sollicitatiegesprekken. Een oprecht goed mens en een echte professional. Daarbij is hij een begrip in de Israëlische gemeenschap in Nederland, om alles wat hij daar doet en heeft bijgedragen. Of je nu je eerste baan in Nederland zoekt, een stap omhoog wilt maken, of iets ingewikkelds wilt doordenken: bij Alon moet je zijn.",
+    },
+  },
+  {
     name: "Itay Sviri",
     role: "Product Manager, Booking.com",
     source: "coaching",
