@@ -59,6 +59,7 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
       <div class="hero-ctas rise" style="animation-delay:.4s">
         <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="btn btn-primary">{t.cta.talk} <span class="arrow">&rarr;</span></a>
         <a href={localizePath("/career-advice", lang)} class="btn btn-ghost">{t.hero.ctaCandidate}</a>
+        <a href={localizePath("/for-companies", lang)} class="hiring-link">{t.hero.ctaEmployer} <span class="arrow">&rarr;</span></a>
       </div>
     </div>
     <div class="hero-portrait rise" style="animation-delay:.3s">
@@ -141,6 +142,35 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
           <span class="pillar-accent">{p.accent}</span>
         </article>
       ))}
+    </div>
+  </div>
+</section>
+
+<!-- ===== EMPLOYERS ===== -->
+<section class="section employers">
+  <div class="container">
+    <div class="emp-head">
+      <div>
+        <span class="eyebrow">{t.employers.eyebrow}</span>
+        <h2 class="display-lg sec-h">{t.employers.heading}</h2>
+      </div>
+      <p class="emp-sub">{t.employers.sub}</p>
+    </div>
+    <div class="offers">
+      <article class="offer">
+        <span class="offer-n">{t.employers.o1Label}</span>
+        <h3 class="display-md">{t.employers.o1Title}</h3>
+        <p>{t.employers.o1Body}</p>
+      </article>
+      <article class="offer">
+        <span class="offer-n">{t.employers.o2Label}</span>
+        <h3 class="display-md">{t.employers.o2Title}</h3>
+        <p>{t.employers.o2Body}</p>
+      </article>
+    </div>
+    <div class="emp-ctas">
+      <a href={localizePath("/for-companies", lang)} class="btn btn-primary">{t.employers.cta} <span class="arrow">&rarr;</span></a>
+      <a href={localizePath("/hiring-insights", lang)} class="btn btn-ghost">{t.employers.read}</a>
     </div>
   </div>
 </section>
@@ -280,6 +310,33 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
   .pillar p { font-size: 0.96rem; }
   .pillar-accent { display: block; margin-top: 1rem; font-weight: 600; color: var(--ink); font-size: 0.92rem; }
   @media (min-width: 820px) { .pillars { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; } }
+
+  /* employers */
+  .employers { background: var(--ink); color: var(--paper); }
+  .employers .eyebrow { color: color-mix(in srgb, var(--paper) 65%, transparent); }
+  .employers .sec-h { color: var(--paper); }
+  .emp-head { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  .emp-sub { color: color-mix(in srgb, var(--paper) 78%, transparent); max-width: 52ch; line-height: 1.65; }
+  .offers { display: grid; grid-template-columns: 1fr; gap: 2.5rem; margin: 3rem 0 2.5rem; }
+  .offer { border-top: 2px solid color-mix(in srgb, var(--paper) 35%, transparent); padding-top: 1.25rem; }
+  .offer-n { font-family: var(--mono); font-size: 2rem; color: var(--accent); display: block; margin-bottom: 0.75rem; }
+  .offer h3 { color: var(--paper); margin-bottom: 0.75rem; }
+  .offer p { color: color-mix(in srgb, var(--paper) 75%, transparent); font-size: 0.96rem; }
+  .emp-ctas { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+  .employers .btn-ghost { border-color: color-mix(in srgb, var(--paper) 35%, transparent); color: var(--paper); }
+  .employers .btn-ghost:hover { border-color: var(--paper); }
+  @media (min-width: 820px) {
+    .emp-head { grid-template-columns: 1fr 1fr; gap: 3rem; align-items: end; }
+    .offers { grid-template-columns: 1fr 1fr; gap: 3.5rem; }
+  }
+
+  /* the hero's employer route, deliberately quieter than the two buttons */
+  .hiring-link {
+    display: inline-flex; align-items: center; gap: 0.35rem; align-self: center;
+    font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+  .hiring-link:hover { color: var(--accent); }
 
   /* services */
   .services { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }

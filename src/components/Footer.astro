@@ -34,6 +34,9 @@ const year = new Date().getFullYear();
         </div>
       </div>
     </div>
+    <div class="foot-legal">
+      <span class="mono">{t.footer.legal}</span>
+    </div>
     <div class="foot-bottom">
       <span>&copy; {year} TechExpats. {t.footer.copyright}</span>
       <span class="mono">{t.footer.location}</span>
@@ -46,6 +49,8 @@ const year = new Date().getFullYear();
   .footer .display-md { color: var(--footer-fg); }
   .foot-top { display: grid; grid-template-columns: 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
   .foot-brand p { margin: 1rem 0 1.5rem; max-width: 34ch; font-size: 0.95rem; }
+  .foot-legal { padding-top: 1.5rem; }
+  .foot-legal .mono { font-size: 0.7rem; letter-spacing: 0.1em; color: color-mix(in srgb, var(--footer-fg) 60%, transparent); }
   .footer .btn-ghost { border-color: rgba(255, 255, 255, 0.25); color: var(--footer-fg); }
   .footer .btn-ghost:hover { border-color: var(--footer-fg); color: var(--footer-fg); }
   .foot-cols { display: flex; gap: 3.5rem; flex-wrap: wrap; }

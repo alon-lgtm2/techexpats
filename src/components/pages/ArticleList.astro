@@ -17,9 +17,24 @@ const head = {
 };
 
 const all = await getCollection("insights");
-const articles = all
-  .filter((a) => a.data.lang === lang && (a.data.audience === audience || a.data.audience === "both"))
-  .sort((x, y) => +new Date(y.data.date) - +new Date(x.data.date));
+const inAudience = (a: (typeof all)[number]) =>
+  a.data.audience === audience || a.data.audience === "both";
+const translated = all.filter((a) => a.data.lang === lang && inAudience(a));
+
+// Fall back to the English article where a locale has no translation of it.
+// Without this the Hebrew and Dutch company tracks read "new articles are on
+// the way" while three English ones sit unlinked, which is worse than showing
+// them in English with the language marked.
+const baseOf = (id: string) => id.replace(/-(he|nl)$/, "");
+const haveBase = new Set(translated.map((a) => baseOf(a.id)));
+const fallback =
+  lang === "en"
+    ? []
+    : all.filter((a) => a.data.lang === "en" && inAudience(a) && !haveBase.has(baseOf(a.id)));
+
+const articles = [...translated, ...fallback].sort(
+  (x, y) => +new Date(y.data.date) - +new Date(x.data.date),
+);
 ---
 
 <Nav lang={lang} />
@@ -35,11 +50,17 @@ const articles = all
     ) : (
       <div class="articles">
         {articles.map((a, i) => (
-          <a href={`/insights/${a.id}`} class="article">
+          <a
+            href={`/insights/${a.id}`}
+            class="article"
+            lang={a.data.lang}
+            dir={a.data.lang === "he" ? "rtl" : "ltr"}
+          >
             {a.data.image && <span class="thumb"><img src={a.data.image} alt="" loading="lazy" /></span>}
             <span class="meta">
               <span class="label k">{a.data.category}</span>
               {a.data.readTime && <span class="label">{a.data.readTime}</span>}
+              {a.data.lang !== lang && <span class="label in-en">EN</span>}
             </span>
             <h2>{a.data.title}</h2>
             <p>{a.data.excerpt}</p>
@@ -57,6 +78,7 @@ const articles = all
 <style>
   .head { margin: 1.1rem 0 1rem; }
   .lead { max-width: 54ch; margin-bottom: 3rem; }
+  .in-en { border: 1px solid var(--line); padding: 0.05rem 0.35rem; color: var(--ink-3); }
   .empty { color: var(--ink-3); font-family: var(--mono); font-size: 0.9rem; padding: 2rem 0; }
   .articles { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
   .article {

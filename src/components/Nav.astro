@@ -23,7 +23,10 @@ const links = [
   ...(lang === "he" ? [{ label: "כלי AI", href: "/ai-tools" }] : []),
   { label: pick(extra.resources), href: "/resources" },
   { label: t.nav.about, href: "/about" },
-  { label: t.nav.forCompanies, href: "/for-companies" },
+  // The employer track. Career Advice and Hiring Insights sit next to each
+  // other on purpose: the two audiences should be visible in the nav itself.
+  { label: t.nav.hiringInsights, href: "/hiring-insights" },
+  { label: t.nav.forCompanies, href: "/for-companies", employer: true },
 ];
 ---
 
@@ -35,7 +38,7 @@ const links = [
     </a>
 
     <nav class="links" aria-label="Primary">
-      {links.map((l) => <a href={localizePath(l.href, lang)}>{l.label}</a>)}
+      {links.map((l) => <a href={localizePath(l.href, lang)} class:list={{ employer: l.employer }}>{l.label}</a>)}
     </nav>
 
     <div class="nav-right">
@@ -79,8 +82,11 @@ const links = [
     font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.18em;
     text-transform: uppercase; color: var(--ink-3); margin-top: 0.3rem; font-weight: 400;
   }
-  .links { display: none; gap: 1.6rem; margin-inline-start: auto; font-size: 0.88rem; color: var(--ink-2); }
+  .links { display: none; gap: 1.25rem; margin-inline-start: auto; font-size: 0.88rem; color: var(--ink-2); }
   .links a:hover { color: var(--accent-ink); }
+  /* the employer route, marked so a business buyer can find it at a glance */
+  .links a.employer { color: var(--ink); font-weight: 600; }
+  .links a.employer::before { content: "/ "; color: var(--accent); font-family: var(--mono); }
 
   .nav-right { display: flex; align-items: center; gap: 0.9rem; margin-inline-start: auto; }
   .langs { display: flex; gap: 0.15rem; }
@@ -103,12 +109,12 @@ const links = [
   .mobile a { padding: 0.7rem 0; font-size: 1rem; color: var(--ink-2); border-bottom: 1px solid var(--line-soft); }
   .mobile .mobile-cta { color: var(--accent); font-weight: 600; border-bottom: 0; }
 
-  @media (min-width: 920px) {
+  @media (min-width: 1020px) {
     .links { display: flex; }
     .nav-right { margin-inline-start: 0; }
     .burger { display: none; }
   }
-  @media (max-width: 919px) {
+  @media (max-width: 1019px) {
     .nav-cta { display: none; }
   }
 </style>
