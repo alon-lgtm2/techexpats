@@ -286,6 +286,12 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
   .split-bar { display: flex; height: 3rem; border: 1px solid var(--line); overflow: hidden; }
   .seg { display: flex; align-items: center; justify-content: center; }
   .seg i { font-style: normal; font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.05em; text-transform: uppercase; text-align: center; padding: 0 0.3rem; line-height: 1.2; }
+  /* The bar is only 3rem tall, so the Hebrew label cannot grow without limit,
+     but 0.6rem mono with tracking was well past unreadable. */
+  :global([dir="rtl"]) .seg i {
+    font-family: var(--body); font-size: 0.82rem;
+    letter-spacing: 0; text-transform: none; padding: 0 0.5rem;
+  }
   .seg-tech { background: var(--ink); color: var(--paper); }
   .seg-nontech { background: var(--accent); color: #fff; }
   .split-note { color: var(--ink-2); font-size: 0.9rem; margin-top: 1rem; }

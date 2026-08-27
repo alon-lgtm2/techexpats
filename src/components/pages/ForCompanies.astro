@@ -322,7 +322,11 @@ const trust = [
   :global([dir="rtl"]) .offer-tag,
   :global([dir="rtl"]) .reason-n,
   :global([dir="rtl"]) .me-n,
+  :global([dir="rtl"]) .trust-n,
   :global([dir="rtl"]) .label { letter-spacing: 0.02em; text-transform: none; }
+  /* the tag carries Hebrew words, not just a number, so it needs body size */
+  :global([dir="rtl"]) .offer-tag { font-family: var(--body); font-size: 0.9rem; }
+  :global([dir="rtl"]) .trust-l { font-size: 1rem; }
   /* the signature is Latin, so it is laid out LTR, but it still has to hang
      off the right margin like everything around it. */
   :global([dir="rtl"]) .signature { text-align: right; }

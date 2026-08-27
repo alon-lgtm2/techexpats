@@ -120,6 +120,21 @@
 [dir="rtl"] .display-md { letter-spacing: -0.01em; }
 [dir="rtl"] .eyebrow::before { background: var(--accent); }
 
+/* Micro-labels are set the Latin way: small, mono, uppercased and widely
+   letter-spaced. Hebrew has no upper case, so text-transform does nothing,
+   and tracking only pulls the word into loose unreadable pieces at a size
+   that was already at the limit. On the RTL side the small type steps up,
+   the tracking comes almost all the way off, and the label sets in the body
+   face rather than a mono face with no real Hebrew design. */
+[dir="rtl"] .eyebrow {
+  font-family: var(--body); font-size: 0.86rem;
+  letter-spacing: 0.02em; text-transform: none;
+}
+[dir="rtl"] .label {
+  font-family: var(--body); font-size: 0.84rem;
+  letter-spacing: 0.01em; text-transform: none;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
