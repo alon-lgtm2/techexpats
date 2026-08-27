@@ -2,6 +2,7 @@
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
 import CTA from "../CTA.astro";
+import Testimonials from "../Testimonials.astro";
 import { getT, localizePath, type Lang } from "../../i18n";
 interface Props { lang?: Lang }
 const { lang = "en" } = Astro.props;
@@ -205,6 +206,10 @@ const trust = [
     <p class="closing">{f.closing}</p>
   </div>
 </section>
+
+<!-- Employer-side reviews only. The component hides itself while none exist,
+     so this renders nothing until there is a real one to show. -->
+<Testimonials lang={lang} source="hiring" limit={3} heading={f.saidHeading} sub={f.saidSub} />
 
 <CTA lang={lang} heading={f.ctaHeading} body={f.ctaBody} />
 <Footer lang={lang} />

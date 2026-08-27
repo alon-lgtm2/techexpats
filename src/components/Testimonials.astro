@@ -2,11 +2,20 @@
 import { getT, type Lang } from "../i18n";
 import { testimonials } from "../data/testimonials";
 
-interface Props { lang?: Lang; limit?: number }
-const { lang = "en", limit = 6 } = Astro.props;
+interface Props {
+  lang?: Lang;
+  limit?: number;
+  /** Show only reviews from one side of the table. Omit for all of them. */
+  source?: "coaching" | "hiring";
+  heading?: string;
+  sub?: string;
+}
+const { lang = "en", limit = 6, source, heading, sub } = Astro.props;
 const t = getT(lang);
 
-const items = testimonials.slice(0, limit).map((r) => ({
+const pool = source ? testimonials.filter((r) => r.source === source) : testimonials;
+
+const items = pool.slice(0, limit).map((r) => ({
   quote: (r.quote as any)[lang] || r.quote.en || Object.values(r.quote)[0],
   name: r.name,
   role: r.role,
@@ -16,11 +25,12 @@ const items = testimonials.slice(0, limit).map((r) => ({
 }));
 ---
 
+{items.length > 0 && (
 <section class="section testimonials">
   <div class="container">
     <span class="eyebrow">{t.testimonials.eyebrow}</span>
-    <h2 class="display-lg sec-h">{t.testimonials.heading}</h2>
-    <p class="sec-sub">{t.testimonials.sub}</p>
+    <h2 class="display-lg sec-h">{heading ?? t.testimonials.heading}</h2>
+    <p class="sec-sub">{sub ?? t.testimonials.sub}</p>
     <div class="grid">
       {items.map((r) => (
         <figure class="card">
@@ -40,6 +50,7 @@ const items = testimonials.slice(0, limit).map((r) => ({
     </div>
   </div>
 </section>
+)}
 
 <style>
   .sec-h { margin: 1.1rem 0 0.8rem; }
