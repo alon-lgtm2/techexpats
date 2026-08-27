@@ -29,6 +29,17 @@ export interface Testimonial {
 
 export const testimonials: Testimonial[] = [
   {
+    name: "Jaron Seijffers",
+    role: "Product Leader, Vetintelligence",
+    source: "coaching",
+    avatar: "/testimonials/jaron-seijffers.jpg",
+    quote: {
+      en: "I came to Alon when my job search had been going on longer than I wanted it to. Today I'm in a role I'm genuinely happy with. Those two facts are connected, and I'd rather lead with them than with compliments. There's a difference between good advice and a better way to think. Alon gave me the second one. He has a clear-eyed read on the Dutch tech market, and he can sit with a half-formed idea for an hour and hand it back standing up on its own. The honest part: I came in wanting a formula. Alon didn't have one for me. He told me to stop chasing roles because they paid well and more or less fit, and to start from what I actually like doing, so that the interest would be real. And he told me there's no trick to the interview either: it's storytelling about what you actually did, not a description of the kind of person you are. Neither of those was what I wanted to hear from someone I'd come to for help getting hired faster. Both are what moved the search, and they're why the prep made me sharper rather than just more rehearsed.",
+      he: "הגעתי לאלון כשחיפוש העבודה שלי נמשך יותר ממה שרציתי. היום אני בתפקיד שאני באמת שמח בו. שתי העובדות האלה קשורות זו לזו, ואני מעדיף לפתוח בהן ולא במחמאות. יש הבדל בין עצה טובה לבין דרך חשיבה טובה יותר. אלון נתן לי את השנייה. יש לו קריאה צלולה של שוק ההייטק ההולנדי, והוא יודע לשבת שעה עם רעיון חצי אפוי ולהחזיר אותו כשהוא עומד בכוחות עצמו. והחלק הכן: הגעתי כשאני רוצה נוסחה. לאלון לא הייתה כזו בשבילי. הוא אמר לי להפסיק לרדוף אחרי תפקידים כי הם משלמים טוב ופחות או יותר מתאימים, ולהתחיל ממה שאני באמת אוהב לעשות, כדי שהעניין יהיה אמיתי. והוא אמר לי שגם בראיון אין טריק: זה סיפור על מה שבאמת עשית, לא תיאור של איזה מין אדם אתה. אף אחד מהשניים לא היה מה שרציתי לשמוע ממי שבאתי אליו כדי שיעזור לי להתקבל מהר יותר. שניהם מה שהזיז את החיפוש, ובגללם ההכנה עשתה אותי חד יותר ולא רק מתורגל יותר.",
+      nl: "Ik kwam bij Alon toen mijn zoektocht naar werk langer duurde dan me lief was. Vandaag zit ik in een functie waar ik oprecht blij mee ben. Die twee feiten hangen samen, en daar begin ik liever mee dan met complimenten. Er is verschil tussen goed advies en een betere manier van denken. Alon gaf me het tweede. Hij leest de Nederlandse techmarkt scherp, en hij kan een uur met een half gevormd idee zitten en het je teruggeven terwijl het op eigen benen staat. Het eerlijke deel: ik kwam binnen op zoek naar een formule. Die had Alon niet voor me. Hij zei dat ik moest stoppen met achter functies aan te lopen omdat ze goed betaalden en ongeveer pasten, en moest beginnen bij wat ik werkelijk graag doe, zodat de interesse echt zou zijn. En hij zei dat er ook in het gesprek geen truc bestaat: het is vertellen wat je daadwerkelijk hebt gedaan, geen beschrijving van wat voor persoon je bent. Geen van beide was wat ik wilde horen van iemand bij wie ik was gekomen om sneller aangenomen te worden. Allebei brachten ze de zoektocht in beweging, en daarom maakte de voorbereiding me scherper in plaats van alleen maar meer ingestudeerd.",
+    },
+  },
+  {
     name: "Yair Sepunaru",
     role: "Software Engineer, ex-Adyen",
     source: "coaching",
