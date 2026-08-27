@@ -29,7 +29,10 @@ const trust = [
   { l: f.t1Label, b: f.t1Body },
   { l: f.t2Label, b: f.t2Body },
   { l: f.t3Label, b: f.t3Body },
-  { l: f.t4Label, b: f.t4Body },
+];
+const disc = [
+  { t: f.d1t, b: f.d1b }, { t: f.d2t, b: f.d2b },
+  { t: f.d3t, b: f.d3b }, { t: f.d4t, b: f.d4b },
 ];
 ---
 
@@ -189,7 +192,7 @@ const trust = [
       </div>
       <figure class="me-portrait">
         <img src="/alon.jpg" alt="Alon Gildoni" loading="lazy" />
-        <figcaption class="mono">{f.proofEyebrow}</figcaption>
+        <figcaption class="mono" dir="ltr">Alon Gildoni</figcaption>
       </figure>
     </div>
     <div class="me-list">
@@ -204,6 +207,31 @@ const trust = [
       ))}
     </div>
     <p class="closing">{f.closing}</p>
+  </div>
+</section>
+
+<!-- ===== DISCRETION ===== -->
+<!-- Deliberately placed where a buyer goes looking for logos and references,
+     because the argument is that their absence is the product. -->
+<section class="section disc-sec">
+  <div class="container">
+    <div class="disc-head">
+      <div>
+        <span class="eyebrow">{f.discEyebrow}</span>
+        <h2 class="display-lg sec-h">{f.discHeading}</h2>
+      </div>
+      <p class="disc-body">{f.discBody}</p>
+    </div>
+    <div class="disc-grid">
+      {disc.map((d, i) => (
+        <article class="disc-item">
+          <span class="disc-n mono">{String(i + 1).padStart(2, "0")}</span>
+          <h3 class="disc-t">{d.t}</h3>
+          <p>{d.b}</p>
+        </article>
+      ))}
+    </div>
+    <p class="disc-close">{f.discClose}</p>
   </div>
 </section>
 
@@ -285,6 +313,23 @@ const trust = [
   @media (min-width: 700px) { .trust-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem 3.5rem; } }
   @media (min-width: 1040px) { .trust-grid { grid-template-columns: repeat(4, 1fr); gap: 2.5rem; } }
 
+  /* discretion */
+  .disc-sec { background: var(--paper-2); border-top: 1px solid var(--line); }
+  .disc-head { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+  .disc-head .sec-h { margin-bottom: 0; max-width: 20ch; }
+  .disc-body { color: var(--ink-2); font-size: 1.05rem; line-height: 1.7; align-self: end; }
+  .disc-grid { display: grid; grid-template-columns: 1fr; gap: 2.25rem; margin-top: 3.5rem; }
+  .disc-item { border-top: 2px solid var(--ink); padding-top: 1.2rem; }
+  .disc-n { display: block; color: var(--accent); font-size: 0.78rem; letter-spacing: 0.14em; margin-bottom: 0.7rem; }
+  .disc-t { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.18rem; line-height: 1.25; color: var(--ink); margin-bottom: 0.6rem; }
+  .disc-item p { color: var(--ink-2); font-size: 0.95rem; line-height: 1.7; }
+  .disc-close { margin-top: 3rem; font-weight: 600; color: var(--ink); font-size: 1.15rem; max-width: 60ch; }
+  @media (min-width: 760px) {
+    .disc-head { grid-template-columns: 1fr 1fr; gap: 3.5rem; }
+    .disc-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem 4rem; }
+  }
+  @media (min-width: 1100px) { .disc-grid { grid-template-columns: repeat(4, 1fr); gap: 2.5rem; } }
+
   .steps { display: grid; grid-template-columns: 1fr; gap: 2rem; }
   .step { border-top: 2px solid var(--ink); padding-top: 1.1rem; }
   .step-n { font-family: var(--mono); font-size: 1.8rem; color: var(--accent); }
@@ -322,6 +367,7 @@ const trust = [
   :global([dir="rtl"]) .offer-tag,
   :global([dir="rtl"]) .reason-n,
   :global([dir="rtl"]) .me-n,
+  :global([dir="rtl"]) .disc-n,
   :global([dir="rtl"]) .trust-n,
   :global([dir="rtl"]) .label { letter-spacing: 0.02em; text-transform: none; }
   /* the tag carries Hebrew words, not just a number, so it needs body size */
