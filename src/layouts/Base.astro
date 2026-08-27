@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { isRTL, type Lang } from "../i18n";
+import { alternatesFor } from "../i18n/routes";
 
 export interface Props {
   title?: string;
@@ -38,8 +39,13 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
 // hreflang: tells search engines these are the same page in different languages,
 // so an English searcher is shown the English home page rather than the Hebrew one.
 // x-default points at English, which is the site default (astro.config: defaultLocale 'en').
-const altEntries = alternates
-  ? Object.entries(alternates).map(([l, p]) => [l, new URL(p as string, Astro.site).href] as const)
+// Only the three home pages ever passed `alternates` by hand, so 67 of the 70
+// pages shipped with no hreflang at all. It is derived from the route table now,
+// and an explicit prop still wins for pages the table cannot know about, such as
+// the article detail route.
+const resolvedAlternates = alternates ?? alternatesFor(Astro.url.pathname);
+const altEntries = resolvedAlternates
+  ? Object.entries(resolvedAlternates).map(([l, p]) => [l, new URL(p as string, Astro.site).href] as const)
   : [];
 
 const dir = isRTL(lang) ? "rtl" : "ltr";
@@ -57,7 +63,7 @@ const dir = isRTL(lang) ? "rtl" : "ltr";
     {!noindex && <link rel="canonical" href={canonical} />}
     {!noindex && altEntries.map(([l, href]) => <link rel="alternate" hreflang={l} href={href} />)}
     {!noindex && altEntries.length > 0 && (
-      <link rel="alternate" hreflang="x-default" href={alternates?.en ? new URL(alternates.en, Astro.site).href : canonical} />
+      <link rel="alternate" hreflang="x-default" href={resolvedAlternates?.en ? new URL(resolvedAlternates.en, Astro.site).href : canonical} />
     )}
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />

@@ -20,11 +20,22 @@ export async function getStaticPaths() {
     for (const [lng, vid] of Object.entries(variants)) {
       localePaths[lng] = ids.has(vid) ? `/insights/${vid}` : localizePath(backHref, lng as Lang);
     }
-    return { params: { slug: entry.id }, props: { entry, localePaths } };
+    // localePaths falls back to the article list when a translation is missing,
+    // which is right for the language switcher and wrong for hreflang: it would
+    // declare a list page to be the translation of an article. So alternates
+    // carries only the variants that actually exist.
+    const alternates: Record<string, string> = {};
+    for (const [lng, vid] of Object.entries(variants)) {
+      if (ids.has(vid)) alternates[lng] = `/insights/${vid}/`;
+    }
+    return {
+      params: { slug: entry.id },
+      props: { entry, localePaths, alternates: Object.keys(alternates).length > 1 ? alternates : undefined },
+    };
   });
 }
 
-const { entry, localePaths } = Astro.props;
+const { entry, localePaths, alternates } = Astro.props;
 const lang = (entry.data.lang ?? "en") as Lang;
 const t = getT(lang);
 const { Content } = await render(entry);
@@ -32,7 +43,7 @@ const backHref = entry.data.audience === "companies" ? "/hiring-insights" : "/ca
 const dateStr = entry.data.date;
 ---
 
-<Base lang={lang} title={`${entry.data.title} - TechExpats`} description={entry.data.excerpt} ogImage={entry.data.image} ogType="article">
+<Base lang={lang} title={`${entry.data.title} - TechExpats`} description={entry.data.excerpt} ogImage={entry.data.image} ogType="article" alternates={alternates}>
   <Nav lang={lang} localePaths={localePaths} />
 
   <article class="section">

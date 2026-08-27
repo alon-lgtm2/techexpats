@@ -1,0 +1,13 @@
+# techexpats.nl
+User-agent: *
+Allow: /
+
+# Internal or unlisted pages: the four-way theme switcher, the portal demo,
+# and the unlisted six-week plan.
+Disallow: /designs
+Disallow: /portal-example
+Disallow: /nl/portal-example
+Disallow: /he/portal-example
+Disallow: /he/summer-plan
+
+Sitemap: https://techexpats.nl/sitemap-index.xml
