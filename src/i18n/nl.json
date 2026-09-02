@@ -363,7 +363,20 @@
   "book": {
     "eyebrow": "Laten we praten",
     "heading": "Plan een adviesgesprek.",
-    "sub": "45 minuten over jouw situatie, met een schriftelijke samenvatting en een voorstel voor de volgende stap. Mijn expertise is de Europese arbeidsmarkt, en Nederland in het bijzonder: vooral tech, maar niet alleen. Het gesprek is betaald en staat op zichzelf."
+    "sub": "45 minuten over jouw situatie, met een schriftelijke samenvatting en een voorstel voor de volgende stap. Mijn expertise is de Europese arbeidsmarkt, en Nederland in het bijzonder: vooral tech, maar niet alleen. Het gesprek is betaald en staat op zichzelf.",
+    "whatLabel": "Wat het gesprek is",
+    "what": "Vijfenveertig minuten over jouw situatie, geen college over mijn methode. Waar je staat, wat je echt tegenhoudt, en wat de volgende stap moet zijn. Zit je al diep in een zoektocht die niet loopt, dan zoeken we hier uit waarom.",
+    "getLabel": "Wat je overhoudt",
+    "get1": "Een schriftelijke samenvatting, na afloop toegestuurd. Geen aantekeningen: een heldere lezing van waar je staat",
+    "get2": "Een voorgestelde volgende stap, concreet genoeg om dezelfde week te beginnen",
+    "get3": "Een eerlijk antwoord of ik kan helpen, en wat het kost als je dat wilt",
+    "forLabel": "Voor wie het is",
+    "for": "Voor wie werk zoekt in Nederland, vooral in tech maar niet alleen. Mijn expertise is de Europese arbeidsmarkt en Nederland in het bijzonder: hoe werkgevers hier echt werven, wat een Nederlands proces per fase toetst, sponsoring en de 30%-regeling, en hoe een realistisch salaris eruitziet.",
+    "notLabel": "Wanneer dit niet het juiste gesprek is",
+    "not": "Weet je al precies wat je wilt kopen, dan heb je dit gesprek niet nodig. De prijzen staan online en je kunt direct kopen. En zoek je iemand die je aan een baan koppelt in plaats van je helpt er een te vinden, dan zeg ik dat hier en niet nadat je voor meer hebt betaald.",
+    "priceLabel": "De prijs",
+    "price": "120 euro, en het gesprek staat op zichzelf. Er wordt niets verrekend en er is geen verplichting om door te gaan. Voor veel mensen is dit ene gesprek precies wat ontbrak.",
+    "pick": "Kies een moment"
   },
   "fork": {
     "eyebrow": "Loopbaancoaching en headhunting, in heel Europa",

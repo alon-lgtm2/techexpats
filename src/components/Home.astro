@@ -4,7 +4,7 @@ import Footer from "./Footer.astro";
 import Testimonials from "./Testimonials.astro";
 import CTA from "./CTA.astro";
 import { getCollection } from "astro:content";
-import { getT, localizePath, whatsappUrl, type Lang } from "../i18n";
+import { getT, localizePath, type Lang } from "../i18n";
 
 interface Props { lang?: Lang }
 const { lang = "en" } = Astro.props;
@@ -57,7 +57,7 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
       </h1>
       <p class="lead rise" style="animation-delay:.25s">{t.hero.sub}</p>
       <div class="hero-ctas rise" style="animation-delay:.4s">
-        <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="btn btn-primary">{t.cta.talk} <span class="arrow">&rarr;</span></a>
+        <a href={localizePath("/book", lang)} class="btn btn-primary">{t.cta.book} <span class="arrow">&rarr;</span></a>
         <a href={localizePath("/career-advice", lang)} class="btn btn-ghost">{t.hero.ctaCandidate}</a>
         <a href={localizePath("/for-companies", lang)} class="hiring-link">{t.hero.ctaEmployer} <span class="arrow">&rarr;</span></a>
       </div>

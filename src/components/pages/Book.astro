@@ -1,25 +1,72 @@
 ---
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
-import { getT, type Lang, BOOKING_URL } from "../../i18n";
+import { getT, localizePath, type Lang, BOOKING_URL } from "../../i18n";
 interface Props { lang?: Lang }
 const { lang = "en" } = Astro.props;
 const t = getT(lang);
 const b = t.book;
+// One paid event, 45 minutes, 120 euro, collected inside Calendly. This is the
+// only booking door on the site: every CTA lands here first so the meeting is
+// explained before the calendar appears (Alon, 2026-09-02).
 const calendly = BOOKING_URL;
 ---
 
 <Nav lang={lang} />
 
-<section class="section">
+<section class="hero section">
   <div class="container">
     <span class="eyebrow">{b.eyebrow}</span>
-    <h1 class="display-lg head">{b.heading}</h1>
+    <h1 class="display-xl head">{b.heading}</h1>
     <p class="lead">{b.sub}</p>
+    <a class="btn btn-primary jump" href="#pick">{b.pick} <span class="arrow">&darr;</span></a>
+  </div>
+</section>
 
-    <div class="calendly-inline-widget" data-url={`${calendly}?hide_gdpr_banner=1&background_color=ffffff&text_color=0a0a0a&primary_color=f25c2a`} style="min-width:320px;height:680px;margin-top:2.5rem;"></div>
+<section class="section alt">
+  <div class="container">
+    <div class="split">
+      <div class="col">
+        <span class="label">{b.whatLabel}</span>
+        <p class="body">{b.what}</p>
+
+        <span class="label spaced">{b.getLabel}</span>
+        <ul class="items">
+          <li>{b.get1}</li>
+          <li>{b.get2}</li>
+          <li>{b.get3}</li>
+        </ul>
+      </div>
+
+      <div class="col">
+        <span class="label">{b.forLabel}</span>
+        <p class="body">{b.for}</p>
+
+        <span class="label spaced">{b.notLabel}</span>
+        <p class="body">{b.not}</p>
+
+        <div class="price-box">
+          <span class="label">{b.priceLabel}</span>
+          <p>{b.price}</p>
+          {lang === "he" && (
+            <a class="more" href={localizePath("/pricing", lang)}>{t.cta.prices}</a>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pick">
+  <div class="container">
+    <h2 class="display-md">{b.pick}</h2>
+    <div
+      class="calendly-inline-widget"
+      data-url={`${calendly}?hide_gdpr_banner=1&background_color=ffffff&text_color=0a0a0a&primary_color=f25c2a`}
+      style="min-width:320px;height:680px;margin-top:2rem;"
+    ></div>
     <noscript>
-      <a class="btn btn-primary" href={calendly} style="margin-top:2rem;">{t.nav.startSearch} &rarr;</a>
+      <a class="btn btn-primary" href={calendly} style="margin-top:2rem;">{b.pick} &rarr;</a>
     </noscript>
   </div>
 </section>
@@ -29,6 +76,24 @@ const calendly = BOOKING_URL;
 <script is:inline src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
 <style>
+  .alt { background: var(--paper-2); }
+  .hero { padding-block: calc(var(--section) * 0.7) calc(var(--section) * 0.45); }
   .head { margin: 1.1rem 0 1rem; }
-  .lead { max-width: 50ch; }
+  .lead { max-width: 58ch; }
+  .jump { margin-top: 2rem; }
+  .jump .arrow { display: inline-block; margin-inline-start: 0.35rem; }
+
+  .split { display: grid; grid-template-columns: 1fr; gap: 3rem; }
+  @media (min-width: 900px) { .split { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+  .label.spaced { display: block; margin-top: 2.2rem; }
+  .body { color: var(--ink-2); margin: 0.8rem 0 0; max-width: 54ch; }
+
+  .items { list-style: none; display: grid; gap: 0.55rem; margin: 0.9rem 0 0; padding: 0; }
+  .items li { position: relative; padding-inline-start: 1.1rem; color: var(--ink-2); }
+  .items li::before { content: ""; position: absolute; inset-inline-start: 0; top: 0.78em; width: 8px; height: 1px; background: var(--ink-3); }
+
+  .price-box { margin-top: 2.4rem; padding: 1.3rem 1.5rem; background: var(--paper); border: 1px solid var(--line); }
+  .price-box p { color: var(--ink-2); margin: 0.7rem 0 0; }
+  .more { display: inline-block; margin-top: 0.9rem; font-size: 0.88rem; font-weight: 600; color: var(--accent-ink); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; }
+  .more:hover { color: var(--ink); border-color: var(--ink); }
 </style>

@@ -1,5 +1,5 @@
 ---
-import { getT, localizePath, BOOKING_URL, type Lang } from "../i18n";
+import { getT, localizePath, type Lang } from "../i18n";
 interface Props { lang?: Lang; heading?: string; body?: string }
 const { lang = "en", heading, body } = Astro.props;
 const t = getT(lang);
@@ -14,7 +14,7 @@ const t = getT(lang);
         <p>{body ?? t.cta.body}</p>
       </div>
       <div class="cta-actions">
-        <a href={BOOKING_URL} target="_blank" rel="noopener" class="btn btn-primary">{t.cta.book}</a>
+        <a href={localizePath("/book", lang)} class="btn btn-primary">{t.cta.book}</a>
         {lang === "he" && <a href={localizePath("/pricing", lang)} class="btn btn-ghost">{t.cta.prices}</a>}
       </div>
     </div>

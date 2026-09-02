@@ -19,6 +19,7 @@ const year = new Date().getFullYear();
           <span class="label">{t.serve.coEyebrow}</span>
           <a href={localizePath("/how-it-works", lang)}>{t.nav.howItWorks}</a>
           <a href={localizePath("/career-advice", lang)}>{t.nav.careerAdvice}</a>
+          {lang === "he" && <a href={localizePath("/pricing", lang)}>{t.nav.pricing}</a>}
           <a href={localizePath("/about", lang)}>{t.nav.about}</a>
         </div>
         <div>
@@ -30,7 +31,7 @@ const year = new Date().getFullYear();
         <div>
           <span class="label">{t.footer.contactHeading}</span>
           <a href={localizePath("/contact", lang)}>{t.cta.primary}</a>
-          <a href={`mailto:${t.cta.email}`}>{t.cta.email}</a>
+          <a href={localizePath("/book", lang)}>{t.cta.book}</a>
         </div>
       </div>
     </div>

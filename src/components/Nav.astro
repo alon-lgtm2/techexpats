@@ -1,5 +1,5 @@
 ---
-import { getT, localizePath, whatsappUrl, LANGS, LANG_LABELS, DEFAULT_LANG, type Lang } from "../i18n";
+import { getT, localizePath, LANGS, LANG_LABELS, DEFAULT_LANG, type Lang } from "../i18n";
 
 interface Props { lang?: Lang; localePaths?: Record<string, string> }
 const { lang = "en", localePaths } = Astro.props;
@@ -54,7 +54,7 @@ const links = [
           >{LANG_LABELS[l]}</a>
         ))}
       </div>
-      <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="btn btn-primary nav-cta">{t.cta.talk} <span class="arrow">&rarr;</span></a>
+      <a href={localizePath("/book", lang)} class="btn btn-primary nav-cta">{t.cta.book} <span class="arrow">&rarr;</span></a>
       <button class="burger" aria-label="Menu" aria-expanded="false" id="burger">
         <span></span><span></span>
       </button>
@@ -63,7 +63,7 @@ const links = [
 
   <nav class="mobile" id="mobile-menu" aria-label="Mobile">
     {links.map((l) => <a href={localizePath(l.href, lang)}>{l.label}</a>)}
-    <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="mobile-cta">{t.cta.talk} &rarr;</a>
+    <a href={localizePath("/book", lang)} class="mobile-cta">{t.cta.book} &rarr;</a>
   </nav>
 </header>
 

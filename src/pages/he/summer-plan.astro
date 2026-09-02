@@ -2,9 +2,9 @@
 import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
-import { whatsappUrl } from "../../i18n";
+import { localizePath } from "../../i18n";
 
-const wa = whatsappUrl("he");
+const wa = localizePath("/book", "he");
 // Non-indexed, unlisted deliverable. Reached only via the "Plan" DM.
 // Structure, not secrets: the WHAT lives here; the HOW stays in the room.
 
@@ -125,7 +125,7 @@ const localePaths = { en: "/career-advice", nl: "/nl/career-advice", he: "/he/su
       <hr />
       <div class="cta-box">
         <p>רוצים יד מכוונת על הביצוע, או את החלקים שהמפה הזאת משאירה בכוונה פתוחים?</p>
-        <a class="wa" href={wa}>דברו איתי בוואטסאפ</a>
+        <a class="wa" href={wa}>לקביעת שיחת ייעוץ</a>
       </div>
     </div>
   </article>

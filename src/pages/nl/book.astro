@@ -1,7 +1,9 @@
 ﻿---
 import Base from "../../layouts/Base.astro";
 import Book from "../../components/pages/Book.astro";
+import { getT } from "../../i18n";
+const t = getT("nl");
 ---
-<Base lang="nl">
+<Base lang="nl" title="Plan een adviesgesprek - TechExpats" description={t.book.sub}>
   <Book lang="nl" />
 </Base>

@@ -2,11 +2,10 @@
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
 import CTA from "../CTA.astro";
-import { whatsappUrl, type Lang } from "../../i18n";
+import { type Lang } from "../../i18n";
 
 interface Props { lang?: Lang }
 const { lang = "he" } = Astro.props;
-const wa = whatsappUrl(lang);
 
 const GEM_URL = "https://gemini.google.com/gem/1Uky3t9Mn3gEEdP_8i6e8YfeEnyG59WBO?usp=sharing";
 const ARTICLE = "/insights/stop-looking-for-a-job-he";
