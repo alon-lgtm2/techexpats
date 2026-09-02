@@ -1,6 +1,7 @@
 ---
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
+import PullQuote from "../PullQuote.astro";
 import CTA from "../CTA.astro";
 import { getCollection } from "astro:content";
 import { getT, localizePath, type Lang } from "../../i18n";
@@ -69,6 +70,7 @@ const articles = [...translated, ...fallback].sort(
         ))}
       </div>
     )}
+    <PullQuote name="Itay Sviri" lang={lang} max={280} />
   </div>
 </section>
 

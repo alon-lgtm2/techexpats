@@ -1,6 +1,7 @@
 ---
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
+import PullQuote from "../PullQuote.astro";
 import { getT, localizePath, type Lang, BOOKING_URL } from "../../i18n";
 interface Props { lang?: Lang }
 const { lang = "en" } = Astro.props;
@@ -44,6 +45,8 @@ const calendly = BOOKING_URL;
 
         <span class="label spaced">{b.notLabel}</span>
         <p class="body">{b.not}</p>
+
+        <PullQuote name="Oded Babayoff" lang={lang} max={0} bare small />
 
         <div class="price-box">
           <span class="label">{b.priceLabel}</span>

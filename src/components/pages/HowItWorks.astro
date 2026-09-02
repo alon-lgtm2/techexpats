@@ -1,6 +1,7 @@
 ---
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
+import PullQuote from "../PullQuote.astro";
 import CTA from "../CTA.astro";
 import { getT, localizePath, type Lang } from "../../i18n";
 interface Props { lang?: Lang }
@@ -121,6 +122,7 @@ const ask = [h.ask1, h.ask2, h.ask3, h.ask4];
         </article>
       ))}
     </div>
+    <PullQuote name="Idan Batuner" lang={lang} max={300} />
   </div>
 </section>
 
@@ -258,6 +260,12 @@ const ask = [h.ask1, h.ask2, h.ask3, h.ask4];
       <span class="label">{h.rhythmNoteLabel}</span>
       <p>{h.rhythmNote}</p>
     </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <PullQuote name="Tal Weinisch" lang={lang} max={0} bare />
   </div>
 </section>
 

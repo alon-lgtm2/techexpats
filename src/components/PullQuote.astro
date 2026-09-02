@@ -1,0 +1,67 @@
+---
+// A single review, set as a pull quote rather than a card in a grid.
+// Used to place one voice at the exact point in the funnel where it answers
+// the doubt the reader has just formed (2026-09-02). The card grid in
+// Testimonials.astro is still the right shape when several are shown together.
+import { testimonials } from "../data/testimonials";
+import { type Lang } from "../i18n";
+
+interface Props {
+  /** Exact `name` from src/data/testimonials.ts */
+  name: string;
+  lang?: Lang;
+  /** Trim long reviews at a word boundary. 0 keeps the whole thing. */
+  max?: number;
+  /** Sits inside an already-padded section rather than opening its own. */
+  bare?: boolean;
+  small?: boolean;
+}
+const { name, lang = "en", max = 260, bare = false, small = false } = Astro.props;
+
+const r = testimonials.find((x) => x.name === name);
+const raw = r ? ((r.quote as Record<string, string>)[lang] ?? r.quote.en ?? Object.values(r.quote)[0]) : "";
+const quote = max > 0 && raw.length > max ? raw.slice(0, raw.lastIndexOf(" ", max)) + "…" : raw;
+const initials = name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+---
+
+{r && (
+  <blockquote class:list={["pull", { bare, small }]}>
+    <p>{quote}</p>
+    <cite>
+      <span class="avatar" aria-hidden="true">
+        {r.avatar ? <img src={r.avatar} alt="" loading="lazy" /> : <span>{initials}</span>}
+      </span>
+      <span class="who">
+        <span class="name">{r.name}</span>
+        {r.role && <span class="role">{r.role}</span>}
+      </span>
+    </cite>
+  </blockquote>
+)}
+
+<style>
+  .pull { margin: 3.5rem 0 0; max-width: 62ch; }
+  .pull.bare { margin-top: 2.5rem; }
+  .pull p {
+    font-family: var(--display);
+    font-weight: var(--display-weight);
+    font-size: clamp(1.2rem, 2.3vw, 1.65rem);
+    line-height: 1.42;
+    color: var(--ink);
+    margin: 0;
+  }
+  .pull.small p { font-size: clamp(1.02rem, 1.7vw, 1.2rem); }
+  .pull cite {
+    display: flex; align-items: center; gap: 0.75rem; margin-top: 1.2rem;
+    font-style: normal; font-size: 0.88rem; color: var(--ink-2);
+  }
+  .avatar {
+    width: 44px; height: 44px; border-radius: 50%; flex: none; overflow: hidden;
+    display: grid; place-items: center; background: var(--paper-2);
+    font-family: var(--mono); font-size: 0.78rem; color: var(--ink-3);
+  }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .who { display: block; }
+  .name { display: block; font-weight: 600; color: var(--ink); }
+  .role { display: block; color: var(--ink-3); }
+</style>
