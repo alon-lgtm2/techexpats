@@ -1,0 +1,289 @@
+---
+import Nav from "../Nav.astro";
+import Footer from "../Footer.astro";
+import CTA from "../CTA.astro";
+import { type Lang } from "../../i18n";
+import { testimonials } from "../../data/testimonials";
+interface Props { lang?: Lang }
+const { lang = "he" } = Astro.props;
+
+// ---------------------------------------------------------------------------
+// BOOKING AND PAYMENT
+// Alon creates these in Calendly and Stripe and pastes the URLs here. Nothing
+// on this page charges anyone until real URLs replace the placeholders below.
+// The scheduler is for the orientation call only; everything else is paid
+// first and scheduled afterwards, by mail.
+// ---------------------------------------------------------------------------
+const LINKS = {
+  calendlyOrientation: "", // e.g. https://calendly.com/agildoni/orientation-call
+  payOrientation: "",      // Stripe payment link, 180
+  payWorkshop: "https://buy.stripe.com/bJe6oI6J6h1I7RS6UacEw01", // 60
+  paySevenADay: "",        // Stripe payment link, 360
+  payCandidacy: "",        // Stripe payment link, 420
+  payProfile: "",          // Stripe payment link, 740
+  payFull: "",             // Stripe payment link, 1.870
+};
+// iDEAL is enabled in Stripe payment method settings, not per link. Stripe
+// surfaces it first for buyers in the Netherlands, which is most of the book:
+// roughly half the invoices are NL-resident, many of them Israelis living here.
+const ready = (u: string) => (u && u.length > 0 ? u : "#");
+
+// Real reviews, pulled from src/data/testimonials.ts so the page can never
+// quote something that is not on the site.
+const byName = (n: string) => testimonials.find((t) => t.name === n);
+const q = (n: string) => byName(n)?.quote?.he ?? "";
+const role = (n: string) => byName(n)?.role ?? "";
+const short = (s: string, max = 260) => (s.length > max ? s.slice(0, s.lastIndexOf(" ", max)) + "…" : s);
+
+const PRODUCTS = [
+  {
+    label: "הסדנה המוקלטת",
+    title: "לראות איך נראה חיפוש עבודה שעובד.",
+    price: "60",
+    pay: "payWorkshop",
+    items: [
+      "ערב מלא, 85 דקות, עם קהל אמיתי ששואל וגם חולק עליי",
+      "פרומפט בשידור חי: מתרגמים פרופיל אמיתי לטייטלים ולתעשיות הולנדיות",
+      "מי באמת פתח את המשרה, ואיך פונים אליו בלי להישרף",
+      "כולל הפרומפטים, רשימת ההדהאנטרים ותבנית קורות חיים",
+    ],
+  },
+  {
+    label: "שבע ביום",
+    title: "האפליקציה שמריצה את החיפוש.",
+    price: "360",
+    pay: "paySevenADay",
+    items: [
+      "חיפוש עבודה שנעשה נכון הוא משמעת, לא הגרלה. שבע פעולות ממוקדות ביום, עם רצפים ותנופה",
+      "מאגר חברות: דירוג, הפעולה הבאה, ותיעוד כל אינטראקציה",
+      "“פריזר” להקפאת חברות לכמה ימים, ו“מגרש חניה” ללידים",
+      "מאגר של 78 חברות ישראליות עם נוכחות אמיתית בהולנד, והסדנה המוקלטת כלולה",
+      "שלושה חודשים, ואחר כך 29 יורו לחודש. אפשר להפסיק בכל חודש",
+    ],
+  },
+];
+
+const SERVICES = [
+  {
+    label: "שיחת אוריינטציה",
+    title: "בואו נדבר על המצב שלכם.",
+    price: "180",
+    pay: "payOrientation",
+    entry: true,
+    items: [
+      "קריאה של המקום שאתם נמצאים בו עכשיו, ולא הרצאה על השיטה",
+      "בסוף: ההקלטה, התמלול, ועמוד אחד עם שלושת הצעדים הבאים",
+    ],
+  },
+  {
+    label: "הכנה למועמדות",
+    title: "יש לכם תהליך, ואתם רוצים להגיע מוכנים.",
+    price: "420",
+    pay: "payCandidacy",
+    entry: false,
+    items: [
+      "איך התהליך ייראה מכאן ועד הצעה, את מי תפגשו ומה כל שלב באמת בודק",
+      "תמונת השכר: הטווח הריאלי, מה לומר ומתי",
+      "סימולציה של השלב הקשה ביותר, עם תחקיר והקלטה",
+    ],
+  },
+  {
+    label: "פרופיל ורשימת מעסיקים",
+    title: "מי אתם מקצועית, ולמי כדאי לפנות.",
+    price: "740",
+    pay: "payProfile",
+    entry: false,
+    items: [
+      "הפרופיל המקצועי שלכם, כתוב: במה אתם מומחי תוכן, במשפט שאפשר לעמוד מאחוריו",
+      "בין 12 ל-17 מעסיקים בשמם, כל אחד עם הסיבה, איש קשר, והמשפט שאיתו פונים",
+      "שבע ביום כלול, לשלושה חודשים",
+    ],
+  },
+  {
+    label: "מלווים",
+    title: "מההתחלה ועד חוזה חתום.",
+    price: "1.870",
+    pay: "payFull",
+    entry: false,
+    items: [
+      "כולל את כל מה שלמעלה, ובנוסף קורות חיים ולינקדאין בפורמט ההולנדי",
+      "פנייה ונטוורקינג, הכנה לראיונות, ומשא ומתן על החבילה",
+      "עד שמונה מפגשים, ותאריך סיום שנקבע ביום הראשון",
+    ],
+  },
+];
+---
+
+<Nav lang={lang} />
+
+<section class="hero section">
+  <div class="container">
+    <span class="eyebrow">מה זה עולה</span>
+    <h1 class="display-xl">מוצרים,<br /><em>וייעוץ.</em></h1>
+    <p class="lead">מוצר הוא דבר שאתם קונים ומשתמשים בו לבד, בקצב שלכם. ייעוץ הוא הזמן שלי, אתכם. כל מחיר כאן גלוי, ולצידו כתוב בדיוק מה מקבלים.</p>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <div class="split">
+
+      <div class="col">
+        <span class="eyebrow">מוצרים</span>
+        <p class="col-lead">קונים פעם אחת ומשתמשים לבד. בלי פגישות ובלי תיאום יומן.</p>
+        <div class="rows">
+          {PRODUCTS.map((p) => (
+            <article class="row">
+              <span class="label">{p.label}</span>
+              <div class="rhead">
+                <h3>{p.title}</h3>
+                <p class="price-line"><span class="price">{p.price}</span><span class="cur">יורו</span></p>
+              </div>
+              <ul class="items">{p.items.map((i) => <li>{i}</li>)}</ul>
+              <a class="buy" href={ready(LINKS[p.pay as keyof typeof LINKS])}>לרכישה</a>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div class="col">
+        <span class="eyebrow">ייעוץ</span>
+        <p class="col-lead">הזמן שלי, אתכם. כל אחד מהם מסתיים במסמך שנשאר לכם ביד.</p>
+        <div class="rows">
+          {SERVICES.map((p) => (
+            <article class={p.entry ? "row entry" : "row"}>
+              <span class="label">{p.label}</span>
+              <div class="rhead">
+                <h3>{p.title}</h3>
+                <p class="price-line"><span class="price">{p.price}</span><span class="cur">יורו</span></p>
+              </div>
+              <ul class="items">{p.items.map((i) => <li>{i}</li>)}</ul>
+              {p.entry && <p class="deduct">הסכום מתקזז במלואו ממה שתבחרו אחריה.</p>}
+              <a class="buy" href={ready(LINKS[p.pay as keyof typeof LINKS])}>{p.entry ? "לקביעת שיחה" : "לרכישה"}</a>
+            </article>
+          ))}
+        </div>
+        <p class="why">אין שיחת היכרות חינם. שיחה חינמית היא לא באמת חינם: אני נותן בה את הדבר הכי טוב שיש לי, ואתם יוצאים ממנה עם עצה שאין לכם מה לעשות איתה. עדיף לגבות, לתת לכם משהו כתוב, ולהחזיר לכם את הכסף בתוך המחיר של מה שתבחרו.</p>
+      </div>
+
+    </div>
+    <p class="vat-note"><strong>המחירים אינם כוללים מע"מ.</strong> מע"מ הולנדי בשיעור 21% מתווסף למי שחייב בו, ומחושב אוטומטית בעמוד התשלום לפי מקום המגורים. <strong>לתושבי ישראל ולמי שגר מחוץ לאיחוד האירופי לא מתווסף מע"מ</strong>, והמחיר הוא זה שמופיע כאן.</p>
+  </div>
+</section>
+
+<!-- REVIEW -->
+<section class="section quote-sec">
+  <div class="container">
+    <blockquote class="pull">
+      <p>{short(q("Idan Batuner"), 300)}</p>
+      <cite>עידן בטונר<span>{role("Idan Batuner")}</span></cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- SCHEDULER -->
+<section class="section alt">
+  <div class="container">
+    <div class="split">
+      <div class="col">
+        <span class="eyebrow">לקבוע</span>
+        <h2 class="display-md">שיחת אוריינטציה, 180 יורו.</h2>
+        <p class="body">בוחרים מועד, משלמים, ומקבלים אישור. אם אחרי השיחה תבחרו להמשיך, הסכום יורד מהמחיר.</p>
+        {LINKS.calendlyOrientation
+          ? <div class="calendly-inline-widget" data-url={LINKS.calendlyOrientation} style="min-width:320px;height:660px;"></div>
+          : <p class="placeholder">כאן ייכנס לוח הזמנים. צריך אירוע חדש ב-Calendly לשיחה בתשלום, והכתובת שלו נכנסת לראש הקובץ.</p>}
+      </div>
+      <div class="col">
+        <blockquote class="pull small">
+          <p>{short(q("Oded Babayoff"), 220)}</p>
+          <cite>עודד בבייוף<span>{role("Oded Babayoff")}</span></cite>
+        </blockquote>
+        <blockquote class="pull small">
+          <p>{short(q("Yair Sepunaru"), 220)}</p>
+          <cite>יאיר ספונארו<span>{role("Yair Sepunaru")}</span></cite>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="split">
+      <div class="col">
+        <span class="eyebrow">על ההבטחה</span>
+        <div class="stats">
+          <div><span class="fig">70%</span><span class="cap">מוצאים עבודה תוך 3 חודשים</span></div>
+          <div><span class="fig">~85%</span><span class="cap">תוך 6 חודשים</span></div>
+        </div>
+        <p class="body">המספרים טובים, אבל אין כל הבטחה או התחייבות למציאת עבודה. יש פה גם ביקוש, תעשייה ומזל.</p>
+        <p class="body"><strong>בקבלה בלבד.</strong> אני עובד עם מספר קטן של אנשים עם ניסיון משמעותי, כדי לתת לכל אחד תשומת לב אמיתית. וזה גם לא מתאים לכולם: אם אתם מחפשים שמישהו “יחבר” אתכם לעבודה, או שמצב הוויזה דחוף ואין זמן לתהליך מסודר, אני אגיד לכם את זה בשיחה.</p>
+      </div>
+      <div class="col">
+        <span class="eyebrow">דברים מעשיים</span>
+        <ul class="facts">
+          <li><strong>iDEAL היא דרך התשלום המומלצת.</strong> מהירה, ישירה מחשבון הבנק, ובלי להזין פרטי כרטיס</li>
+          <li>אפשר גם בכרטיס אשראי, ובשקלים לפי שער ההמרה ביום התשלום</li>
+          <li>אפשר לפצל לשני תשלומים</li>
+          <li>המע"מ, אם הוא חל עליכם, מחושב ומוצג בעמוד התשלום לפני שאתם מאשרים</li>
+          <li>התשלום מאובטח דרך Stripe. אין לי גישה לפרטי האמצעי שלכם</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{LINKS.calendlyOrientation && <script is:inline async src="https://assets.calendly.com/assets/external/widget.js"></script>}
+
+<CTA lang={lang} />
+<Footer lang={lang} />
+
+<style>
+  .alt { background: var(--paper-2); }
+  .hero { padding-block: calc(var(--section) * 0.7) calc(var(--section) * 0.42); }
+  .hero h1 em { font-style: italic; color: var(--ink-3); }
+  .hero .lead { max-width: 60ch; margin-top: 1.4rem; }
+  .body { color: var(--ink-2); margin: 0 0 1rem; }
+
+  .split { display: grid; grid-template-columns: 1fr; gap: 3rem; }
+  @media (min-width: 900px) { .split { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+  .col-lead { color: var(--ink-3); font-size: 0.95rem; margin: 0.6rem 0 1.6rem; }
+
+  .rows { border-top: 1px solid var(--ink); }
+  .row { padding: 1.4rem 0 1.5rem; border-bottom: 1px solid var(--line); }
+  .row.entry { border-inline-start: 2px solid var(--accent); padding-inline-start: 1.1rem; }
+  .row .label { color: var(--ink-3); }
+  .rhead { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-top: 0.35rem; }
+  .row h3 { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.28rem; margin: 0; color: var(--ink); }
+  .price-line { display: flex; align-items: baseline; gap: 0.4rem; margin: 0; white-space: nowrap; }
+  .price { font-family: var(--mono); font-size: 1.55rem; font-weight: 500; line-height: 1; font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; }
+  .cur { font-size: 0.85rem; color: var(--ink-3); font-weight: 500; }
+
+  .items { list-style: none; display: grid; gap: 0.45rem; margin: 0.85rem 0 0; padding: 0; font-size: 0.89rem; }
+  .items li { position: relative; padding-inline-start: 0.95rem; color: var(--ink-2); }
+  .items li::before { content: ""; position: absolute; inset-inline-start: 0; top: 0.76em; width: 6px; height: 1px; background: var(--ink-3); }
+
+  .deduct { margin: 0.85rem 0 0; padding: 0.55rem 0.85rem; background: var(--accent); color: var(--paper); font-size: 0.86rem; }
+  .buy { display: inline-block; margin-top: 0.9rem; font-size: 0.85rem; font-weight: 600; color: var(--accent-ink); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; }
+  .buy:hover { color: var(--ink); border-color: var(--ink); }
+  .why { margin: 1.4rem 0 0; padding-inline-start: 1.1rem; border-inline-start: 2px solid var(--line); color: var(--ink-3); font-size: 0.89rem; }
+  .vat-note { margin: 2rem 0 0; font-size: 0.84rem; color: var(--ink-3); }
+
+  .quote-sec { padding-block: calc(var(--section) * 0.5); }
+  .pull { margin: 0; max-width: 62ch; }
+  .pull p { font-family: var(--display); font-weight: var(--display-weight); font-size: clamp(1.25rem, 2.4vw, 1.75rem); line-height: 1.4; color: var(--ink); margin: 0; }
+  .pull cite { display: block; margin-top: 1.1rem; font-style: normal; font-size: 0.88rem; color: var(--ink-2); font-weight: 600; }
+  .pull cite span { display: block; color: var(--ink-3); font-weight: 400; }
+  .pull.small { margin-bottom: 2.2rem; }
+  .pull.small p { font-size: clamp(1.05rem, 1.8vw, 1.25rem); }
+
+  .placeholder { border: 1px dashed var(--ink-3); padding: 1.5rem; color: var(--ink-3); font-size: 0.9rem; }
+
+  .stats { display: flex; gap: 2.2rem; flex-wrap: wrap; margin: 1.2rem 0 1.3rem; }
+  .stats > div { display: flex; flex-direction: column; gap: 0.2rem; }
+  .fig { font-family: var(--mono); font-size: 1.8rem; font-weight: 500; line-height: 1; direction: ltr; unicode-bidi: isolate; }
+  .cap { font-size: 0.84rem; color: var(--ink-3); }
+  .facts { list-style: none; display: grid; gap: 0.55rem; margin: 1.2rem 0 0; padding: 0; }
+  .facts li { position: relative; padding-inline-start: 1.1rem; color: var(--ink-2); font-size: 0.93rem; }
+  .facts li::before { content: ""; position: absolute; inset-inline-start: 0; top: 0.78em; width: 8px; height: 1px; background: var(--ink-3); }
+</style>
