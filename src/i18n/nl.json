@@ -14,7 +14,8 @@
     "forIndividuals": "Voor particulieren",
     "forEmployers": "Voor werkgevers",
     "startSearch": "Plan een gesprek",
-    "workWithMe": "Werk met mij"
+    "workWithMe": "Werk met mij",
+    "pricing": "Wat ik bied"
   },
   "hero": {
     "eyebrow": "Coaching en headhunting - Amsterdam en Europa",
@@ -164,10 +165,12 @@
   "cta": {
     "eyebrow": "Laten we praten",
     "heading": "Waar je loopbaan ook heen gaat.",
-    "body": "Of je nu je volgende stap of je volgende aanwerving plant, het eerste gesprek is vrijblijvend en eerlijk. Vertel me wat je probeert te bereiken, en ik vertel je of ik kan helpen.",
+    "body": "Mijn expertise is de Europese arbeidsmarkt, en Nederland in het bijzonder. Ik help mensen hier werk te vinden, vooral in tech maar niet alleen. Een betaald adviesgesprek van 45 minuten eindigt met een schriftelijke samenvatting en een voorstel voor de volgende stap.",
     "primary": "Begin een gesprek",
     "talk": "Laten we praten",
-    "email": "alon@techexpats.nl"
+    "email": "alon@techexpats.nl",
+    "book": "Plan een adviesgesprek",
+    "prices": "Wat ik bied"
   },
   "footer": {
     "tagline": "Loopbaancoaching en headhunting door heel Europa. Professionals helpen aan de juiste stap en bedrijven aan de juiste mensen. Opgericht door Alon Gildoni. Gevestigd in Amsterdam, sinds 2018.",
@@ -253,7 +256,7 @@
     "howHeading": "Hoe ik werk",
     "how1": "Ik neem een klein aantal mensen en bedrijven tegelijk aan. Elke opdracht begint met een eerlijk gesprek over hoe succes er echt uitziet, en ik vertel je vroeg als ik niet de juiste persoon ben om te helpen. Het werk is persoonlijk, direct en gebouwd om te beklijven.",
     "closeHeading": "Laten we praten",
-    "close1": "Plan je je volgende stap, of je volgende aanwerving, dan hoor ik er graag over. Het eerste gesprek is vrijblijvend en zonder pitch.",
+    "close1": "Plan je je volgende stap, of je volgende aanwerving, dan hoor ik er graag over. Een betaald adviesgesprek, en zonder pitch.",
     "ctaPrimary": "Begin een gesprek",
     "ctaInsights": "Lees mijn artikelen",
     "factsHeading": "In het kort",
@@ -353,14 +356,14 @@
     "honestLabel": "Eerlijk, over de belofte",
     "honest": "Ik beloof geen baan. Een baan beloven zou onverantwoord zijn; zoiets bestaat niet. Mijn cijfers zijn erg goed, maar er is ook geluk, vraag en sector, een miljoen dingen die niet alleen aan ons liggen. Wat ik wel kan zeggen: goede mensen vinden een baan.",
     "ctaHeading": "Klaar om de baan te vinden, niet zomaar werk?",
-    "ctaBody": "Als je zoektocht niet loopt zoals het zou moeten, laten we praten. Het eerste gesprek is vrijblijvend en zonder pitch.",
-    "ctaPrimary": "Plan een gratis kennismakingsgesprek",
+    "ctaBody": "Als je zoektocht niet loopt zoals het zou moeten, laten we praten. Een betaald adviesgesprek van 45 minuten, zonder pitch, met iets op papier waar je mee verder kunt.",
+    "ctaPrimary": "Plan een adviesgesprek",
     "closing": "Vind de baan, niet zomaar werk. Benader een persoon, geen vacature."
   },
   "book": {
     "eyebrow": "Laten we praten",
-    "heading": "Plan een gratis kennismakingsgesprek.",
-    "sub": "Kies een moment dat jou uitkomt. Een gesprek van 30 minuten, geen verkooppraatje, gewoon een eerlijk gesprek over waar je loopbaan heen gaat en of ik kan helpen."
+    "heading": "Plan een adviesgesprek.",
+    "sub": "45 minuten over jouw situatie, met een schriftelijke samenvatting en een voorstel voor de volgende stap. Mijn expertise is de Europese arbeidsmarkt, en Nederland in het bijzonder: vooral tech, maar niet alleen. Het gesprek is betaald en staat op zichzelf."
   },
   "fork": {
     "eyebrow": "Loopbaancoaching en headhunting, in heel Europa",

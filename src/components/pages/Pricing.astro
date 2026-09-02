@@ -15,13 +15,14 @@ const { lang = "he" } = Astro.props;
 // first and scheduled afterwards, by mail.
 // ---------------------------------------------------------------------------
 const LINKS = {
-  calendlyOrientation: "", // e.g. https://calendly.com/agildoni/orientation-call
-  payOrientation: "",      // Stripe payment link, 180
+  calendlyOrientation: "https://calendly.com/agildoni/new-meeting", // 45 דקות, 120 יורו, נגבה בתוך Calendly
+  payOrientation: "",      // לא בשימוש. התשלום על השיחה נגבה בתוך Calendly
   payWorkshop: "https://buy.stripe.com/bJe6oI6J6h1I7RS6UacEw01", // 60
-  paySevenADay: "",        // Stripe payment link, 360
-  payCandidacy: "",        // Stripe payment link, 420
-  payProfile: "",          // Stripe payment link, 740
-  payFull: "",             // Stripe payment link, 1.870
+  paySevenADay: "https://buy.stripe.com/00wfZi1oM5j0dcc4M2cEw06", // 360
+  payCandidacy: "https://buy.stripe.com/9B614o7NacLsb446UacEw02", // 420
+  payEmployers: "https://buy.stripe.com/eVq00kaZm4eW3BCbaqcEw05", // 35
+  payProfile: "https://buy.stripe.com/fZu9AU9VifXE0pqfqGcEw03", // 740
+  payFull: "https://buy.stripe.com/9B69AU0kI8vcegg2DUcEw04", // 1.870
 };
 // iDEAL is enabled in Stripe payment method settings, not per link. Stripe
 // surfaces it first for buyers in the Netherlands, which is most of the book:
@@ -33,6 +34,7 @@ const ready = (u: string) => (u && u.length > 0 ? u : "#");
 const byName = (n: string) => testimonials.find((t) => t.name === n);
 const q = (n: string) => byName(n)?.quote?.he ?? "";
 const role = (n: string) => byName(n)?.role ?? "";
+const avatar = (n: string) => byName(n)?.avatar ?? "";
 const short = (s: string, max = 260) => (s.length > max ? s.slice(0, s.lastIndexOf(" ", max)) + "…" : s);
 
 const PRODUCTS = [
@@ -49,6 +51,17 @@ const PRODUCTS = [
     ],
   },
   {
+    label: "מאגר המעסיקים הישראליים",
+    title: "ספר טלפונים של החברות הישראליות בהולנד.",
+    price: "35",
+    pay: "payEmployers",
+    items: [
+      "רק חברות עם פעילות ממשית בהולנד, לא סניף על הנייר. לכל אחת הערים, הכתובות, סוגי התפקידים וקישור לעמוד הקריירה",
+      "גישה עם סיסמה למאגר החי. אני מתחזק אותו, חברות נכנסות ויוצאות, ואתם רואים תמיד את המצב המעודכן",
+      "נקודת התחלה לחיפוש עצמאי. זה מאגר, לא כיוון: הוא לא יודע מי אתם ולאן כדאי לכם לכוון",
+    ],
+  },
+  {
     label: "שבע ביום",
     title: "האפליקציה שמריצה את החיפוש.",
     price: "360",
@@ -57,7 +70,7 @@ const PRODUCTS = [
       "חיפוש עבודה שנעשה נכון הוא משמעת, לא הגרלה. שבע פעולות ממוקדות ביום, עם רצפים ותנופה",
       "מאגר חברות: דירוג, הפעולה הבאה, ותיעוד כל אינטראקציה",
       "“פריזר” להקפאת חברות לכמה ימים, ו“מגרש חניה” ללידים",
-      "מאגר של 78 חברות ישראליות עם נוכחות אמיתית בהולנד, והסדנה המוקלטת כלולה",
+      "מאגר החברות הישראליות בהולנד כלול, וגם הסדנה המוקלטת",
       "שלושה חודשים, ואחר כך 29 יורו לחודש. אפשר להפסיק בכל חודש",
     ],
   },
@@ -67,12 +80,13 @@ const SERVICES = [
   {
     label: "שיחת אוריינטציה",
     title: "בואו נדבר על המצב שלכם.",
-    price: "180",
+    price: "120",
     pay: "payOrientation",
     entry: true,
     items: [
       "קריאה של המקום שאתם נמצאים בו עכשיו, ולא הרצאה על השיטה",
-      "בסוף: ההקלטה, התמלול, ועמוד אחד עם שלושת הצעדים הבאים",
+      "בסוף השיחה: סיכום כתוב ומסודר, והצעה לצעדים הבאים",
+      "עומדת בפני עצמה. אין חובה להמשיך לשום דבר אחרי, ולרבים זה כל מה שהיה חסר",
     ],
   },
   {
@@ -88,20 +102,23 @@ const SERVICES = [
     ],
   },
   {
-    label: "פרופיל ורשימת מעסיקים",
-    title: "מי אתם מקצועית, ולמי כדאי לפנות.",
+    label: "מחשבים מסלול מחדש",
+    title: "כבר תקופה שאתם מחפשים, ולא קורה כלום.",
     price: "740",
     pay: "payProfile",
     entry: false,
     items: [
-      "הפרופיל המקצועי שלכם, כתוב: במה אתם מומחי תוכן, במשפט שאפשר לעמוד מאחוריו",
-      "בין 12 ל-17 מעסיקים בשמם, כל אחד עם הסיבה, איש קשר, והמשפט שאיתו פונים",
+      "אם אתם כאן, כנראה כבר ניסיתם. שלחתם, פניתם, וקיבלתם דחיות אוטומטיות או שקט. בשלב הזה זה כבר פשוט מעייף",
+      "הבעיה בדרך כלל היא לא הכמות. עוד מאה פניות באותו מסלול יביאו עוד מאה דחיות. אז עוצרים, ובונים תוכנית מחדש",
+      "מתחילים בכם: מה בדיוק אתם רוצים להשיג, ומה אתם מביאים. הפרופיל המקצועי שלכם, כתוב",
+      "ומשם המסלול: לאן מכוונים, אל מי פונים בכל מקום, ומה המשפט שאיתו פותחים",
+      "המטרה היא לא למצוא עבודה. היא למצוא את העבודה: האופטימלית עבורכם, במקום שתשמחו להיות בו, אצל מעסיק שרק חיכה שתגיעו",
       "שבע ביום כלול, לשלושה חודשים",
     ],
   },
   {
-    label: "מלווים",
-    title: "מההתחלה ועד חוזה חתום.",
+    label: "ליווי מקצה לקצה",
+    title: "לא רק לדעת מה לעשות, אלא לעשות את זה יחד.",
     price: "1.870",
     pay: "payFull",
     entry: false,
@@ -121,6 +138,10 @@ const SERVICES = [
     <span class="eyebrow">מה זה עולה</span>
     <h1 class="display-xl">מוצרים,<br /><em>וייעוץ.</em></h1>
     <p class="lead">מוצר הוא דבר שאתם קונים ומשתמשים בו לבד, בקצב שלכם. ייעוץ הוא הזמן שלי, אתכם. כל מחיר כאן גלוי, ולצידו כתוב בדיוק מה מקבלים.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href={ready(LINKS.calendlyOrientation || LINKS.payOrientation)}>לקביעת שיחת אוריינטציה · 120 יורו</a>
+      <p class="hero-cta-note">45 דקות על המצב שלכם, וסיכום כתוב שנשאר לכם. למי שכבר יודע מה הוא רוצה, כל מחיר בעמוד ניתן לרכישה ישירה, בלי לדבר איתי קודם.</p>
+    </div>
   </div>
 </section>
 
@@ -130,7 +151,7 @@ const SERVICES = [
 
       <div class="col">
         <span class="eyebrow">מוצרים</span>
-        <p class="col-lead">קונים פעם אחת ומשתמשים לבד. בלי פגישות ובלי תיאום יומן.</p>
+        <p class="col-lead">קונים פעם אחת ומשתמשים לבד. בלי פגישות, בלי תיאום יומן, ובלי לדבר איתי קודם.</p>
         <div class="rows">
           {PRODUCTS.map((p) => (
             <article class="row">
@@ -148,7 +169,7 @@ const SERVICES = [
 
       <div class="col">
         <span class="eyebrow">ייעוץ</span>
-        <p class="col-lead">הזמן שלי, אתכם. כל אחד מהם מסתיים במסמך שנשאר לכם ביד.</p>
+        <p class="col-lead">הזמן שלי, אתכם. כל אחד מהם מסתיים במסמך שנשאר לכם ביד, וכל אחד מהם עומד בפני עצמו. <strong>לא בטוחים מה מתאים? תתחילו בשיחת אוריינטציה.</strong> <strong>יודעים בדיוק מה אתם רוצים? תקנו ישירות.</strong></p>
         <div class="rows">
           {SERVICES.map((p) => (
             <article class={p.entry ? "row entry" : "row"}>
@@ -158,16 +179,18 @@ const SERVICES = [
                 <p class="price-line"><span class="price">{p.price}</span><span class="cur">יורו</span></p>
               </div>
               <ul class="items">{p.items.map((i) => <li>{i}</li>)}</ul>
-              {p.entry && <p class="deduct">הסכום מתקזז במלואו ממה שתבחרו אחריה.</p>}
-              <a class="buy" href={ready(LINKS[p.pay as keyof typeof LINKS])}>{p.entry ? "לקביעת שיחה" : "לרכישה"}</a>
+              {p.entry
+                ? <a class="buy" href={ready(LINKS.calendlyOrientation)}>לקביעת שיחה</a>
+                : <a class="buy" href={ready(LINKS[p.pay as keyof typeof LINKS])}>לרכישה ישירה</a>}
             </article>
           ))}
         </div>
-        <p class="why">אין שיחת היכרות חינם. שיחה חינמית היא לא באמת חינם: אני נותן בה את הדבר הכי טוב שיש לי, ואתם יוצאים ממנה עם עצה שאין לכם מה לעשות איתה. עדיף לגבות, לתת לכם משהו כתוב, ולהחזיר לכם את הכסף בתוך המחיר של מה שתבחרו.</p>
+        <a class="btn btn-primary svc-cta" href={ready(LINKS.calendlyOrientation)}>לקביעת שיחת אוריינטציה · 120 יורו</a>
+        <p class="why">אין שיחת היכרות חינם. שיחה חינמית היא לא באמת חינם: אני נותן בה את הדבר הכי טוב שיש לי, ואתם יוצאים ממנה עם עצה שאין לכם מה לעשות איתה. עדיף לגבות מעט, ולתת לכם משהו כתוב שאפשר לעשות איתו משהו.</p>
       </div>
 
     </div>
-    <p class="vat-note"><strong>המחירים אינם כוללים מע"מ.</strong> מע"מ הולנדי בשיעור 21% מתווסף למי שחייב בו, ומחושב אוטומטית בעמוד התשלום לפי מקום המגורים. <strong>לתושבי ישראל ולמי שגר מחוץ לאיחוד האירופי לא מתווסף מע"מ</strong>, והמחיר הוא זה שמופיע כאן.</p>
+    <p class="vat-note"><strong>המחירים אינם כוללים מע"מ.</strong> מע"מ הולנדי בשיעור 21% מתווסף ללקוחות פרטיים באיחוד האירופי, ומחושב אוטומטית בעמוד התשלום. <strong>לתושבי ישראל ולמי שגר מחוץ לאיחוד האירופי לא מתווסף מע"מ</strong>, והמחיר הוא זה שמופיע כאן. שיחת האוריינטציה היא היוצאת מן הכלל: המחיר שלה הוא סופי, 120 יורו, ולא מתווסף לו דבר.</p>
   </div>
 </section>
 
@@ -176,7 +199,7 @@ const SERVICES = [
   <div class="container">
     <blockquote class="pull">
       <p>{short(q("Idan Batuner"), 300)}</p>
-      <cite>עידן בטונר<span>{role("Idan Batuner")}</span></cite>
+      <cite><img src={avatar("Idan Batuner")} alt="" loading="lazy" /><span class="who">עידן בטונר<span>{role("Idan Batuner")}</span></span></cite>
     </blockquote>
   </div>
 </section>
@@ -187,8 +210,8 @@ const SERVICES = [
     <div class="split">
       <div class="col">
         <span class="eyebrow">לקבוע</span>
-        <h2 class="display-md">שיחת אוריינטציה, 180 יורו.</h2>
-        <p class="body">בוחרים מועד, משלמים, ומקבלים אישור. אם אחרי השיחה תבחרו להמשיך, הסכום יורד מהמחיר.</p>
+        <h2 class="display-md">שיחת אוריינטציה, 120 יורו.</h2>
+        <p class="body">בוחרים מועד, משלמים, ומקבלים אישור. לרבים זה מספיק בפני עצמו: לצאת עם תמונה ברורה של המצב ועם הצעה לצעדים הבאים, ולהחליט משם לבד.</p>
         {LINKS.calendlyOrientation
           ? <div class="calendly-inline-widget" data-url={LINKS.calendlyOrientation} style="min-width:320px;height:660px;"></div>
           : <p class="placeholder">כאן ייכנס לוח הזמנים. צריך אירוע חדש ב-Calendly לשיחה בתשלום, והכתובת שלו נכנסת לראש הקובץ.</p>}
@@ -196,11 +219,11 @@ const SERVICES = [
       <div class="col">
         <blockquote class="pull small">
           <p>{short(q("Oded Babayoff"), 220)}</p>
-          <cite>עודד בבייוף<span>{role("Oded Babayoff")}</span></cite>
+          <cite><img src={avatar("Oded Babayoff")} alt="" loading="lazy" /><span class="who">עודד בבייוף<span>{role("Oded Babayoff")}</span></span></cite>
         </blockquote>
         <blockquote class="pull small">
           <p>{short(q("Yair Sepunaru"), 220)}</p>
-          <cite>יאיר ספונארו<span>{role("Yair Sepunaru")}</span></cite>
+          <cite><img src={avatar("Yair Sepunaru")} alt="" loading="lazy" /><span class="who">יאיר ספונארו<span>{role("Yair Sepunaru")}</span></span></cite>
         </blockquote>
       </div>
     </div>
@@ -263,16 +286,20 @@ const SERVICES = [
   .items li { position: relative; padding-inline-start: 0.95rem; color: var(--ink-2); }
   .items li::before { content: ""; position: absolute; inset-inline-start: 0; top: 0.76em; width: 6px; height: 1px; background: var(--ink-3); }
 
-  .deduct { margin: 0.85rem 0 0; padding: 0.55rem 0.85rem; background: var(--accent); color: var(--paper); font-size: 0.86rem; }
   .buy { display: inline-block; margin-top: 0.9rem; font-size: 0.85rem; font-weight: 600; color: var(--accent-ink); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; }
   .buy:hover { color: var(--ink); border-color: var(--ink); }
   .why { margin: 1.4rem 0 0; padding-inline-start: 1.1rem; border-inline-start: 2px solid var(--line); color: var(--ink-3); font-size: 0.89rem; }
   .vat-note { margin: 2rem 0 0; font-size: 0.84rem; color: var(--ink-3); }
 
+  .hero-cta { margin-top: 2.2rem; }
+  .hero-cta-note { margin: 0.9rem 0 0; color: var(--ink-3); font-size: 0.92rem; max-width: 52ch; }
+  .svc-cta { margin-top: 1.6rem; }
   .quote-sec { padding-block: calc(var(--section) * 0.5); }
   .pull { margin: 0; max-width: 62ch; }
   .pull p { font-family: var(--display); font-weight: var(--display-weight); font-size: clamp(1.25rem, 2.4vw, 1.75rem); line-height: 1.4; color: var(--ink); margin: 0; }
-  .pull cite { display: block; margin-top: 1.1rem; font-style: normal; font-size: 0.88rem; color: var(--ink-2); font-weight: 600; }
+  .pull cite { display: flex; align-items: center; gap: 0.75rem; margin-top: 1.2rem; font-style: normal; font-size: 0.88rem; color: var(--ink-2); font-weight: 600; }
+  .pull cite img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex: none; }
+  .pull cite .who { display: block; }
   .pull cite span { display: block; color: var(--ink-3); font-weight: 400; }
   .pull.small { margin-bottom: 2.2rem; }
   .pull.small p { font-size: clamp(1.05rem, 1.8vw, 1.25rem); }

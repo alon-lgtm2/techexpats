@@ -1,12 +1,12 @@
 ---
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
-import { getT, type Lang } from "../../i18n";
+import { getT, type Lang, BOOKING_URL } from "../../i18n";
 interface Props { lang?: Lang }
 const { lang = "en" } = Astro.props;
 const t = getT(lang);
 const b = t.book;
-const calendly = "https://calendly.com/agildoni/30-min-with-alon";
+const calendly = BOOKING_URL;
 ---
 
 <Nav lang={lang} />
