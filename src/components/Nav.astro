@@ -18,6 +18,9 @@ const pick = (m: Record<string, string>) => m[lang] ?? m.en;
 const links = [
   { label: t.nav.howItWorks, href: "/how-it-works" },
   { label: t.nav.careerAdvice, href: "/career-advice" },
+  // Hebrew-only, because the pricing page exists only in Hebrew. Adding it to
+  // the English or Dutch nav would send those readers to a 404 (2026-09-02).
+  ...(lang === "he" ? [{ label: t.nav.pricing, href: "/pricing" }] : []),
   // Hebrew-only: the AI tools are written in Hebrew and coach in Hebrew,
   // so they are surfaced on the Hebrew track only (harvested from jobs.israelis.nl, 2026-07-21).
   ...(lang === "he" ? [{ label: "כלי AI", href: "/ai-tools" }] : []),

@@ -14,7 +14,8 @@
     "forIndividuals": "For Individuals",
     "forEmployers": "For employers",
     "startSearch": "Book a call",
-    "workWithMe": "Work With Me"
+    "workWithMe": "Work With Me",
+    "pricing": "What I offer"
   },
   "hero": {
     "eyebrow": "Coaching and headhunting - Amsterdam and Europe",
@@ -164,10 +165,12 @@
   "cta": {
     "eyebrow": "Let's talk",
     "heading": "Wherever your career is going.",
-    "body": "Whether you are planning your next move or your next hire, the first conversation is free and honest. Tell me what you are trying to do, and I will tell you if I can help.",
+    "body": "My expertise is the European job market, and the Netherlands in particular. I help people find work here, mostly in tech but not only. A paid 45 minute consultation ends with a written summary and a proposed next step.",
     "primary": "Start a conversation",
     "talk": "Let's Talk",
-    "email": "alon@techexpats.nl"
+    "email": "alon@techexpats.nl",
+    "book": "Book a consultation",
+    "prices": "What I offer"
   },
   "footer": {
     "tagline": "Career coaching and headhunting across Europe. Helping professionals find the right move and companies find the right people. Founded by Alon Gildoni. Amsterdam-based, since 2018.",
@@ -253,7 +256,7 @@
     "howHeading": "How I work",
     "how1": "I take on a small number of people and companies at a time. Every engagement starts with an honest conversation about what success really looks like, and I will tell you early if I am not the right person to help. The work is personal, direct, and built to last past the first decision.",
     "closeHeading": "Let's talk",
-    "close1": "If you are planning your next move, or your next hire, I would like to hear about it. The first conversation is free and there is no pitch.",
+    "close1": "If you are planning your next move, or your next hire, I would like to hear about it. A paid consultation, and no pitch.",
     "ctaPrimary": "Start a conversation",
     "ctaInsights": "Read my writing",
     "factsHeading": "At a glance",
@@ -353,14 +356,14 @@
     "honestLabel": "Honestly, about the promise",
     "honest": "I do not promise a job. Promising a job would be irresponsible; there is no such thing. My numbers are very good, but there is also luck, demand, and industry, a million things that are not only up to us. What I can say: good people find roles.",
     "ctaHeading": "Ready to find the role, not a job?",
-    "ctaBody": "If your search is not moving the way it should, let's talk. The first conversation is free and there is no pitch.",
-    "ctaPrimary": "Book a free intro call",
+    "ctaBody": "If your search is not moving the way it should, let's talk. A paid 45 minute consultation, no pitch, ending in something written you can act on.",
+    "ctaPrimary": "Book a consultation",
     "closing": "Find the role, not a job. Reach a person, not a posting."
   },
   "book": {
     "eyebrow": "Let's talk",
-    "heading": "Book a free intro call.",
-    "sub": "Pick a time that works for you. A 30-minute call, no pitch, just an honest conversation about where your career is going and whether I can help."
+    "heading": "Book a consultation.",
+    "sub": "45 minutes on your situation, ending in a written summary and a proposed next step. My expertise is the European job market, and the Netherlands in particular: mostly tech, but not only. The call is paid, and it stands on its own."
   },
   "fork": {
     "eyebrow": "Career coaching and headhunting, across Europe",
