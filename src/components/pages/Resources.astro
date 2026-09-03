@@ -68,6 +68,77 @@ const COPY = {
 const c = COPY[lang as "en" | "he"] ?? COPY.en;
 
 // ---------------------------------------------------------------------------
+// THE DUTCH MARKET. Hebrew only, on Alon's instruction (2026-09-03): there is a
+// lot of market knowledge sitting in his deck and his articles, and none of it
+// was on this page. Sources, so nothing here is invented:
+//   - "מוצאים עבודה בהולנד", his own webinar deck, slides 10 to 14 and 25
+//   - flywheel-he.mdx (the 242 figure and its 2017 comparison)
+//   - summer-hunt-he.mdx (the Dutch hiring calendar, with its official links)
+//   - stop-looking-for-a-job-he.mdx (companies, not jobs)
+// Every claim below traces to one of those. When the articles change, this
+// changes with them.
+// ---------------------------------------------------------------------------
+const MARKET_HE = {
+  eyebrow: "השוק ההולנדי",
+  h2: "מה באמת שונה כאן, ומה לעשות עם זה.",
+  sub: "רוב מה שעובד בישראל עובד כאן אחרת, ולא תמיד פחות טוב. אלה ההבדלים שאני רואה חוזרים אצל כמעט כל מי שאני מלווה.",
+  blocks: [
+    {
+      k: "01",
+      h: "השוק הוא שוק של מעסיקים, והמספרים לא מחמיאים",
+      p: "כל משרה פתוחה מקבלת היום 242 מועמדויות בממוצע, כמעט פי שלושה מ-2017, כששיעור האבטלה היה דומה לזה של היום. מערכות הסינון אגרסיביות מתמיד, ומשרה שמתפרסמת מקבלת מאות פניות תוך דקות. התגובה האינטואיטיבית היא להגיש יותר ולמגוון רחב יותר, וזו בדיוק הטעות: רוחב אי אפשר לאמת, ספציפיות אפשר.",
+      link: { t: "המאמר המלא על למה חיפוש מפוזר נכשל", u: "/insights/flywheel-he" },
+    },
+    {
+      k: "02",
+      h: "תפיסת החדשנות: לא אותה תעשייה",
+      p: "ישראל ידועה כאומת הסטארט-אפ, עם דגש על סייבר, אגריטק וטכנולוגיה רפואית. הולנד מתמקדת במקום אחר לגמרי: מערכות תשתית, מערכות פיננסיות ובנקאות, אנרגיה ומדעי החיים, ופתרונות עיר חכמה ובת-קיימא. סטארט-אפים במובן הישראלי קיימים כאן, אבל הם מיעוט.",
+      list: [
+        "התאימו את הטרמינולוגיה בקורות החיים לתעשיות שבאמת חזקות כאן, ולא לאלה שהייתם רגילים אליהן",
+        "יש חברות בינלאומיות שפועלות בהולנד ושוברות את המשוואה הזאת. הן שוות מיפוי בפני עצמן",
+        "מי שנמשך יותר למעבר להולנד ופחות לעבודה דווקא בהולנד יכול לבחון Remote, אם כי התחום בנסיגה מאז הקורונה",
+      ],
+    },
+    {
+      k: "03",
+      h: "תרבות עבודה: מה שנחשב חיסרון הוא לרוב יתרון",
+      p: "מולכם עומד שוק עם מחסור אמיתי בכוח אדם מקומי, הסתמכות על עובדים מחו״ל, שליטה גבוהה באנגלית, ודגש חזק על איזון בין עבודה לחיים. מולו אתם מביאים רקע טכני חזק, קצב מהיר וגישה של doer. הפער הזה מפחיד אנשים ולא צריך.",
+      list: [
+        "ה-doer approach הוא יתרון דרמטי בעיני מעסיק הולנדי. הבליטו אותו בקורות החיים ובתהליך המיון",
+        "רקע צבאי, אם הוא רלוונטי לתפקיד, אינו דבר רע כאן",
+        "הולנדית איננה הכרחית אצל רוב המעסיקים, אבל היא יתרון ממשי בתפקידים לא טכנולוגיים ובחברות מסורתיות יותר",
+        "קצב העבודה ההולנדי יכול לעצבן הייטקיסט ישראלי ותיק. הוא גם ההזדמנות להשקיע יותר בחיים שמחוץ לעבודה",
+      ],
+    },
+    {
+      k: "04",
+      h: "לוח השנה ההולנדי, וזה החלק שאף אחד לא מספר לכם",
+      p: "לגיוס כאן יש עונות, והן קבועות ומתואמות ברמה הלאומית. מי שלא מחשב אותן אחורה מגלה באיחור שהוא איבד רבעון שלם.",
+      list: [
+        "תהליך גיוס לתפקיד בכיר לוקח שישה עד עשרה שבועות, כמה סבבים ולפעמים מטלת בית",
+        "אחרי החתימה עוד לא מתחילים: בחוק ההולנדי התפטרות נכנסת לתוקף רק ב-1 בחודש העוקב, ואצל בכירים תקופת ההודעה המוקדמת היא לרוב חודשיים",
+        "ב-31 באוגוסט כל המדינה חוזרת לשולחן בבת אחת, וספטמבר הוא החודש העמוס ביותר בשנה בהגשות מועמדות",
+        "מה-19 בדצמבר המדינה כבויה, חוזרים באמצע ינואר לאט, ותהליכי גיוס מתניעים באמת רק בפברואר",
+      ],
+      link: { t: "החשבון המלא, מהסוף להתחלה", u: "/insights/summer-hunt-he" },
+    },
+    {
+      k: "05",
+      h: "מחפשים חברות, לא משרות",
+      p: "זו המסקנה המעשית מכל מה שלמעלה, והיא גם השיטה שאני עובד לפיה. כשיורים לכל עבר, המשאב שנשרף הוא הקשב, וכל מאמץ בא על חשבון מאמץ אחר.",
+      list: [
+        "היו קמצנים בקורות חיים. המטרה שלהם היא לעבור את המשוכה הראשונה, לא לספר את סיפור חייכם",
+        "אל תהיו nice to have. תפקיד שאפשר לוותר עליו הוא הראשון שמוותרים עליו",
+        "צרו קשר עם הדהאנטרים וחברות השמה, ותחזקו אותו לאורך זמן ולא רק כשצריך",
+        "עקבו אחרי חברות שגייסו הון לאחרונה, אחרי מיטאפים, ואחרי הקהילות שבהן אנשים באמת מדברים",
+      ],
+      link: { t: "למה להפסיק לחפש עבודה", u: "/insights/stop-looking-for-a-job-he" },
+    },
+  ],
+};
+
+
+// ---------------------------------------------------------------------------
 // LIBRARY. Harvested from jobs.israelis.nl/library before its sunset (2026-07-21).
 // The value here is the commentary and the curation, not the links themselves.
 // Every URL below was HTTP-checked on 2026-07-21.
@@ -227,6 +298,29 @@ const pickL = (m: Record<string, string>) => m[lang] ?? m.en;
 </section>
 
 <!-- LIBRARY (harvested from jobs.israelis.nl, 2026-07-21) -->
+{lang === "he" && (
+<section class="section market">
+  <div class="container">
+    <span class="eyebrow">{MARKET_HE.eyebrow}</span>
+    <h2 class="display-md mk-h2">{MARKET_HE.h2}</h2>
+    <p class="mk-sub">{MARKET_HE.sub}</p>
+    <div class="mk-blocks">
+      {MARKET_HE.blocks.map((b) => (
+        <article class="mk-block">
+          <span class="mk-k">{b.k}</span>
+          <div>
+            <h3>{b.h}</h3>
+            <p>{b.p}</p>
+            {b.list && <ul class="mk-list">{b.list.map((i) => <li>{i}</li>)}</ul>}
+            {b.link && <a class="mk-link" href={b.link.u}>{b.link.t}</a>}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+)}
+
 <section class="section alt library">
   <div class="container">
     <span class="eyebrow">{lh.eyebrow}</span>
@@ -251,6 +345,19 @@ const pickL = (m: Record<string, string>) => m[lang] ?? m.en;
 <Footer lang={lang} />
 
 <style>
+  .mk-h2 { margin: 1.1rem 0 0.8rem; }
+  .mk-sub { color: var(--ink-2); max-width: 56ch; margin-bottom: 3rem; }
+  .mk-blocks { display: grid; gap: 2.6rem; }
+  .mk-block { display: grid; grid-template-columns: auto 1fr; gap: 1.2rem; align-items: start; border-top: 1px solid var(--line); padding-top: 1.8rem; }
+  .mk-k { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); padding-top: 0.35rem; direction: ltr; unicode-bidi: isolate; }
+  .mk-block h3 { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.3rem; margin: 0 0 0.7rem; color: var(--ink); }
+  .mk-block p { color: var(--ink-2); margin: 0; max-width: 68ch; }
+  .mk-list { list-style: none; display: grid; gap: 0.5rem; margin: 1rem 0 0; padding: 0; }
+  .mk-list li { position: relative; padding-inline-start: 1.1rem; color: var(--ink-2); font-size: 0.95rem; }
+  .mk-list li::before { content: ""; position: absolute; inset-inline-start: 0; top: 0.78em; width: 8px; height: 1px; background: var(--ink-3); }
+  .mk-link { display: inline-block; margin-top: 1rem; font-size: 0.88rem; font-weight: 600; color: var(--accent-ink); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; }
+  .mk-link:hover { color: var(--ink); border-color: var(--ink); }
+
   .hero .lead { max-width: 58ch; margin-top: 1.5rem; }
   .alt { background: var(--paper-2); }
   .k { color: var(--accent); }
