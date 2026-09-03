@@ -1,7 +1,9 @@
 ﻿---
 import Base from "../../layouts/Base.astro";
 import ForCompanies from "../../components/pages/ForCompanies.astro";
+import { getT } from "../../i18n";
+const t = getT("nl");
 ---
-<Base lang="nl">
+<Base lang="nl" title="Voor bedrijven - TechExpats" description={t.forCompanies.sub}>
   <ForCompanies lang="nl" />
 </Base>

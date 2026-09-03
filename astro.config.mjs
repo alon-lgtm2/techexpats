@@ -18,6 +18,10 @@ export default defineConfig({
     // pages carry, which is what stops three translations of one page reading
     // as three competing duplicates.
     sitemap({
+      // lastmod on every entry, from the build time. The sitemap shipped without
+      // it, so a crawler had no signal about what had changed and recrawled on
+      // its own schedule (2026-09-03).
+      lastmod: new Date(),
       i18n: {
         defaultLocale: 'en',
         locales: { en: 'en', nl: 'nl', he: 'he' },

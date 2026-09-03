@@ -2,8 +2,40 @@
 import Base from "../layouts/Base.astro";
 import Home from "../components/Home.astro";
 const alternates = { en: "/", nl: "/nl/", he: "/he/" };
+const jsonld = [
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: "TechExpats",
+    url: "https://techexpats.nl/",
+    description: "Career coaching and headhunting across Europe, with the Dutch job market as the specialism.",
+    areaServed: [{ "@type": "Country", name: "Netherlands" }, { "@type": "Place", name: "Europe" }],
+    address: { "@type": "PostalAddress", addressLocality: "Amsterdam", addressCountry: "NL" },
+    founder: { "@type": "Person", name: "Alon Gildoni" },
+    knowsLanguage: ["en", "nl", "he"],
+    sameAs: ["https://israelis.nl"],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Alon Gildoni",
+    url: "https://techexpats.nl/about/",
+    jobTitle: "Career coach and headhunter",
+    worksFor: { "@type": "Organization", name: "TechExpats" },
+    homeLocation: { "@type": "Place", name: "Amsterdam, Netherlands" },
+    knowsAbout: [
+      "Dutch job market",
+      "hiring in the Netherlands",
+      "highly skilled migrant permit",
+      "the 30% ruling",
+      "career coaching",
+      "technical recruitment",
+    ],
+  },
+];
+
 ---
 
-<Base lang="en" alternates={alternates}>
+<Base lang="en" title="TechExpats - Career Moves, led by Alon Gildoni" description="Career coaching and headhunting across Europe, from Amsterdam. Find the job, not just a job: the European market, the Netherlands in particular, mostly tech but not only." alternates={alternates} jsonld={jsonld}>
   <Home lang="en" />
 </Base>

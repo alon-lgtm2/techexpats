@@ -1,7 +1,9 @@
 ﻿---
 import Base from "../../layouts/Base.astro";
 import About from "../../components/pages/About.astro";
+import { getT } from "../../i18n";
+const t = getT("nl");
 ---
-<Base lang="nl">
+<Base lang="nl" title={`Over ${t.aboutPage.name} - TechExpats`} description={t.aboutPage.tagline}>
   <About lang="nl" />
 </Base>

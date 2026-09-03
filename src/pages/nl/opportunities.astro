@@ -1,7 +1,9 @@
 ﻿---
 import Base from "../../layouts/Base.astro";
 import Opportunities from "../../components/pages/Opportunities.astro";
+import { getT } from "../../i18n";
+const t = getT("nl");
 ---
-<Base lang="nl">
+<Base lang="nl" title="Vacatures - TechExpats" description={t.opps.body}>
   <Opportunities lang="nl" />
 </Base>

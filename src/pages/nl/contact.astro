@@ -1,7 +1,9 @@
 ﻿---
 import Base from "../../layouts/Base.astro";
 import Contact from "../../components/pages/Contact.astro";
+import { getT } from "../../i18n";
+const t = getT("nl");
 ---
-<Base lang="nl">
+<Base lang="nl" title="Contact opnemen - TechExpats" description={t.contact.body}>
   <Contact lang="nl" />
 </Base>

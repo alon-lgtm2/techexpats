@@ -1,7 +1,9 @@
 ﻿---
 import Base from "../../layouts/Base.astro";
 import ArticleList from "../../components/pages/ArticleList.astro";
+import { getT } from "../../i18n";
+const t = getT("nl");
 ---
-<Base lang="nl">
+<Base lang="nl" title="Loopbaanadvies - TechExpats" description={t.insights.b2cSub}>
   <ArticleList lang="nl" audience="individuals" />
 </Base>

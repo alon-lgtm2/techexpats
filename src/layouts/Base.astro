@@ -12,6 +12,13 @@ export interface Props {
   ogType?: "website" | "article";
   noindex?: boolean;
   /**
+   * Structured data for this page, emitted as application/ld+json. Search
+   * engines use it to understand what the page IS (an article, a business, a
+   * person) rather than inferring it from the markup. Added 2026-09-03: the
+   * site had canonical, hreflang and og tags but no schema.org at all.
+   */
+  jsonld?: Record<string, unknown> | Record<string, unknown>[];
+  /**
    * Locale alternates for this page, as { en, nl, he } root-relative paths.
    * Only pass this when the page genuinely exists in those locales, otherwise
    * hreflang would advertise URLs that 404. Emits hreflang + x-default (English).
@@ -27,6 +34,7 @@ const {
   ogType = "website",
   noindex = false,
   alternates,
+  jsonld,
 } = Astro.props;
 
 const ogImageAbs = ogImage ? new URL(ogImage, Astro.site).href : undefined;
@@ -72,6 +80,10 @@ const dir = isRTL(lang) ? "rtl" : "ltr";
     {ogImageAbs && <meta property="og:image" content={ogImageAbs} />}
     {ogImageAbs && <meta name="twitter:card" content="summary_large_image" />}
     {ogImageAbs && <meta name="twitter:image" content={ogImageAbs} />}
+
+    {!noindex && jsonld && (
+      <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonld)} />
+    )}
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

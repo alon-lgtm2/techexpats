@@ -41,9 +41,30 @@ const t = getT(lang);
 const { Content } = await render(entry);
 const backHref = entry.data.audience === "companies" ? "/hiring-insights" : "/career-advice";
 const dateStr = entry.data.date;
+
+// Schema.org Article, so a post is indexed as a post by Alon and not as an
+// anonymous page. datePublished needs ISO; the frontmatter date is free text,
+// so anything unparseable is simply left out rather than guessed.
+const isoDate = (() => {
+  const d = new Date(entry.data.date);
+  return isNaN(d.getTime()) ? undefined : d.toISOString().slice(0, 10);
+})();
+const articleUrl = new URL(`/insights/${entry.id}/`, Astro.site).href;
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: entry.data.title,
+  description: entry.data.excerpt,
+  inLanguage: lang,
+  ...(isoDate ? { datePublished: isoDate } : {}),
+  ...(entry.data.image ? { image: new URL(entry.data.image, Astro.site).href } : {}),
+  author: { "@type": "Person", name: entry.data.author, url: new URL("/about/", Astro.site).href },
+  publisher: { "@type": "Organization", name: "TechExpats", url: Astro.site?.href },
+  mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
+};
 ---
 
-<Base lang={lang} title={`${entry.data.title} - TechExpats`} description={entry.data.excerpt} ogImage={entry.data.image} ogType="article" alternates={alternates}>
+<Base lang={lang} title={`${entry.data.title} - TechExpats`} description={entry.data.excerpt} ogImage={entry.data.image} ogType="article" alternates={alternates} jsonld={jsonld}>
   <Nav lang={lang} localePaths={localePaths} />
 
   <article class="section">
