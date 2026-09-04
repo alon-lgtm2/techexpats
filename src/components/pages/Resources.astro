@@ -35,6 +35,34 @@ const COPY = {
     closeHeading: "Want help turning this into a plan?",
     closeBody: "Information is the start. The work is knowing which doors to knock on, and how. Start with a paid consultation.",
   },
+  nl: {
+    eyebrow: "Nuttige informatie",
+    h1: "Ken de grond waarop je staat.",
+    sub: "Praktische en actuele informatie voor het opbouwen van een loopbaan in Nederland en de rest van Europa: de regels die je raken, wie een visum kan sponsoren, en waar de kansen liggen.",
+    newsKicker: "Nieuws",
+    newsDate: "Juni 2026",
+    newsTitle: "De nieuwe EU-regels voor loontransparantie, uitgelegd",
+    newsBody: "Een richtlijn die nu in de hele EU wordt ingevoerd verandert hoe salaris in wervingsprocessen wordt behandeld. Wat het in de praktijk betekent:",
+    newsPoints: [
+      "Werkgevers moeten een salaris of salarisrange tonen in de vacature of vóór het gesprek",
+      "Ze mogen niet meer vragen naar je salarisgeschiedenis",
+      "Je krijgt recht op informatie over beloningsniveaus voor vergelijkbare functies; bedrijven met 100+ medewerkers rapporteren hun loonkloof tussen mannen en vrouwen",
+    ],
+    newsTake: "Voor jou: meer positie en minder giswerk in salarisgesprekken. Voor werkgevers: werving en beloningsbeleid moeten mee.",
+    newsLink: "Lees de uitleg van de EU",
+    newsUrl: "https://commission.europa.eu/news-and-media/news/new-eu-rules-pay-transparency-explained-2026-06-05_en",
+    officialTitle: "Officiële bronnen",
+    indTitle: "IND, register van erkende referenten",
+    indBody: "Alleen een door de IND erkende referent kan een verblijfsvergunning voor kennismigranten sponsoren. Controleer voordat je een aanbod aanneemt of de werkgever in dit register staat. Het is doorzoekbaar en wordt maandelijks bijgewerkt.",
+    indCta: "Open het register",
+    links: [
+      { t: "Kennismigrant (IND)", d: "Vergunning, voorwaarden en salarisdrempels.", u: "https://ind.nl/en/residence-permits/work/highly-skilled-migrant" },
+      { t: "Zoekjaar (orientation year)", d: "Een jaar om werk te vinden na een studie of diploma.", u: "https://ind.nl/en/residence-permits/work/residence-permit-for-orientation-year" },
+      { t: "De 30%-regeling", d: "De belastingregeling voor inkomende kenniswerkers.", u: "https://business.gov.nl/staff/employing-staff/the-expat-scheme-30-percent-ruling-in-the-netherlands/" },
+    ],
+    closeHeading: "Hulp nodig om hier een plan van te maken?",
+    closeBody: "Informatie is het begin. Het werk is weten op welke deuren je klopt, en hoe. Begin met een betaald adviesuur.",
+  },
   he: {
     eyebrow: "מידע שימושי",
     h1: "להכיר את השטח שעליו אתם עומדים.",
@@ -65,7 +93,10 @@ const COPY = {
   },
 };
 
-const c = COPY[lang as "en" | "he"] ?? COPY.en;
+// Dutch was falling through to English here, so /nl/resources served an
+// English page. Not a problem until 2026-09-04, when the Dutch market
+// section below arrived in Dutch and the page became half and half.
+const c = COPY[lang as keyof typeof COPY] ?? COPY.en;
 
 // ---------------------------------------------------------------------------
 // THE DUTCH MARKET. Hebrew only, on Alon's instruction (2026-09-03): there is a
@@ -78,6 +109,136 @@ const c = COPY[lang as "en" | "he"] ?? COPY.en;
 // Every claim below traces to one of those. When the articles change, this
 // changes with them.
 // ---------------------------------------------------------------------------
+const MARKET_EN = {
+  eyebrow: "The Dutch market",
+  h2: "What is actually different here, and what to do about it.",
+  sub: "Most of what worked where you came from works here too, only differently, and not always worse. These are the differences I see come up with almost everyone I work with.",
+  blocks: [
+    {
+      k: "01",
+      h: "Hundreds of applicants per role, sometimes thousands",
+      p: "This is the number to absorb before anything else, because it explains almost every other frustration in a search. An ordinary Dutch vacancy draws hundreds of applications. One written broadly, or at a company people want to work for, goes past a thousand. And it happens fast: the great majority arrive in the first days after the posting goes up, so a role opened two weeks ago is already being worked.",
+      list: [
+        "The first conclusion, and the uncomfortable one: a CV sent through the form was not read by a person. A screening system saw it first, and it looks for textual match, not potential",
+        "The second: applying more does not improve your odds, it dilutes them. A hundred average applications are worth less than five precise ones, because breadth cannot be verified and specificity can",
+        "The third, and the one the whole method follows from: if the queue at the front door runs to hundreds, the work is to find a different door. An approach that arrives through a person, before the role is posted or somewhere it will never be posted at all, is not standing in that queue",
+        "And a rejection with no reply is not a judgement on you. At these volumes an employer who does not answer is the rule rather than the exception. Read nothing into it",
+      ],
+      note: "These numbers are an estimate from the field, not a figure quoted from a report. They come from what I see at the employers and recruiters I work with, and they move by industry and by season. The order of magnitude is the point here, not a precise number.",
+      link: { t: "The full article on why a scattered search fails", u: "/insights/flywheel" },
+    },
+    {
+      k: "02",
+      h: "Innovation here is pointed somewhere else",
+      p: "Wherever you are arriving from, the industries that are strong there are probably not the industries that are strong here. Dutch innovation concentrates on infrastructure systems, financial systems and banking, energy and life sciences, and smart and sustainable city solutions. Startups in the sense most people mean the word exist here, but they are the minority.",
+      list: [
+        "Match the vocabulary in your CV to the industries that are genuinely strong here, rather than the ones you are used to writing for",
+        "There are international companies operating in the Netherlands that break this pattern entirely. They are worth mapping in their own right",
+        "If the pull is really the move to the Netherlands rather than the work being in the Netherlands, remote is worth examining, though the field has been contracting since the pandemic",
+      ],
+    },
+    {
+      k: "03",
+      h: "Work culture: what feels like a disadvantage is usually the opposite",
+      p: "In front of you is a market with a real shortage of local people, a genuine reliance on workers from abroad, very high English, and a strong emphasis on the balance between work and the rest of life. What you bring to it is a strong technical background, a faster pace, and a bias to act. That gap frightens people, and it should not.",
+      list: [
+        "Being someone who gets things done is a dramatic advantage in the eyes of a Dutch employer. Make it visible in the CV and through the process",
+        "A military background, where it is relevant to the role, is not a problem here",
+        "Dutch is not required at most employers, but it is a real advantage in non technical roles and at more traditional companies",
+        "The Dutch pace can frustrate someone used to working faster. It is also the opportunity to put more into the life outside the job",
+      ],
+    },
+    {
+      k: "04",
+      h: "The Dutch calendar, and this is the part nobody tells you",
+      p: "Hiring here has seasons, and they are fixed and nationally synchronised. Anyone who does not count backwards from them finds out too late that a whole quarter is gone.",
+      list: [
+        "A senior hiring process takes six to ten weeks, several rounds and sometimes a take home assignment",
+        "Signing is not starting: under Dutch law a resignation takes effect on the first of the following month, and for senior people the notice period is usually two months",
+        "On 31 August the entire country comes back to the desk at once, and September is the busiest month of the year for applications",
+        "From 19 December the country is off, it returns slowly in mid January, and hiring processes only really start moving again in February",
+      ],
+    },
+    {
+      k: "05",
+      h: "Look for companies, not for jobs",
+      p: "This is the practical conclusion from everything above, and it is also the method I work by. When you fire in every direction the resource you burn is attention, and every effort comes at the cost of another one.",
+      list: [
+        "Be stingy in a CV. Its job is to clear the first hurdle, not to tell the story of your life",
+        "Do not be a nice to have. A role that can be given up is the first one that gets given up",
+        "Build relationships with headhunters and agencies, and keep them warm over time rather than only when you need something",
+        "Follow the companies that have just raised, the meetups, and the communities where people actually talk",
+      ],
+      link: { t: "Why you should stop looking for a job", u: "/insights/stop-looking-for-a-job" },
+    },
+  ],
+};
+
+const MARKET_NL = {
+  eyebrow: "De Nederlandse markt",
+  h2: "Wat hier echt anders is, en wat je ermee doet.",
+  sub: "Het meeste van wat werkte waar je vandaan komt, werkt hier ook, alleen anders, en niet altijd slechter. Dit zijn de verschillen die ik bij bijna iedereen zie terugkomen.",
+  blocks: [
+    {
+      k: "01",
+      h: "Honderden kandidaten per functie, soms duizenden",
+      p: "Dit is het getal dat je als eerste moet verwerken, want het verklaart bijna elke andere frustratie in een zoektocht. Een gewone Nederlandse vacature trekt honderden reacties. Een breed geschreven vacature, of een bij een bedrijf waar mensen graag willen werken, gaat over de duizend. En het gaat snel: verreweg de meeste reacties komen in de eerste dagen binnen, dus een functie die twee weken geleden openging, wordt al behandeld.",
+      list: [
+        "De eerste en ongemakkelijke conclusie: een cv dat via het formulier is verstuurd, is niet door een mens gelezen. Er zat eerst een selectiesysteem op, en dat zoekt tekstuele overeenkomst, geen potentieel",
+        "De tweede: meer solliciteren verbetert je kansen niet, het verdunt ze. Honderd middelmatige reacties zijn minder waard dan vijf precieze, want breedte is niet te verifiëren en specificiteit wel",
+        "De derde, en daar volgt de hele methode uit: als de rij bij de voordeur uit honderden mensen bestaat, is het werk om een andere deur te vinden. Een benadering die via een mens binnenkomt, vóór de publicatie of op een plek waar nooit gepubliceerd wordt, staat niet in die rij",
+        "En een afwijzing zonder antwoord zegt niets over jou. Bij deze aantallen is een werkgever die niet reageert de regel, niet de uitzondering",
+      ],
+      note: "Deze aantallen zijn een schatting uit de praktijk, geen cijfer uit een rapport. Ze komen uit wat ik zie bij de werkgevers en recruiters met wie ik werk, en ze verschillen per sector en per seizoen. Het gaat hier om de orde van grootte, niet om een precies getal.",
+      link: { t: "Het volledige artikel over waarom een verspreide zoektocht mislukt", u: "/insights/flywheel-nl" },
+    },
+    {
+      k: "02",
+      h: "Innovatie richt zich hier op iets anders",
+      p: "Waar je ook vandaan komt, de sectoren die daar sterk zijn, zijn waarschijnlijk niet de sectoren die hier sterk zijn. Nederlandse innovatie concentreert zich op infrastructuursystemen, financiële systemen en bankwezen, energie en life sciences, en oplossingen voor slimme en duurzame steden. Startups in de betekenis die de meeste mensen bedoelen bestaan hier, maar ze zijn de minderheid.",
+      list: [
+        "Stem de terminologie in je cv af op de sectoren die hier echt sterk zijn, niet op de sectoren waarvoor je gewend was te schrijven",
+        "Er zijn internationale bedrijven in Nederland die dit patroon volledig doorbreken. Die zijn het waard om apart in kaart te brengen",
+        "Trekt de verhuizing naar Nederland meer dan het werk in Nederland, dan is remote het bekijken waard, al krimpt dat veld sinds de pandemie",
+      ],
+    },
+    {
+      k: "03",
+      h: "Werkcultuur: wat als nadeel voelt, is meestal het omgekeerde",
+      p: "Tegenover je staat een markt met een echt tekort aan lokale mensen, een reële afhankelijkheid van werknemers uit het buitenland, zeer goed Engels, en een sterke nadruk op de balans tussen werk en de rest van het leven. Daar tegenover breng jij een sterke technische achtergrond, een hoger tempo en een neiging om te doen. Dat gat maakt mensen bang, en dat hoeft niet.",
+      list: [
+        "Iemand zijn die dingen voor elkaar krijgt is een enorm voordeel in de ogen van een Nederlandse werkgever. Maak het zichtbaar in je cv en in het proces",
+        "Een militaire achtergrond is hier geen probleem, als die relevant is voor de functie",
+        "Nederlands is bij de meeste werkgevers niet verplicht, maar het is een echt voordeel in niet technische functies en bij traditionelere bedrijven",
+        "Het Nederlandse tempo kan irriteren als je sneller gewend bent. Het is ook de kans om meer in het leven buiten het werk te steken",
+      ],
+    },
+    {
+      k: "04",
+      h: "De Nederlandse kalender, en dit is het deel dat niemand je vertelt",
+      p: "Werving heeft hier seizoenen, en die liggen vast en zijn landelijk gelijk. Wie er niet vanaf terugrekent, ontdekt te laat dat er een heel kwartaal weg is.",
+      list: [
+        "Een wervingsproces voor een senior functie duurt zes tot tien weken, meerdere rondes en soms een opdracht voor thuis",
+        "Tekenen is nog niet beginnen: naar Nederlands recht gaat een opzegging pas in op de eerste van de volgende maand, en bij senior functies is de opzegtermijn meestal twee maanden",
+        "Op 31 augustus zit het hele land in één keer weer aan tafel, en september is de drukste sollicitatiemaand van het jaar",
+        "Vanaf 19 december ligt het land stil, het komt half januari langzaam terug, en wervingsprocessen komen pas in februari echt op gang",
+      ],
+    },
+    {
+      k: "05",
+      h: "Zoek bedrijven, geen vacatures",
+      p: "Dit is de praktische conclusie uit alles hierboven, en het is ook de methode waarmee ik werk. Wie alle kanten op schiet, verbrandt aandacht, en elke inspanning gaat ten koste van een andere.",
+      list: [
+        "Wees zuinig in een cv. Het doel is de eerste horde nemen, niet je levensverhaal vertellen",
+        "Wees geen nice to have. Een functie die je kunt schrappen, is de eerste die geschrapt wordt",
+        "Bouw een band op met headhunters en bureaus, en houd die warm in de tijd, niet alleen als je iets nodig hebt",
+        "Volg bedrijven die net geld hebben opgehaald, de meetups, en de communities waar mensen echt praten",
+      ],
+      link: { t: "Waarom je moet stoppen met zoeken naar een baan", u: "/insights/stop-looking-for-a-job-nl" },
+    },
+  ],
+};
+
 const MARKET_HE = {
   eyebrow: "השוק ההולנדי",
   h2: "מה באמת שונה כאן, ומה לעשות עם זה.",
@@ -143,6 +304,16 @@ const MARKET_HE = {
     },
   ],
 };
+
+// One section, three languages. It was Hebrew-only from the day it was written
+// (2026-09-03) because that is where the source material was. EN and NL are
+// adaptations rather than translations, in the same spirit as the articles.
+// Block 04 keeps its link in Hebrew only: summer-hunt exists as summer-hunt-he
+// and has no EN or NL sibling, and a link is better absent than broken.
+const MARKET: Record<string, typeof MARKET_HE | undefined> = {
+  he: MARKET_HE, en: MARKET_EN as any, nl: MARKET_NL as any,
+};
+const market = MARKET[lang];
 
 
 // ---------------------------------------------------------------------------
@@ -297,7 +468,7 @@ const pickL = (m: Record<string, string>) => m[lang] ?? m.en;
         <a href={l.u} target="_blank" rel="noopener" class="lcard">
           <h3>{l.t}</h3>
           <p>{l.d}</p>
-          <span class="lgo label">&rarr;</span>
+          <span class="lgo label arrow">&rarr;</span>
         </a>
       ))}
     </div>
@@ -305,14 +476,14 @@ const pickL = (m: Record<string, string>) => m[lang] ?? m.en;
 </section>
 
 <!-- LIBRARY (harvested from jobs.israelis.nl, 2026-07-21) -->
-{lang === "he" && (
+{market && (
 <section class="section market">
   <div class="container">
-    <span class="eyebrow">{MARKET_HE.eyebrow}</span>
-    <h2 class="display-md mk-h2">{MARKET_HE.h2}</h2>
-    <p class="mk-sub">{MARKET_HE.sub}</p>
+    <span class="eyebrow">{market.eyebrow}</span>
+    <h2 class="display-md mk-h2">{market.h2}</h2>
+    <p class="mk-sub">{market.sub}</p>
     <div class="mk-blocks">
-      {MARKET_HE.blocks.map((b) => (
+      {market.blocks.map((b) => (
         <article class="mk-block">
           <span class="mk-k">{b.k}</span>
           <div>
@@ -354,7 +525,7 @@ const pickL = (m: Record<string, string>) => m[lang] ?? m.en;
 
 <style>
   .mk-h2 { margin: 1.1rem 0 0.8rem; }
-  .mk-sub { color: var(--ink-2); max-width: 56ch; margin-bottom: 3rem; }
+  .mk-sub { color: var(--ink-2); max-width: 56ch; margin-bottom: var(--sec-gap); }
   .mk-blocks { display: grid; gap: 2.6rem; }
   .mk-block { display: grid; grid-template-columns: auto 1fr; gap: 1.2rem; align-items: start; border-top: 1px solid var(--line); padding-top: 1.8rem; }
   .mk-k { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); padding-top: 0.35rem; direction: ltr; unicode-bidi: isolate; }

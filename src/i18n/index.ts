@@ -45,7 +45,13 @@ const WHATSAPP_TEXT: Record<Lang, string> = {
 };
 
 /** A wa.me link with a friendly, language-appropriate pre-filled opener. */
-/** The one paid orientation call. Calendly collects the fee, so this is the only booking door. */
+/**
+ * The one paid consultation hour ("שעת ייעוץ", 60 minutes, 190 euro).
+ * Calendly collects the fee, so this is the only booking door on the site.
+ * Changing the event on Calendly does NOT change the copy: the duration and
+ * the price are written out in en/nl/he.json and on the Hebrew pricing page,
+ * so grep for the number before assuming this line is the whole story.
+ */
 export const BOOKING_URL = "https://calendly.com/agildoni/new-meeting";
 
 export function whatsappUrl(lang: Lang): string {

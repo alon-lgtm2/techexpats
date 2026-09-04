@@ -51,9 +51,9 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
     <div class="hero-copy">
       <span class="eyebrow rise">{t.hero.eyebrow}</span>
       <h1 class="display-xl rise" style="animation-delay:.1s">
-        {t.hero.headline1}<br />
-        <span class="accent">{t.hero.headline2}</span>
-        {t.hero.headline3 && <><br />{t.hero.headline3}</>}
+        <span class="hl">{t.hero.headline1}</span>
+        <span class="hl accent">{t.hero.headline2}</span>
+        {t.hero.headline3 && <span class="hl">{t.hero.headline3}</span>}
       </h1>
       <p class="lead rise" style="animation-delay:.25s">{t.hero.sub}</p>
       <div class="hero-ctas rise" style="animation-delay:.4s">
@@ -146,6 +146,20 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
   </div>
 </section>
 
+<!-- ===== PHOTO BAND =====
+     The homepage carried exactly one photograph, the hero headshot, and nothing
+     else in eight screens of text (Alon, 2026-09-04: "make sure that the site
+     has photos of mine ... photos of me working"). This is the only publishable
+     working photograph that exists; see public/README.md for what is missing
+     and where to put it. -->
+<figure class="photoband">
+  <img src="/alon-speaking.jpg" alt={t.photoband.caption} width="1600" height="554" loading="lazy" />
+  <figcaption class="container">
+    <span class="eyebrow">{t.photoband.eyebrow}</span>
+    <p>{t.photoband.caption}</p>
+  </figcaption>
+</figure>
+
 <!-- ===== EMPLOYERS ===== -->
 <section class="section employers">
   <div class="container">
@@ -220,7 +234,7 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
           <span class="eyebrow">{t.insights.eyebrow}</span>
           <h2 class="display-lg sec-h">{t.insights.heading}</h2>
         </div>
-        <a href={localizePath("/career-advice", lang)} class="all label">{t.insights.all} &rarr;</a>
+        <a href={localizePath("/career-advice", lang)} class="all label">{t.insights.all} <span class="arrow">&rarr;</span></a>
       </div>
       <div class="wgrid">
         {latest.map((a) => (
@@ -232,7 +246,7 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
             </span>
             <h3>{a.data.title}</h3>
             <p>{a.data.excerpt}</p>
-            <span class="wread">{t.insights.read} &rarr;</span>
+            <span class="wread">{t.insights.read} <span class="arrow">&rarr;</span></span>
           </a>
         ))}
       </div>
@@ -256,6 +270,11 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
   /* hero */
   .hero { padding-top: clamp(2.5rem, 5vw, 4rem); padding-bottom: clamp(2.5rem, 4vw, 3.5rem); }
   .hero-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: center; }
+  /* Each headline line is its own block. It used to be one text flow broken by
+     a hard <br>, which meant a line too long for the column wrapped and left a
+     single word stranded underneath: in Hebrew the h1 read "היכולת שלך / אף פעם
+     לא הייתה / הבעיה." Balanced per line, that cannot happen. */
+  .hero-copy .display-xl .hl { display: block; text-wrap: balance; }
   .hero-copy .display-xl .accent { color: var(--accent); }
   .hero-copy .lead { margin: 1.8rem 0 2.2rem; max-width: 46ch; }
   .hero-ctas { display: flex; gap: 0.9rem; flex-wrap: wrap; }
@@ -265,7 +284,7 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
     position: absolute; bottom: 0; inset-inline-start: 0; background: var(--accent); color: #fff;
     font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; padding: 0.45rem 0.85rem;
   }
-  .stat-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem 2rem; margin-top: 3.5rem; padding-top: 2rem; border-top: 2px solid var(--ink); }
+  .stat-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem 2rem; margin-top: 2.4rem; padding-top: 1.6rem; border-top: 2px solid var(--ink); }
   .stat { display: flex; flex-direction: column; gap: 0.3rem; }
   .stat-i { color: var(--accent); }
   .stat-v { color: var(--ink); }
@@ -295,7 +314,7 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
   .seg-tech { background: var(--ink); color: var(--paper); }
   .seg-nontech { background: var(--accent); color: #fff; }
   .split-note { color: var(--ink-2); font-size: 0.9rem; margin-top: 1rem; }
-  .track-foot { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  .track-foot { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2rem; padding-top: 1.6rem; border-top: 1px solid var(--line); }
   .foot-item p { color: var(--ink-2); font-size: 0.92rem; margin-top: 0.5rem; max-width: 48ch; }
   .foot-item .k { color: var(--accent); }
   .foot-item.disclaimer { border-inline-start: 3px solid var(--line); padding-inline-start: 1.2rem; }
@@ -305,11 +324,11 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
 
   /* shared section heads */
   .alt { background: var(--paper-2); }
-  .sec-h { margin: 1.1rem 0 0.8rem; max-width: 20ch; }
-  .sec-sub { color: var(--ink-2); max-width: 54ch; margin-bottom: 3rem; }
+  .sec-h { margin: 0.9rem 0 0.7rem; max-width: 20ch; }
+  .sec-sub { color: var(--ink-2); max-width: 54ch; margin-bottom: var(--sec-gap); }
 
   /* pillars */
-  .pillars { display: grid; grid-template-columns: 1fr; gap: 2.5rem; margin-top: 2.5rem; }
+  .pillars { display: grid; grid-template-columns: 1fr; gap: 2.25rem; margin-top: var(--sec-gap); }
   .pillar { border-top: 2px solid var(--ink); padding-top: 1.25rem; }
   .pillar-n { font-family: var(--mono); font-size: 2rem; font-weight: 500; color: var(--accent); display: block; margin-bottom: 0.75rem; }
   .pillar h3 { margin-bottom: 0.75rem; }
@@ -317,13 +336,25 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
   .pillar-accent { display: block; margin-top: 1rem; font-weight: 600; color: var(--ink); font-size: 0.92rem; }
   @media (min-width: 820px) { .pillars { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; } }
 
+  /* photo band */
+  .photoband { margin: 0; position: relative; background: var(--ink); }
+  .photoband img { width: 100%; height: auto; aspect-ratio: 1600 / 554; object-fit: cover; filter: grayscale(1) contrast(1.06) brightness(0.92); }
+  .photoband figcaption { position: absolute; inset-inline: 0; bottom: 0; padding-block: 1.4rem; }
+  .photoband figcaption::before {
+    content: ""; position: absolute; inset: -3rem 0 0 0; pointer-events: none;
+    background: linear-gradient(to top, rgba(0,0,0,0.82), rgba(0,0,0,0));
+  }
+  .photoband .eyebrow { position: relative; color: color-mix(in srgb, #fff 70%, transparent); }
+  .photoband p { position: relative; color: #fff; margin-top: 0.5rem; max-width: 56ch; font-size: 0.95rem; line-height: 1.6; }
+  @media (max-width: 640px) { .photoband img { aspect-ratio: 4 / 3; } .photoband p { font-size: 0.86rem; } }
+
   /* employers */
   .employers { background: var(--ink); color: var(--paper); }
   .employers .eyebrow { color: color-mix(in srgb, var(--paper) 65%, transparent); }
   .employers .sec-h { color: var(--paper); }
   .emp-head { display: grid; grid-template-columns: 1fr; gap: 1rem; }
   .emp-sub { color: color-mix(in srgb, var(--paper) 78%, transparent); max-width: 52ch; line-height: 1.65; }
-  .offers { display: grid; grid-template-columns: 1fr; gap: 2.5rem; margin: 3rem 0 2.5rem; }
+  .offers { display: grid; grid-template-columns: 1fr; gap: 2.25rem; margin: var(--sec-gap) 0 2rem; }
   .offer { border-top: 2px solid color-mix(in srgb, var(--paper) 35%, transparent); padding-top: 1.25rem; }
   .offer-n { font-family: var(--mono); font-size: 2rem; color: var(--accent); display: block; margin-bottom: 0.75rem; }
   .offer h3 { color: var(--paper); margin-bottom: 0.75rem; }
@@ -363,7 +394,7 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
   @media (min-width: 820px) { .steps { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
 
   /* writing sneak peek */
-  .writing-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1.5rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+  .writing-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1.5rem; margin-bottom: var(--sec-gap); flex-wrap: wrap; }
   .writing-head .sec-h { margin: 1.1rem 0 0; }
   .writing-head .all { color: var(--accent); white-space: nowrap; }
   .writing-head .all:hover { color: var(--accent-ink); }

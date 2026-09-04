@@ -165,7 +165,7 @@
   "cta": {
     "eyebrow": "Let's talk",
     "heading": "Wherever your career is going.",
-    "body": "My expertise is the European job market, and the Netherlands in particular. I help people find work here, mostly in tech but not only. A paid 45 minute consultation ends with a written summary and a proposed next step.",
+    "body": "My expertise is the European job market, and the Netherlands in particular. I help people find work here, mostly in tech but not only. A paid consultation hour ends with a written summary and a proposed next step.",
     "primary": "Start a conversation",
     "talk": "Let's Talk",
     "email": "alon@techexpats.nl",
@@ -356,16 +356,16 @@
     "honestLabel": "Honestly, about the promise",
     "honest": "I do not promise a job. Promising a job would be irresponsible; there is no such thing. My numbers are very good, but there is also luck, demand, and industry, a million things that are not only up to us. What I can say: good people find roles.",
     "ctaHeading": "Ready to find the role, not a job?",
-    "ctaBody": "If your search is not moving the way it should, let's talk. A paid 45 minute consultation, no pitch, ending in something written you can act on.",
+    "ctaBody": "If your search is not moving the way it should, let's talk. A paid consultation hour, no pitch, ending in something written you can act on.",
     "ctaPrimary": "Book a consultation",
     "closing": "Find the role, not a job. Reach a person, not a posting."
   },
   "book": {
     "eyebrow": "Let's talk",
     "heading": "Book a consultation.",
-    "sub": "45 minutes on your situation, ending in a written summary and a proposed next step. My expertise is the European job market, and the Netherlands in particular: mostly tech, but not only. The call is paid, and it stands on its own.",
+    "sub": "A full hour on your situation, ending in a written summary and a proposed next step. My expertise is the European job market, and the Netherlands in particular: mostly tech, but not only. The call is paid, and it stands on its own.",
     "whatLabel": "What the call is",
-    "what": "Forty five minutes on your situation, not a lecture on my method. Where you are, what is actually blocking you, and what the next move should be. If you are already deep in a search that is not moving, this is where we work out why.",
+    "what": "A full hour on your situation, not a lecture on my method. Where you are, what is actually blocking you, and what the next move should be. If you are already deep in a search that is not moving, this is where we work out why.",
     "getLabel": "What you leave with",
     "get1": "A written summary, sent after the call. Not notes: a clean read of where you stand",
     "get2": "A proposed next step, concrete enough to start on the same week",
@@ -375,7 +375,7 @@
     "notLabel": "When it is not the right call",
     "not": "If you already know exactly what you want to buy, you do not need this call. The prices are published and you can buy directly. And if you are looking for someone to connect you to a job rather than help you find one, I will tell you that here rather than after you have paid for more.",
     "priceLabel": "The price",
-    "price": "120 euro, and it stands on its own. Nothing is credited against anything else, and there is no obligation to continue. For many people this one conversation is the whole thing that was missing.",
+    "price": "190 euro, and it stands on its own. Nothing is credited against anything else, and there is no obligation to continue. For many people this one conversation is the whole thing that was missing.",
     "pick": "Pick a time"
   },
   "fork": {
@@ -516,5 +516,9 @@
     "o2Body": "Hands-on programmes for leaders and teams, run in English for the international workforce that Dutch-language enablement leaves out. Working sessions and sprints, not lectures.",
     "cta": "How I work with companies",
     "read": "Hiring insights"
+  },
+  "photoband": {
+    "eyebrow": "Amsterdam",
+    "caption": "An evening of the Israeli tech community in the Netherlands, which I have been running since 2014. Most of what I know about how people actually find work here, I learned in rooms like this one."
   }
 }

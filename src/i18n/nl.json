@@ -165,7 +165,7 @@
   "cta": {
     "eyebrow": "Laten we praten",
     "heading": "Waar je loopbaan ook heen gaat.",
-    "body": "Mijn expertise is de Europese arbeidsmarkt, en Nederland in het bijzonder. Ik help mensen hier werk te vinden, vooral in tech maar niet alleen. Een betaald adviesgesprek van 45 minuten eindigt met een schriftelijke samenvatting en een voorstel voor de volgende stap.",
+    "body": "Mijn expertise is de Europese arbeidsmarkt, en Nederland in het bijzonder. Ik help mensen hier werk te vinden, vooral in tech maar niet alleen. Een betaald adviesuur eindigt met een schriftelijke samenvatting en een voorstel voor de volgende stap.",
     "primary": "Begin een gesprek",
     "talk": "Laten we praten",
     "email": "alon@techexpats.nl",
@@ -356,16 +356,16 @@
     "honestLabel": "Eerlijk, over de belofte",
     "honest": "Ik beloof geen baan. Een baan beloven zou onverantwoord zijn; zoiets bestaat niet. Mijn cijfers zijn erg goed, maar er is ook geluk, vraag en sector, een miljoen dingen die niet alleen aan ons liggen. Wat ik wel kan zeggen: goede mensen vinden een baan.",
     "ctaHeading": "Klaar om de baan te vinden, niet zomaar werk?",
-    "ctaBody": "Als je zoektocht niet loopt zoals het zou moeten, laten we praten. Een betaald adviesgesprek van 45 minuten, zonder pitch, met iets op papier waar je mee verder kunt.",
+    "ctaBody": "Als je zoektocht niet loopt zoals het zou moeten, laten we praten. Een betaald adviesuur, zonder pitch, met iets op papier waar je mee verder kunt.",
     "ctaPrimary": "Plan een adviesgesprek",
     "closing": "Vind de baan, niet zomaar werk. Benader een persoon, geen vacature."
   },
   "book": {
     "eyebrow": "Laten we praten",
     "heading": "Plan een adviesgesprek.",
-    "sub": "45 minuten over jouw situatie, met een schriftelijke samenvatting en een voorstel voor de volgende stap. Mijn expertise is de Europese arbeidsmarkt, en Nederland in het bijzonder: vooral tech, maar niet alleen. Het gesprek is betaald en staat op zichzelf.",
+    "sub": "Een vol uur over jouw situatie, met een schriftelijke samenvatting en een voorstel voor de volgende stap. Mijn expertise is de Europese arbeidsmarkt, en Nederland in het bijzonder: vooral tech, maar niet alleen. Het gesprek is betaald en staat op zichzelf.",
     "whatLabel": "Wat het gesprek is",
-    "what": "Vijfenveertig minuten over jouw situatie, geen college over mijn methode. Waar je staat, wat je echt tegenhoudt, en wat de volgende stap moet zijn. Zit je al diep in een zoektocht die niet loopt, dan zoeken we hier uit waarom.",
+    "what": "Een vol uur over jouw situatie, geen college over mijn methode. Waar je staat, wat je echt tegenhoudt, en wat de volgende stap moet zijn. Zit je al diep in een zoektocht die niet loopt, dan zoeken we hier uit waarom.",
     "getLabel": "Wat je overhoudt",
     "get1": "Een schriftelijke samenvatting, na afloop toegestuurd. Geen aantekeningen: een heldere lezing van waar je staat",
     "get2": "Een voorgestelde volgende stap, concreet genoeg om dezelfde week te beginnen",
@@ -375,7 +375,7 @@
     "notLabel": "Wanneer dit niet het juiste gesprek is",
     "not": "Weet je al precies wat je wilt kopen, dan heb je dit gesprek niet nodig. De prijzen staan online en je kunt direct kopen. En zoek je iemand die je aan een baan koppelt in plaats van je helpt er een te vinden, dan zeg ik dat hier en niet nadat je voor meer hebt betaald.",
     "priceLabel": "De prijs",
-    "price": "120 euro, en het gesprek staat op zichzelf. Er wordt niets verrekend en er is geen verplichting om door te gaan. Voor veel mensen is dit ene gesprek precies wat ontbrak.",
+    "price": "190 euro, en het gesprek staat op zichzelf. Er wordt niets verrekend en er is geen verplichting om door te gaan. Voor veel mensen is dit ene gesprek precies wat ontbrak.",
     "pick": "Kies een moment"
   },
   "fork": {
@@ -516,5 +516,9 @@
     "o2Body": "Praktische programma's voor leiders en teams, in het Engels, voor de internationale workforce die Nederlandstalige trainingen buitensluit. Werksessies en sprints, geen colleges.",
     "cta": "Hoe ik met bedrijven werk",
     "read": "Hiring insights"
+  },
+  "photoband": {
+    "eyebrow": "Amsterdam",
+    "caption": "Een avond van de Israëlische tech-community in Nederland, die ik sinds 2014 draai. Het meeste van wat ik weet over hoe mensen hier echt werk vinden, heb ik in zalen als deze geleerd."
   }
 }

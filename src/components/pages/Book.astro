@@ -7,9 +7,10 @@ interface Props { lang?: Lang }
 const { lang = "en" } = Astro.props;
 const t = getT(lang);
 const b = t.book;
-// One paid event, 45 minutes, 120 euro, collected inside Calendly. This is the
-// only booking door on the site: every CTA lands here first so the meeting is
-// explained before the calendar appears (Alon, 2026-09-02).
+// One paid event: "שעת ייעוץ", a full hour, 190 euro, collected inside
+// Calendly. This is the only booking door on the site: every CTA lands here
+// first so the meeting is explained before the calendar appears (Alon,
+// 2026-09-02). Was 45 minutes at 120 euro until 2026-09-04.
 const calendly = BOOKING_URL;
 ---
 
@@ -69,7 +70,7 @@ const calendly = BOOKING_URL;
       style="min-width:320px;height:680px;margin-top:2rem;"
     ></div>
     <noscript>
-      <a class="btn btn-primary" href={calendly} style="margin-top:2rem;">{b.pick} &rarr;</a>
+      <a class="btn btn-primary" href={calendly} style="margin-top:2rem;">{b.pick} <span class="arrow">&rarr;</span></a>
     </noscript>
   </div>
 </section>

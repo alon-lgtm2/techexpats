@@ -1,0 +1,41 @@
+---
+/**
+ * Analytics tags. Rendered from <head> in Base.astro, so it is on every page.
+ * Both providers are off until a token is set. See src/analytics.ts for which
+ * one to turn on and why.
+ */
+import { CF_BEACON_TOKEN, GA4_ID } from "../analytics";
+---
+
+{CF_BEACON_TOKEN && (
+  <script
+    is:inline
+    defer
+    src="https://static.cloudflareinsights.com/beacon.min.js"
+    data-cf-beacon={`{"token": "${CF_BEACON_TOKEN}"}`}
+  />
+)}
+
+{GA4_ID && (
+  <>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`} />
+    <script is:inline define:vars={{ GA4_ID }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { window.dataLayer.push(arguments); }
+      gtag("js", new Date());
+      gtag("config", GA4_ID);
+
+      // The one thing page views cannot see: the click that leaves the site for
+      // Calendly. Cloudflare has no custom events, so this fires for GA4 only.
+      document.addEventListener("click", function (e) {
+        var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+        if (!a) return;
+        if (a.href.indexOf("calendly.com") === -1) return;
+        gtag("event", "booking_click", {
+          link_url: a.href,
+          page_path: location.pathname,
+        });
+      });
+    </script>
+  </>
+)}

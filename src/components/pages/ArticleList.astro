@@ -65,7 +65,7 @@ const articles = [...translated, ...fallback].sort(
             </span>
             <h2>{a.data.title}</h2>
             <p>{a.data.excerpt}</p>
-            <span class="read">{t.insights.read} &rarr;</span>
+            <span class="read">{t.insights.read} <span class="arrow">&rarr;</span></span>
           </a>
         ))}
       </div>
@@ -79,7 +79,7 @@ const articles = [...translated, ...fallback].sort(
 
 <style>
   .head { margin: 1.1rem 0 1rem; }
-  .lead { max-width: 54ch; margin-bottom: 3rem; }
+  .lead { max-width: 54ch; margin-bottom: var(--sec-gap); }
   .in-en { border: 1px solid var(--line); padding: 0.05rem 0.35rem; color: var(--ink-3); }
   .empty { color: var(--ink-3); font-family: var(--mono); font-size: 0.9rem; padding: 2rem 0; }
   .articles { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
