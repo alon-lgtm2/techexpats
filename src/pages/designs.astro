@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import Home from "../components/Home.astro";
 
 const themes = [
+  { id: "instrument", name: "Instrument", note: "Graphite · amber · Rubik (live)" },
   { id: "editorial", name: "Editorial", note: "Serif · monochrome · teal" },
   { id: "engine", name: "Engine", note: "Grotesk · white · Dutch orange" },
   { id: "sun", name: "Sun", note: "Rounded · warm · coral" },
@@ -10,7 +11,7 @@ const themes = [
 ];
 ---
 
-<Base theme="editorial" title="TechExpats - Design directions">
+<Base theme="instrument" title="TechExpats - Design directions">
   <div class="switcher" role="group" aria-label="Design direction">
     <span class="switcher-label">Direction</span>
     <div class="switcher-btns">
@@ -84,5 +85,8 @@ const themes = [
     btns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.set === id)));
   }
   btns.forEach((b) => b.addEventListener("click", () => setTheme(b.dataset.set!)));
-  setTheme("editorial");
+  // Open on whatever the site is actually serving, not on a hard-coded name.
+  // This said "editorial" while Base served "engine", so the switcher opened
+  // on a direction the live site had not used since June.
+  setTheme(root.getAttribute("data-theme") || "instrument");
 </script>

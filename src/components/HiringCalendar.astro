@@ -1,0 +1,188 @@
+---
+/**
+ * THE DUTCH HIRING CALENDAR.
+ *
+ * Built 2026-09-04, when Alon chose the "instrument" direction. Its whole
+ * thesis is that there is a method behind the coaching and the old site only
+ * ever described it in prose. This is the first thing on the site that shows
+ * it instead: a piece of market knowledge a reader can use in ten seconds and
+ * cannot get from a job board.
+ *
+ * EVERY CLAIM HERE ALREADY EXISTED IN WORDS on /resources, in the Dutch market
+ * section, block 04, which traces to summer-hunt-he.mdx and Alon's own webinar
+ * deck. Nothing new is asserted. If that section changes, change this with it.
+ *
+ * THE BARS ARE QUALITATIVE AND THE PAGE SAYS SO, in as many words, right in
+ * the panel header. They encode the shape Alon describes (dead from 19
+ * December, slow return mid January, real start February, summer trough,
+ * everyone back on 31 August, September the peak) and they are NOT a count of
+ * anything. The site has been bitten by this before: commit c0a88d0 dropped
+ * the "242" figure precisely because it was an estimate presented as a
+ * statistic. A chart is a much easier place to make that mistake than a
+ * sentence, so the disclaimer is not optional decoration.
+ */
+import { type Lang } from "../i18n";
+
+interface Props { lang?: Lang }
+const { lang = "en" } = Astro.props;
+
+// Relative intensity, 0 to 100. Shape only. See the note above.
+const MONTHS: { k: string; v: number }[] = [
+  { k: "01", v: 14 }, { k: "02", v: 55 }, { k: "03", v: 70 }, { k: "04", v: 62 },
+  { k: "05", v: 55 }, { k: "06", v: 45 }, { k: "07", v: 24 }, { k: "08", v: 20 },
+  { k: "09", v: 100 }, { k: "10", v: 78 }, { k: "11", v: 60 }, { k: "12", v: 15 },
+];
+
+const COPY = {
+  en: {
+    eyebrow: "The Dutch market",
+    h2: "Hiring here has seasons. Miss them and you lose a quarter.",
+    sub: "Recruitment in the Netherlands is nationally synchronised to a degree that surprises almost everyone I work with. Counting backwards from these dates is usually the difference between starting in February and starting in May.",
+    scale: "Relative intensity through the year. A shape, not a measurement.",
+    months: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
+    notes: [
+      { t: "31 August", d: "The entire country comes back to the desk at once, and September is the busiest month of the year for applications." },
+      { t: "19 December", d: "The country is off. It returns slowly in mid January, and processes only really start moving again in February." },
+      { t: "After you sign", d: "Under Dutch law a resignation takes effect on the first of the following month, and senior notice is usually two months." },
+    ],
+    span: "6 to 10 weeks",
+    spanLabel: "A senior hiring process, from first call to offer",
+    link: null as null | { t: string; u: string },
+  },
+  he: {
+    eyebrow: "השוק ההולנדי",
+    h2: "לגיוס כאן יש עונות. מי שלא סופר אחורה, מאבד רבעון.",
+    sub: "הגיוס בהולנד מתואם ברמה הלאומית באופן שמפתיע כמעט את כל מי שאני מלווה. חישוב אחורה מהתאריכים האלה הוא בדרך כלל ההבדל בין להתחיל בפברואר לבין להתחיל במאי.",
+    scale: "עצימות יחסית לאורך השנה. צורה, לא מדידה.",
+    months: ["ינו", "פבר", "מרץ", "אפר", "מאי", "יונ", "יול", "אוג", "ספט", "אוק", "נוב", "דצמ"],
+    notes: [
+      { t: "31 באוגוסט", d: "כל המדינה חוזרת לשולחן בבת אחת, וספטמבר הוא החודש העמוס ביותר בשנה בהגשות מועמדות." },
+      { t: "19 בדצמבר", d: "המדינה כבויה. חוזרים באמצע ינואר לאט, ותהליכים מתניעים באמת רק בפברואר." },
+      { t: "אחרי החתימה", d: "בחוק ההולנדי התפטרות נכנסת לתוקף רק ב-1 בחודש העוקב, ואצל בכירים ההודעה המוקדמת היא לרוב חודשיים." },
+    ],
+    span: "6 עד 10 שבועות",
+    spanLabel: "תהליך גיוס לתפקיד בכיר, משיחה ראשונה עד הצעה",
+    link: { t: "החשבון המלא, מהסוף להתחלה", u: "/insights/summer-hunt-he" },
+  },
+  nl: {
+    eyebrow: "De Nederlandse markt",
+    h2: "Werving heeft hier seizoenen. Mis je ze, dan ben je een kwartaal kwijt.",
+    sub: "Werving in Nederland is landelijk gelijkgeschakeld op een manier die bijna iedereen met wie ik werk verrast. Terugrekenen vanaf deze data is meestal het verschil tussen in februari beginnen en in mei beginnen.",
+    scale: "Relatieve intensiteit door het jaar. Een vorm, geen meting.",
+    months: ["JAN", "FEB", "MRT", "APR", "MEI", "JUN", "JUL", "AUG", "SEP", "OKT", "NOV", "DEC"],
+    notes: [
+      { t: "31 augustus", d: "Het hele land zit in één keer weer aan tafel, en september is de drukste sollicitatiemaand van het jaar." },
+      { t: "19 december", d: "Het land ligt stil. Het komt half januari langzaam terug, en processen komen pas in februari echt op gang." },
+      { t: "Na je handtekening", d: "Naar Nederlands recht gaat een opzegging pas in op de eerste van de volgende maand, en senior opzegtermijn is meestal twee maanden." },
+    ],
+    span: "6 tot 10 weken",
+    spanLabel: "Een wervingsproces voor een senior functie, van eerste gesprek tot aanbod",
+    link: null as null | { t: string; u: string },
+  },
+};
+
+const c = COPY[lang] ?? COPY.en;
+const peak = Math.max(...MONTHS.map((m) => m.v));
+---
+
+<section class="section cal-sec">
+  <div class="container">
+    <span class="eyebrow">{c.eyebrow}</span>
+    <h2 class="display-lg cal-h">{c.h2}</h2>
+    <p class="cal-sub">{c.sub}</p>
+
+    <div class="panel">
+      <div class="p-head">
+        <span class="label p-title">{c.eyebrow}</span>
+        <span class="p-scale">{c.scale}</span>
+      </div>
+
+      <div class="chart" role="img" aria-label={c.scale}>
+        {MONTHS.map((m, i) => (
+          <div class:list={["mon", { peak: m.v === peak }]}>
+            <span class="col"><span class="fill" style={`height:${m.v}%`}></span></span>
+            <span class="mlabel">{c.months[i]}</span>
+          </div>
+        ))}
+      </div>
+
+      <div class="span-row">
+        <span class="span-v">{c.span}</span>
+        <span class="span-l">{c.spanLabel}</span>
+      </div>
+
+      <div class="notes">
+        {c.notes.map((n) => (
+          <p class="note"><b>{n.t}</b>{n.d}</p>
+        ))}
+      </div>
+    </div>
+
+    {c.link && <a class="cal-link" href={c.link.u}>{c.link.t} <span class="arrow">&rarr;</span></a>}
+  </div>
+</section>
+
+<style>
+  .cal-h { margin: 0.9rem 0 0.7rem; max-width: 24ch; }
+  .cal-sub { color: var(--ink-2); max-width: 58ch; margin: 0 0 var(--sec-gap); }
+
+  .panel { border: 1px solid var(--line); background: var(--paper-2); }
+  .p-head {
+    display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap;
+    padding: 0.85rem 1.1rem; border-bottom: 1px solid var(--line);
+  }
+  .p-title { color: var(--ink); }
+  .p-scale { margin-inline-start: auto; font-size: 0.8rem; color: var(--ink-2); }
+
+  /* The chart. Bars grow from a shared baseline, so the reader compares
+     heights and never has to read a number that does not exist. */
+  .chart {
+    display: grid; grid-template-columns: repeat(12, 1fr); gap: 3px;
+    padding: 1.3rem 1.1rem 0.8rem;
+  }
+  .mon { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+  .col { display: flex; align-items: flex-end; height: 5.5rem; background: var(--line-soft); }
+  .fill { display: block; width: 100%; background: var(--accent); opacity: 0.55; }
+  .mon.peak .fill { opacity: 1; }
+  .mlabel {
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em;
+    color: var(--ink-2); text-align: center; overflow: hidden; text-overflow: ellipsis;
+  }
+  /* Hebrew month abbreviations are not uppercase-able and set wider. */
+  :global([dir="rtl"]) .mlabel { font-family: var(--body); font-size: 0.72rem; letter-spacing: 0; }
+
+  .span-row {
+    display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap;
+    padding: 0.9rem 1.1rem; margin: 0.4rem 1.1rem 0; border-top: 1px solid var(--line);
+  }
+  /* No `direction: ltr` here, and that is deliberate. The value is a whole
+     phrase, not a bare number: in Hebrew "6 עד 10 שבועות" forced to LTR lays
+     out as "עד 10 שבועות 6". Isolation alone is what is wanted, so the digits
+     stay LTR inside a line that keeps the document's direction. */
+  .span-v {
+    font-family: var(--mono); font-size: 1.05rem; color: var(--accent);
+    unicode-bidi: isolate; font-variant-numeric: tabular-nums;
+  }
+  :global([dir="rtl"]) .span-v { font-family: var(--body); font-weight: 700; font-size: 1rem; }
+  .span-l { font-size: 0.88rem; color: var(--ink-2); }
+
+  .notes { display: grid; gap: 1.3rem; padding: 1.1rem 1.1rem 1.4rem; }
+  @media (min-width: 780px) { .notes { grid-template-columns: repeat(3, 1fr); gap: 1.6rem; } }
+  .note {
+    border-inline-start: 2px solid var(--accent-2); padding-inline-start: 0.85rem;
+    font-size: 0.88rem; line-height: 1.6; color: var(--ink-2); margin: 0;
+  }
+  .note b { display: block; color: var(--ink); font-weight: 700; font-size: 0.92rem; margin-bottom: 0.15rem; }
+
+  .cal-link {
+    display: inline-block; margin-top: 1.2rem; font-size: 0.88rem; font-weight: 600;
+    color: var(--accent-ink); border-bottom: 1px solid var(--accent); padding-bottom: 2px;
+  }
+  .cal-link:hover { color: var(--ink); border-color: var(--ink); }
+
+  @media (max-width: 560px) {
+    .col { height: 4rem; }
+    .mlabel { font-size: 0.52rem; }
+    :global([dir="rtl"]) .mlabel { font-size: 0.6rem; }
+  }
+</style>

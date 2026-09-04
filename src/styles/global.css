@@ -19,6 +19,8 @@
   --line-soft:  rgba(20, 17, 13, 0.07);
   --accent:     #0f766e;
   --accent-ink: #0b5750;
+  --accent-2:   #0f766e;
+  --on-accent:  #ffffff;
 
   --display: "Newsreader", Georgia, "Times New Roman", serif;
   --body:    "Inter", system-ui, -apple-system, sans-serif;
@@ -64,6 +66,8 @@
   --line-soft:  rgba(0, 0, 0, 0.08);
   --accent:     #f25c2a;
   --accent-ink: #d63e16;
+  --accent-2:   #f25c2a;
+  --on-accent:  #ffffff;
   --display: "Space Grotesk", system-ui, sans-serif;
   --display-weight: 700;
   --hero-em-color: var(--accent);
@@ -85,6 +89,8 @@
   --line-soft:  rgba(42, 31, 26, 0.07);
   --accent:     #e94e5c;
   --accent-ink: #c8384a;
+  --accent-2:   #e94e5c;
+  --on-accent:  #ffffff;
   --display: "Poppins", system-ui, sans-serif;
   --body:    "Poppins", system-ui, sans-serif;
   --display-weight: 700;
@@ -95,6 +101,69 @@
   --footer-bg: #2a1f1a;
   --footer-fg: #fff8f0;
 }
+
+
+/* ---- INSTRUMENT ("מערכת"): graphite, amber, Rubik. The live default. ----
+   Chosen by Alon on 2026-09-04 from three directions shown as rendered
+   mockups. The thesis: there is a machine behind the coaching (Seven a Day,
+   the portal, the three-question flywheel, the Dutch hiring calendar) and the
+   old site only ever described it in words. Dark, dense and instrument-like
+   so the method is the first thing a reader meets.
+
+   Two notes for anyone tuning this block.
+   1. --accent-ink is LIGHTER than --accent here, not darker. It is used for
+      link text and button hover, and on a dark ground the legible direction is
+      up, not down. Copying the pattern from the light directions inverts it.
+   2. The bands that set `background: var(--ink); color: var(--paper)` flip to
+      LIGHT on this theme, on purpose. They stay readable because they invert
+      as a pair, and they give a dark page its rhythm. */
+[data-theme="instrument"] {
+  --paper:      #0d1013;
+  --paper-2:    #151a1f;
+  --ink:        #e2e7e9;
+  --ink-2:      #98a3a8;
+  /* #6c777c was the mockup value and it measures 4.15:1 on this ground, which
+     fails WCAG AA for the eyebrows, labels, bylines and footer lines that all
+     take it. #7f8a90 measures 5.4:1 and is still clearly a muted grey. */
+  --ink-3:      #7f8a90;
+  --line:       rgba(226, 231, 233, 0.13);
+  --line-soft:  rgba(226, 231, 233, 0.07);
+  --accent:     #e8a33d;
+  --accent-ink: #f2b95f;
+  --accent-2:   #5aa0b8;
+  --on-accent:  #0d1013;
+  --display: "Rubik", system-ui, sans-serif;
+  --body:    "Assistant", system-ui, -apple-system, sans-serif;
+  --display-weight: 800;
+  --hero-em-color: var(--accent);
+  --hero-em-style: normal;
+  --radius: 0px;
+  --radius-btn: 0px;
+  --footer-bg: #08090b;
+  /* Opaque, unlike the other dark direction. Footer.astro then mutes it with
+     color-mix at 75/70/60 percent, and a translucent token there compounds:
+     0.72 x 0.60 left the legal line at 3.76:1 on the footer ground. */
+  --footer-fg: #dfe4e6;
+}
+
+/* The primary button is the one place the ink/paper default is wrong here.
+   .btn-primary is `background: var(--ink)`, which on a dark theme is a white
+   slab, and the site's single most important control should be the accent. */
+[data-theme="instrument"] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-theme="instrument"] .btn-primary:hover { background: var(--accent-ink); color: var(--on-accent); }
+
+/* The inverted bands, and this is the one thing the ink/paper flip does NOT
+   handle by itself. These sections paint themselves LIGHT on a dark theme, and
+   the accent inside them stays the same amber, which measures 1.73:1 against
+   the light ground. The big "01"/"02" numerals on the homepage employer band
+   were effectively invisible. A deeper amber of the same hue reads at 4.66:1.
+   Add any future inverted band to this list. */
+[data-theme="instrument"] :is(.employers, .facts, .problem-sec, .trust-sec, .honest-sec, .order li:last-child) {
+  --accent:     #8a5c0c;
+  --accent-ink: #7d5209;
+  --on-accent:  #ffffff;
+}
+
 
 /* ---- SLATE: premium dark, serif, muted gold ---- */
 [data-theme="slate"] {
@@ -107,6 +176,8 @@
   --line-soft:  rgba(255, 255, 255, 0.07);
   --accent:     #d9a441;
   --accent-ink: #e8be6a;
+  --accent-2:   #d9a441;
+  --on-accent:  #0c0c0e;
   --display: "Newsreader", Georgia, serif;
   --display-weight: 500;
   --hero-em-color: var(--ink-3);
@@ -121,6 +192,11 @@
 [dir="rtl"] {
   --display: "Heebo", system-ui, sans-serif;
   --body: "Heebo", system-ui, sans-serif;
+  --display-weight: 800;
+}
+[dir="rtl"][data-theme="instrument"] {
+  --display: "Rubik", "Heebo", system-ui, sans-serif;
+  --body: "Assistant", "Heebo", system-ui, sans-serif;
   --display-weight: 800;
 }
 [dir="rtl"] .display-xl,
@@ -153,6 +229,10 @@
   --d-xl: clamp(2.15rem, 4.6vw, 3.9rem);
   --d-lg: clamp(1.75rem, 3.2vw, 2.7rem);
   --d-md: clamp(1.35rem, 2.2vw, 1.85rem);
+}
+[dir="rtl"][data-theme="instrument"] {
+  --d-xl: clamp(2rem, 4.2vw, 3.5rem);
+  --d-lg: clamp(1.65rem, 3vw, 2.5rem);
 }
 
 /* Arrows point the way you read. In RTL that is left, and every one of them

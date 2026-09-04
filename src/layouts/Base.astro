@@ -7,7 +7,7 @@ import Analytics from "../components/Analytics.astro";
 export interface Props {
   title?: string;
   description?: string;
-  theme?: "editorial" | "engine" | "sun" | "slate";
+  theme?: "editorial" | "engine" | "sun" | "slate" | "instrument";
   lang?: Lang;
   ogImage?: string;
   ogType?: "website" | "article";
@@ -29,7 +29,10 @@ export interface Props {
 const {
   title = "TechExpats — Career Moves, led by Alon Gildoni",
   description = "Career coaching and headhunting across Europe. A deliberate search: not just a job, the job. By Alon Gildoni, Amsterdam.",
-  theme = "engine",
+  // "instrument" since 2026-09-04, chosen by Alon from three rendered
+  // directions. "engine" (white, Space Grotesk, Dutch orange) is the previous
+  // default and is still a working direction; /designs switches between all five.
+  theme = "instrument",
   lang = "en",
   ogImage,
   ogType = "website",
@@ -89,7 +92,7 @@ const dir = isRTL(lang) ? "rtl" : "ltr";
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Heebo:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Heebo:wght@300;400;500;600;700;800&family=Rubik:wght@400;500;600;700;800&family=Assistant:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
