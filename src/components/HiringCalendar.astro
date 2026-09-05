@@ -145,11 +145,11 @@ const peak = Math.max(...MONTHS.map((m) => m.v));
   .fill { display: block; width: 100%; background: var(--accent); opacity: 0.55; }
   .mon.peak .fill { opacity: 1; }
   .mlabel {
-    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em;
+    font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.05em;
     color: var(--ink-2); text-align: center; overflow: hidden; text-overflow: ellipsis;
   }
   /* Hebrew month abbreviations are not uppercase-able and set wider. */
-  :global([dir="rtl"]) .mlabel { font-family: var(--body); font-size: 0.72rem; letter-spacing: 0; }
+  :global([dir="rtl"]) .mlabel { font-family: var(--body); font-size: 0.8rem; font-weight: 500; letter-spacing: 0; }
 
   .span-row {
     display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap;

@@ -121,7 +121,7 @@
   --paper:      #0d1013;
   --paper-2:    #151a1f;
   --ink:        #e2e7e9;
-  --ink-2:      #98a3a8;
+  --ink-2:      #a8b2b6;
   /* #6c777c was the mockup value and it measures 4.15:1 on this ground, which
      fails WCAG AA for the eyebrows, labels, bylines and footer lines that all
      take it. #7f8a90 measures 5.4:1 and is still clearly a muted grey. */
@@ -196,8 +196,8 @@
   --paper:      #fbfbf9;
   --paper-2:    #f1f2f0;
   --ink:        #14181a;
-  --ink-2:      #454b4e;
-  --ink-3:      #666d70;
+  --ink-2:      #3b4245;
+  --ink-3:      #5a6164;
   --line:       rgba(20, 24, 26, 0.14);
   --line-soft:  rgba(20, 24, 26, 0.07);
   --accent:     #96610c;
@@ -261,11 +261,11 @@
    the tracking comes almost all the way off, and the label sets in the body
    face rather than a mono face with no real Hebrew design. */
 [dir="rtl"] .eyebrow {
-  font-family: var(--body); font-size: 0.86rem;
+  font-family: var(--body); font-size: 0.9rem; font-weight: 500;
   letter-spacing: 0.02em; text-transform: none;
 }
 [dir="rtl"] .label {
-  font-family: var(--body); font-size: 0.84rem;
+  font-family: var(--body); font-size: 0.88rem; font-weight: 500;
   letter-spacing: 0.01em; text-transform: none;
 }
 
@@ -299,14 +299,28 @@
 [dir="rtl"] .btn:hover .arrow { transform: scaleX(-1) translateX(3px); }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+
+/* THE ROOT SIZE, and it is the most load-bearing line in this file.
+   Measured on the live site 2026-09-05, after Alon's wife said the text was
+   hard to see: 31.8% of every character on the page was rendering under 15px,
+   and the single biggest block of text on the site, the reviews, sat at 15.7px.
+   Almost every size here is in rem, so raising the root lifts the entire scale
+   at once instead of chasing forty hardcoded values.
+   112.5% = an 18px base. Body copy goes 16 to 18, the reviews 15.7 to 17.7,
+   and the smallest utility label lands above 13. */
+html { font-size: 112.5%; scroll-behavior: smooth; }
+@media (max-width: 560px) { html { font-size: 106.25%; } }
 
 body {
   background: var(--paper);
   color: var(--ink-2);
   font-family: var(--body);
   font-size: 1rem;
-  line-height: 1.65;
+  /* 420 rather than 400. Assistant and Heebo are both variable, so this is a
+     real weight and not a synthesised one, and it thickens the stroke just
+     enough to hold up without reading as bold. */
+  font-weight: 420;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background 0.3s ease, color 0.3s ease;
@@ -334,21 +348,21 @@ img { display: block; max-width: 100%; }
   font-size: var(--d-md); line-height: 1.15; letter-spacing: -0.015em;
   color: var(--ink);
 }
-.lead { font-size: 1.15rem; line-height: 1.6; color: var(--ink-2); font-weight: 300; }
+.lead { font-size: 1.15rem; line-height: 1.62; color: var(--ink-2); font-weight: 400; }
 .eyebrow {
   display: inline-flex; align-items: center; gap: 0.7rem;
-  font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.18em;
+  font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.16em;
   text-transform: uppercase; color: var(--ink-3);
 }
 .eyebrow::before { content: ""; width: 1.6rem; height: 1px; background: var(--accent); }
 .label {
-  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em;
+  font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--ink-3);
 }
 
 .btn {
   display: inline-flex; align-items: center; gap: 0.6rem;
-  font-family: var(--body); font-size: 0.9rem; font-weight: 500; letter-spacing: 0.01em;
+  font-family: var(--body); font-size: 0.95rem; font-weight: 600; letter-spacing: 0.01em;
   padding: 0.9rem 1.5rem; border: 1px solid transparent; cursor: pointer;
   border-radius: var(--radius-btn);
   transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
