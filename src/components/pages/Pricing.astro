@@ -200,6 +200,22 @@ const SERVICES = [
   </div>
 </section>
 
+<!-- STAGE BAND.
+     Added 2026-09-04 at Alon's request. NOTE FOR ANYONE EDITING: this is the
+     SAME photograph as the homepage band and the About page, at a tighter
+     1400x349 crop rather than 1600x554. It is carried as its own asset because
+     the letterbox reads differently, but it is one shot doing three jobs. The
+     caption is deliberately unlike the homepage one so the repeat is not
+     obvious. Replace it the moment a second usable working photo exists;
+     public/README.md lists what to shoot. -->
+<figure class="stage">
+  <img src="/alon-stage-wide.jpg" alt="אלון גילדוני מרצה מול קהל" width="1400" height="349" loading="lazy" />
+  <figcaption class="container">
+    <span class="eyebrow">בערבים כאלה</span>
+    <p>החלק החינמי של מה שאני עושה קורה על במות כאלה, והוא נשאר חינמי. מה שבעמוד הזה הוא הגרסה האחת על אחת, על המצב הספציפי שלכם, ובסופה משהו כתוב.</p>
+  </figcaption>
+</figure>
+
 <!-- REVIEW -->
 <section class="section quote-sec">
   <div class="container">
@@ -318,6 +334,19 @@ const SERVICES = [
   .hero-cta { margin-top: 2.2rem; }
   .hero-cta-note { margin: 0.9rem 0 0; color: var(--ink-3); font-size: 0.92rem; max-width: 52ch; }
   .svc-cta { margin-top: 1.6rem; }
+  /* stage band */
+  .stage { margin: 0; position: relative; background: #0c0c0c; }
+  .stage img { width: 100%; height: auto; aspect-ratio: 1400 / 349; object-fit: cover; filter: grayscale(1) contrast(1.05); }
+  :global([data-theme="instrument"]) .stage img { filter: grayscale(1) contrast(1.05) brightness(0.72); }
+  .stage figcaption { position: absolute; inset-inline: 0; bottom: 0; padding-block: 1.3rem; }
+  .stage figcaption::before {
+    content: ""; position: absolute; inset: -3.5rem 0 0 0; pointer-events: none;
+    background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0));
+  }
+  .stage .eyebrow { position: relative; color: color-mix(in srgb, #fff 72%, transparent); }
+  .stage p { position: relative; color: #fff; margin-top: 0.45rem; max-width: 58ch; font-size: 0.93rem; line-height: 1.6; }
+  @media (max-width: 700px) { .stage img { aspect-ratio: 3 / 2; } .stage p { font-size: 0.84rem; } }
+
   .quote-sec { padding-block: calc(var(--section) * 0.5); }
   .pull { margin: 0; max-width: 62ch; }
   .pull p { font-family: var(--display); font-weight: var(--display-weight); font-size: clamp(1.25rem, 2.4vw, 1.75rem); line-height: 1.4; color: var(--ink); margin: 0; }
