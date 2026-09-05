@@ -4,7 +4,14 @@ import he from "./he.json";
 
 export type Lang = "en" | "nl" | "he";
 export const LANGS: Lang[] = ["en", "nl", "he"];
-export const DEFAULT_LANG: Lang = "en";
+/**
+ * Hebrew is the default and serves at the root; English and Dutch are
+ * prefixed. Alon, 2026-09-05: "the default of the website should be Hebrew,
+ * the other languages should follow". This reverses the 2026-06-30 decision
+ * that put English at the root, and it is the right way round for the
+ * audience: the pricing page and the AI tools exist only in Hebrew.
+ */
+export const DEFAULT_LANG: Lang = "he";
 
 export const LANG_LABELS: Record<Lang, string> = { en: "EN", nl: "NL", he: "HE" };
 export const LANG_NAMES: Record<Lang, string> = { en: "English", nl: "Nederlands", he: "עברית" };

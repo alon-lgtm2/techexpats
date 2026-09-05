@@ -1,5 +1,6 @@
 ---
 import { getT, localizePath, LANGS, LANG_LABELS, DEFAULT_LANG, type Lang } from "../i18n";
+import { ROUTES } from "../i18n/routes";
 
 interface Props { lang?: Lang; localePaths?: Record<string, string> }
 const { lang = "en", localePaths } = Astro.props;
@@ -9,6 +10,21 @@ const t = getT(lang);
 const parts = Astro.url.pathname.split("/").filter(Boolean);
 const basePath = (LANGS as string[]).includes(parts[0]) ? "/" + parts.slice(1).join("/") : Astro.url.pathname;
 const cleanBase = basePath === "" ? "/" : basePath;
+
+// Which languages this page actually exists in. The switcher used to build a
+// link for all three unconditionally, so on a Hebrew-only page it offered
+// /en/pricing and /nl/pricing, neither of which was ever built. That was true
+// before the 2026-09-05 locale flip too, at different URLs. routes.ts exists
+// precisely to answer this, and its own comment says advertising a URL that
+// 404s is worse than advertising nothing.
+const hrefFor = (l: Lang) => {
+  const explicit = localePaths?.[l];
+  if (explicit) return explicit;
+  const c = localizePath(cleanBase, l);
+  const norm = c.endsWith("/") ? c : c + "/";
+  return ROUTES.has(norm) ? c : null;
+};
+const langHrefs = Object.fromEntries(LANGS.map((l) => [l, hrefFor(l)])) as Record<Lang, string | null>;
 
 const extra = {
   resources: { he: "מידע שימושי", en: "Useful Information", nl: "Nuttige informatie" },
@@ -47,11 +63,11 @@ const links = [
     <div class="nav-right">
       <div class="langs" role="group" aria-label="Language">
         {LANGS.map((l) => (
-          <a
-            href={localePaths?.[l] ?? localizePath(cleanBase, l)}
-            class:list={["lang", { active: l === lang }]}
-            hreflang={l}
-          >{LANG_LABELS[l]}</a>
+          langHrefs[l] ? (
+            <a href={langHrefs[l]!} class:list={["lang", { active: l === lang }]} hreflang={l}>{LANG_LABELS[l]}</a>
+          ) : (
+            <span class="lang off" aria-disabled="true" title={t.nav.langMissing}>{LANG_LABELS[l]}</span>
+          )
         ))}
       </div>
       <a href={localizePath("/book", lang)} class="btn btn-primary nav-cta">{t.cta.book} <span class="arrow">&rarr;</span></a>
@@ -102,6 +118,10 @@ const links = [
   }
   .lang:hover { color: var(--ink); }
   .lang.active { color: var(--accent); font-weight: 500; }
+  /* A language this page was never written in. Shown, so the switcher keeps
+     its shape and the reader can see the page is single language, but not a
+     link, because there is nothing to link to. */
+  .lang.off { color: var(--ink-3); opacity: 0.4; cursor: default; }
   .nav-cta { padding: 0.55rem 1rem; font-size: 0.8rem; }
 
   .burger {

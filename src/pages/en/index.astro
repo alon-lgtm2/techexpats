@@ -1,7 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Home from "../../components/Home.astro";
-const alternates = { en: "/", nl: "/nl/", he: "/he/" };
+const alternates = { he: "/", nl: "/nl/", en: "/en/" };
 const jsonld = [
   {
     "@context": "https://schema.org",
@@ -35,6 +35,7 @@ const jsonld = [
 ];
 
 ---
-<Base lang="he" title="TechExpats - למצוא את העבודה, לא סתם עבודה" description="ליווי קריירה והשמה בכירה בהולנד ובאירופה, מאמסטרדם. המומחיות שלי היא שוק העבודה ההולנדי: איך מעסיקים כאן מגייסים, ומה באמת מזיז חיפוש עבודה. אלון גילדוני." alternates={alternates} jsonld={jsonld}>
-  <Home lang="he" />
+
+<Base lang="en" title="TechExpats - Career Moves, led by Alon Gildoni" description="Career coaching and headhunting across Europe, from Amsterdam. Find the job, not just a job: the European market, the Netherlands in particular, mostly tech but not only." alternates={alternates} jsonld={jsonld}>
+  <Home lang="en" />
 </Base>

@@ -9,12 +9,12 @@ const { lang = "he" } = Astro.props;
 
 // Hebrew-only page: without this the language switcher would offer /ai-tools and
 // /nl/ai-tools, which do not exist. Send en/nl to their nearest equivalent instead.
-const localePaths = { en: "/resources", nl: "/nl/resources", he: "/he/ai-tools" };
+const localePaths = { en: "/en/resources", nl: "/nl/resources", he: "/ai-tools" };
 
 const TOOLS = [
   {
     n: "01",
-    href: "/he/ai-tools/cv-upgrade",
+    href: "/ai-tools/cv-upgrade",
     title: "שדרוג קורות חיים",
     blurb:
       "פרומפט שהופך את ה-AI למגייס בכיר שמראיין אתכם. עשרה שלבים, שאלה אחת בכל פעם, ובסוף מסמך מלוטש עם ציון ורשימה של מה השתפר.",
@@ -23,7 +23,7 @@ const TOOLS = [
   },
   {
     n: "02",
-    href: "/he/ai-tools/target-companies",
+    href: "/ai-tools/target-companies",
     title: "שורטליסט חברות",
     blurb:
       "Deep Research Gem שבונה רשימת חברות מטרה בהולנד לפי הניסיון והשאיפות שלכם. שיטת המחקר שאני עובד לפיה, מזוקקת לכלי.",
