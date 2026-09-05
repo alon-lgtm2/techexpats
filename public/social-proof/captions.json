@@ -1,4 +1,32 @@
 {
-  "_comment": "One entry per image file in this folder. Every field is optional and an image with no entry still renders. alt = what a screen reader says. who = the name shown under it, and initials are fine. note = one line on what it shows. wide = true for a photograph of a room, which gets the site's grayscale; leave it off for screenshots, which should stay in colour.",
-  "_example.png": { "alt": "WhatsApp message", "who": "Y. S.", "note": "Signed three weeks after the session", "wide": false }
+  "_comment": "One entry per image file in this folder. Every field is optional and an image with no entry still renders. alt = what a screen reader says. who = the line under it; leave it out when you genuinely do not know. note = one line on what it shows. Each of the three takes either a plain string or {he,en,nl}, because the screenshots are Hebrew and the caption is the only thing that carries them into the other two languages. wide = true for a photograph of a room, which gets the site's grayscale; leave it off for screenshots, which stay in colour.",
+
+  "proof-02-offer.jpg": {
+    "alt": { "he": "צילום מסך של שיחת ווטסאפ", "en": "Screenshot of a WhatsApp conversation", "nl": "Screenshot van een WhatsApp-gesprek" },
+    "who": { "he": "לקוח ליווי", "en": "A coaching client", "nl": "Een coachingklant" },
+    "note": {
+      "he": "26 באוגוסט 2026. \"יש הצעה! היא תשלח לי תיכף פרטים\"",
+      "en": "26 August 2026. \"There's an offer! She'll send me the details in a moment\"",
+      "nl": "26 augustus 2026. \"Er is een aanbod! Ze stuurt me zo de details\""
+    }
+  },
+
+  "proof-03-signed.jpg": {
+    "alt": { "he": "צילום מסך של הודעת ווטסאפ", "en": "Screenshot of a WhatsApp message", "nl": "Screenshot van een WhatsApp-bericht" },
+    "who": { "he": "לקוחת ליווי", "en": "A coaching client", "nl": "Een coachingklant" },
+    "note": {
+      "he": "\"אתמול בשעה טובה חתמתי חוזה. התהליך איתך עשה לי סדר בראש, מהדבר הכי בסיסי ועד הכי מהותי\"",
+      "en": "\"Yesterday, at long last, I signed a contract. The process with you put my head in order, from the most basic thing to the most essential\"",
+      "nl": "\"Gisteren heb ik eindelijk een contract getekend. Het traject met jou bracht orde in mijn hoofd, van het meest basale tot het meest wezenlijke\""
+    }
+  },
+
+  "proof-01-thanks.jpg": {
+    "alt": { "he": "צילום מסך של הודעה", "en": "Screenshot of a message", "nl": "Screenshot van een bericht" },
+    "note": {
+      "he": "\"ואו, תודה ענקית אלון!!! עוזרת לנו מאוד!!!\"",
+      "en": "\"Wow, a huge thank you Alon!!! It helps us so much!!!\"",
+      "nl": "\"Wauw, heel erg bedankt Alon!!! Het helpt ons enorm!!!\""
+    }
+  }
 }

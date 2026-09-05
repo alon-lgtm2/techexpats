@@ -1,0 +1,78 @@
+---
+/**
+ * A line from one of Alon's own articles, set as a display quote with the piece
+ * it came from linked underneath.
+ *
+ * Two jobs at once, which is why it is a component and not just a blockquote.
+ * It is proof of expertise on a page that is otherwise selling, and it is a
+ * route into the writing, which is the site's deepest asset and the thing a
+ * reader who is not ready to book can actually use.
+ *
+ * The quotes live in src/data/excerpts.ts, verbatim from the articles.
+ */
+import { byId } from "../data/excerpts";
+import { type Lang } from "../i18n";
+
+interface Props {
+  /** id from src/data/excerpts.ts */
+  id: string;
+  lang?: Lang;
+  /** Sits inside a section that already has padding. */
+  bare?: boolean;
+  /** Quieter, for a sidebar or a dense page. */
+  small?: boolean;
+}
+const { id, lang = "en", bare = false, small = false } = Astro.props;
+const e = byId(id);
+
+// The Hebrew article is <slug>, English drops the -he, Dutch swaps it for -nl.
+// summer-hunt has no siblings, so on EN and NL it is quoted without a link
+// rather than sending a reader to a page they cannot read.
+const base = e?.slug.replace(/-he$/, "") ?? "";
+const href =
+  !e ? null
+  : lang === "he" ? `/insights/${e.slug}`
+  : !e.hasSiblings ? null
+  : lang === "nl" ? `/insights/${base}-nl`
+  : `/insights/${base}`;
+
+const READ = { he: "מתוך", en: "From", nl: "Uit" };
+const label = READ[lang] ?? READ.en;
+---
+
+{e && (
+  <figure class:list={["aq", { bare, small }]}>
+    <blockquote>{e.quote[lang] ?? e.quote.en}</blockquote>
+    <figcaption>
+      <span class="label">{label}</span>
+      {href
+        ? <a href={href}>{e.source[lang] ?? e.source.en} <span class="arrow">&rarr;</span></a>
+        : <span class="src">{e.source[lang] ?? e.source.en}</span>}
+    </figcaption>
+  </figure>
+)}
+
+<style>
+  .aq {
+    margin: 0; padding-inline-start: 1.4rem;
+    border-inline-start: 3px solid var(--accent);
+  }
+  .aq:not(.bare) { margin-block: clamp(2.5rem, 5vw, 4rem); }
+  blockquote {
+    font-family: var(--display); font-weight: var(--display-weight);
+    font-size: clamp(1.25rem, 2.5vw, 1.85rem); line-height: 1.42;
+    letter-spacing: -0.015em; color: var(--ink); margin: 0; text-wrap: pretty;
+    max-width: 34ch;
+  }
+  .small blockquote { font-size: clamp(1.05rem, 1.7vw, 1.3rem); max-width: 42ch; }
+  /* Heebo and Rubik set much wider per character than the Latin faces, so a
+     measure tuned on English comes out about a third too tight in Hebrew. */
+  :global([dir="rtl"]) blockquote { max-width: 46ch; }
+  :global([dir="rtl"]) .small blockquote { max-width: 54ch; }
+
+  figcaption { margin-top: 1.1rem; display: flex; align-items: baseline; gap: 0.7rem; flex-wrap: wrap; }
+  figcaption .label { color: var(--ink-3); }
+  figcaption a, figcaption .src { font-size: 0.9rem; color: var(--ink-2); }
+  figcaption a { border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+  figcaption a:hover { color: var(--accent-ink); border-color: var(--accent); }
+</style>

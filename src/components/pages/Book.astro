@@ -4,6 +4,7 @@ import Footer from "../Footer.astro";
 import PullQuote from "../PullQuote.astro";
 import Testimonials from "../Testimonials.astro";
 import ProofWall from "../ProofWall.astro";
+import ArticleQuote from "../ArticleQuote.astro";
 import { getT, localizePath, type Lang, BOOKING_URL } from "../../i18n";
 interface Props { lang?: Lang }
 const { lang = "en" } = Astro.props;
@@ -90,6 +91,10 @@ const calendly = BOOKING_URL;
 <Testimonials lang={lang} limit={6} source="coaching" heading={b.proofHeading} sub={b.proofSub} />
 
 <ProofWall lang={lang} limit={6} />
+
+<section class="section alt">
+  <div class="container"><ArticleQuote id="attention" lang={lang} bare /></div>
+</section>
 
 <section class="section" id="pick">
   <div class="container">

@@ -70,6 +70,14 @@ const links = [
           )
         ))}
       </div>
+      <button class="ground" id="ground" type="button" aria-label={t.nav.scheme} title={t.nav.scheme}>
+        <svg class="sun" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4.2" /><path d="M12 2.4v2.2M12 19.4v2.2M2.4 12h2.2M19.4 12h2.2M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6" />
+        </svg>
+        <svg class="moon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z" />
+        </svg>
+      </button>
       <a href={localizePath("/book", lang)} class="btn btn-primary nav-cta">{t.cta.book} <span class="arrow">&rarr;</span></a>
       <button class="burger" aria-label="Menu" aria-expanded="false" id="burger">
         <span></span><span></span>
@@ -124,6 +132,24 @@ const links = [
   .lang.off { color: var(--ink-3); opacity: 0.4; cursor: default; }
   .nav-cta { padding: 0.55rem 1rem; font-size: 0.8rem; }
 
+  /* The light/dark control. The icon shows what you would switch TO, which is
+     the convention people already read without thinking. */
+  .ground {
+    display: flex; align-items: center; justify-content: center;
+    width: 2rem; height: 2rem; flex: none;
+    background: none; border: 1px solid var(--line); color: var(--ink-2);
+    cursor: pointer; border-radius: var(--radius-btn);
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .ground:hover { color: var(--accent-ink); border-color: var(--accent); }
+  .ground svg { display: none; }
+  :global([data-theme="instrument"]) .ground .sun { display: block; }
+  :global([data-theme="instrument-light"]) .ground .moon { display: block; }
+  /* On the four legacy directions there is no twin to switch to, so the
+     control has nothing to say and stays hidden rather than lying. */
+  .ground { display: none; }
+  :global([data-theme^="instrument"]) .ground { display: flex; }
+
   .burger {
     display: flex; flex-direction: column; gap: 5px; justify-content: center;
     width: 2.4rem; height: 2.4rem; background: none; border: 1px solid var(--line); cursor: pointer;
@@ -146,6 +172,16 @@ const links = [
 </style>
 
 <script>
+  // Light or dark ground. Stored under the same key the pre-paint script in
+  // Base.astro reads, and written only as one of the two values it accepts.
+  const g = document.getElementById("ground");
+  g?.addEventListener("click", () => {
+    const el = document.documentElement;
+    const next = el.getAttribute("data-theme") === "instrument-light" ? "instrument" : "instrument-light";
+    el.setAttribute("data-theme", next);
+    try { localStorage.setItem("te-ground", next); } catch (e) { /* nothing to do */ }
+  });
+
   const b = document.getElementById("burger");
   const m = document.getElementById("mobile-menu");
   b?.addEventListener("click", () => {

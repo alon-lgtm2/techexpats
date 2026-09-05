@@ -149,21 +149,71 @@
 /* The primary button is the one place the ink/paper default is wrong here.
    .btn-primary is `background: var(--ink)`, which on a dark theme is a white
    slab, and the site's single most important control should be the accent. */
-[data-theme="instrument"] .btn-primary { background: var(--accent); color: var(--on-accent); }
-[data-theme="instrument"] .btn-primary:hover { background: var(--accent-ink); color: var(--on-accent); }
+/* ^= matches instrument and instrument-light: the amber button is part of the
+   direction, not of one ground. .btn-primary defaults to var(--ink), which on
+   the dark twin is a white slab and on the light twin is a black one, and the
+   site's single most important control should be the accent on both. */
+[data-theme^="instrument"] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-theme^="instrument"] .btn-primary:hover { background: var(--accent-ink); color: var(--on-accent); }
 
 /* The inverted bands, and this is the one thing the ink/paper flip does NOT
    handle by itself. These sections paint themselves LIGHT on a dark theme, and
    the accent inside them stays the same amber, which measures 1.73:1 against
    the light ground. The big "01"/"02" numerals on the homepage employer band
    were effectively invisible. A deeper amber of the same hue reads at 4.66:1.
-   Add any future inverted band to this list. */
-[data-theme="instrument"] :is(.employers, .facts, .problem-sec, .trust-sec, .honest-sec, .order li:last-child) {
+
+   MARK A BAND WITH class="inverted". This used to list the class names of the
+   bands that happened to be inverted, and `.facts` was one of them, which meant
+   the override also reached the hero price row on /book and the practical-facts
+   list on /pricing, neither of which is inverted. It showed up as a 2.08:1
+   "190" the moment the light twin existed. Key off intent, not off names. */
+[data-theme="instrument"] :is(.inverted, .order li:last-child) {
   --accent:     #8a5c0c;
   --accent-ink: #7d5209;
   --on-accent:  #ffffff;
 }
+/* The same problem, mirrored. On the light twin those bands flip to DARK, and
+   the deep amber that reads on white disappears against near black, so they
+   take the bright amber back. Whichever ground the page is on, the inverted
+   band needs the other one's accent. */
+[data-theme="instrument-light"] :is(.inverted, .order li:last-child) {
+  --accent:     #e8a33d;
+  --accent-ink: #f2b95f;
+  --on-accent:  #0d1013;
+}
 
+
+/* ---- INSTRUMENT LIGHT: the same direction on a white ground. ----
+   Alon, 2026-09-05: "some people may prefer to read white on black and not
+   black on white ... give them a chance to flip the background." This is not a
+   different design direction, it is the same one inverted: same Rubik, same
+   Assistant, same amber hue, same structure. Only the ground moves.
+
+   The accent is NOT the same value, and it cannot be. #e8a33d measures 2.08:1
+   as text on this paper, which is unreadable. The light twin runs a deeper
+   amber that reads at 5.05:1 and still carries white on it at 5.23:1. */
+[data-theme="instrument-light"] {
+  --paper:      #fbfbf9;
+  --paper-2:    #f1f2f0;
+  --ink:        #14181a;
+  --ink-2:      #454b4e;
+  --ink-3:      #666d70;
+  --line:       rgba(20, 24, 26, 0.14);
+  --line-soft:  rgba(20, 24, 26, 0.07);
+  --accent:     #96610c;
+  --accent-ink: #7d5209;
+  --accent-2:   #2a6a86;
+  --on-accent:  #ffffff;
+  --display: "Rubik", system-ui, sans-serif;
+  --body:    "Assistant", system-ui, -apple-system, sans-serif;
+  --display-weight: 800;
+  --hero-em-color: var(--accent);
+  --hero-em-style: normal;
+  --radius: 0px;
+  --radius-btn: 0px;
+  --footer-bg: #14181a;
+  --footer-fg: #eceeee;
+}
 
 /* ---- SLATE: premium dark, serif, muted gold ---- */
 [data-theme="slate"] {
@@ -194,7 +244,7 @@
   --body: "Heebo", system-ui, sans-serif;
   --display-weight: 800;
 }
-[dir="rtl"][data-theme="instrument"] {
+[dir="rtl"][data-theme^="instrument"] {
   --display: "Rubik", "Heebo", system-ui, sans-serif;
   --body: "Assistant", "Heebo", system-ui, sans-serif;
   --display-weight: 800;
@@ -230,7 +280,7 @@
   --d-lg: clamp(1.75rem, 3.2vw, 2.7rem);
   --d-md: clamp(1.35rem, 2.2vw, 1.85rem);
 }
-[dir="rtl"][data-theme="instrument"] {
+[dir="rtl"][data-theme^="instrument"] {
   --d-xl: clamp(2rem, 4.2vw, 3.5rem);
   --d-lg: clamp(1.65rem, 3vw, 2.5rem);
 }

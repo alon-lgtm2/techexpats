@@ -70,6 +70,24 @@ const dir = isRTL(lang) ? "rtl" : "ltr";
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Runs before the first paint, on purpose. The visitor's light or dark
+         choice is stored locally and applied to <html> here, so the page never
+         flashes one ground and then swaps to the other. It only ever touches a
+         page the server rendered as an instrument variant, so /designs and the
+         four legacy directions are left alone, and it only accepts the two
+         values it wrote itself. -->
+    <script is:inline>
+      try {
+        var el = document.documentElement;
+        var served = el.getAttribute("data-theme") || "";
+        var saved = localStorage.getItem("te-ground");
+        if (served.indexOf("instrument") === 0 &&
+            (saved === "instrument" || saved === "instrument-light")) {
+          el.setAttribute("data-theme", saved);
+        }
+      } catch (e) { /* private mode, blocked storage: keep the served ground */ }
+    </script>
     <title>{title}</title>
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     {!noindex && <link rel="canonical" href={canonical} />}

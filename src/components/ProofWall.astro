@@ -37,7 +37,16 @@ const { lang = "en", limit, heading, sub, eyebrow } = Astro.props;
 const DIR = path.join(process.cwd(), "public", "social-proof");
 const EXT = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
 
-type Caption = { alt?: string; who?: string; note?: string; wide?: boolean };
+/**
+ * A caption field is either one string, used in every language, or an object
+ * keyed by language. The screenshots are Hebrew, so an English reader cannot
+ * read a word of them: the caption is the only thing carrying the content
+ * across, and it has to be translatable or the wall is decoration on /en.
+ */
+type L10n = string | Partial<Record<Lang, string>>;
+type Caption = { alt?: L10n; who?: L10n; note?: L10n; wide?: boolean };
+const pick = (v: L10n | undefined, lang: Lang): string | undefined =>
+  typeof v === "string" ? v : v?.[lang] ?? v?.en ?? undefined;
 let captions: Record<string, Caption> = {};
 let files: string[] = [];
 
@@ -57,10 +66,16 @@ if (fs.existsSync(DIR)) {
   }
 }
 
-const items = (limit ? files.slice(0, limit) : files).map((f) => ({
-  src: `/social-proof/${f}`,
-  ...(captions[f] ?? {}),
-}));
+const items = (limit ? files.slice(0, limit) : files).map((f) => {
+  const c = captions[f] ?? {};
+  return {
+    src: `/social-proof/${f}`,
+    alt: pick(c.alt, lang),
+    who: pick(c.who, lang),
+    note: pick(c.note, lang),
+    wide: c.wide,
+  };
+});
 
 const COPY = {
   en: { eyebrow: "Receipts", heading: "Not a quote I typed. A screenshot.", sub: "Messages, recommendations and rooms, as they arrived." },

@@ -2,6 +2,7 @@
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
 import CTA from "../CTA.astro";
+import ArticleQuote from "../ArticleQuote.astro";
 import Testimonials from "../Testimonials.astro";
 import { getT, localizePath, type Lang } from "../../i18n";
 interface Props { lang?: Lang }
@@ -54,7 +55,7 @@ const disc = [
 </section>
 
 <!-- ===== WHY THIS IS HARD IN EUROPE ===== -->
-<section class="section problem-sec">
+<section class="section problem-sec inverted">
   <div class="container">
     <div class="p-head-row">
       <div>
@@ -144,7 +145,7 @@ const disc = [
 </section>
 
 <!-- ===== WHO YOU ARE CONTRACTING WITH ===== -->
-<section class="section trust-sec">
+<section class="section trust-sec inverted">
   <div class="container">
     <div class="trust-head">
       <div>
@@ -238,6 +239,10 @@ const disc = [
 <!-- Employer-side reviews only. The component hides itself while none exist,
      so this renders nothing until there is a real one to show. -->
 <Testimonials lang={lang} source="hiring" limit={3} heading={f.saidHeading} sub={f.saidSub} />
+
+<section class="section">
+  <div class="container"><ArticleQuote id="israeli-asset" lang={lang} bare small /></div>
+</section>
 
 <CTA lang={lang} heading={f.ctaHeading} body={f.ctaBody} />
 <Footer lang={lang} />

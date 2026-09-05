@@ -4,6 +4,7 @@ import Footer from "./Footer.astro";
 import Testimonials from "./Testimonials.astro";
 import ProofWall from "./ProofWall.astro";
 import HiringCalendar from "./HiringCalendar.astro";
+import ArticleQuote from "./ArticleQuote.astro";
 import CTA from "./CTA.astro";
 import { getCollection } from "astro:content";
 import { getT, localizePath, type Lang } from "../i18n";
@@ -130,7 +131,15 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
   </div>
 </section>
 
+<section class="section quote-band">
+  <div class="container"><ArticleQuote id="hunt-companies" lang={lang} bare /></div>
+</section>
+
 <HiringCalendar lang={lang} />
+
+<section class="section alt quote-band">
+  <div class="container"><ArticleQuote id="quarter" lang={lang} bare /></div>
+</section>
 
 <!-- ===== PILLARS ===== -->
 <section class="section alt">
@@ -165,7 +174,7 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
 </figure>
 
 <!-- ===== EMPLOYERS ===== -->
-<section class="section employers">
+<section class="section employers inverted">
   <div class="container">
     <div class="emp-head">
       <div>
@@ -230,6 +239,10 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
 </section>
 
 <!-- ===== WRITING (sneak peek) ===== -->
+<section class="section quote-band">
+  <div class="container"><ArticleQuote id="rejected-flag" lang={lang} bare /></div>
+</section>
+
 {latest.length > 0 && (
   <section class="section writing">
     <div class="container">
@@ -347,6 +360,8 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
   .pillar p { font-size: 0.96rem; }
   .pillar-accent { display: block; margin-top: 1rem; font-weight: 600; color: var(--ink); font-size: 0.92rem; }
   @media (min-width: 820px) { .pillars { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; } }
+
+  .quote-band { padding-block: clamp(2rem, 3.6vw, 3.25rem); }
 
   /* photo band */
   /* Not var(--ink): on a dark direction that flips to a light slab behind a
