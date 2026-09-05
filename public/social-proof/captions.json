@@ -1,0 +1,4 @@
+{
+  "_comment": "One entry per image file in this folder. Every field is optional and an image with no entry still renders. alt = what a screen reader says. who = the name shown under it, and initials are fine. note = one line on what it shows. wide = true for a photograph of a room, which gets the site's grayscale; leave it off for screenshots, which should stay in colour.",
+  "_example.png": { "alt": "WhatsApp message", "who": "Y. S.", "note": "Signed three weeks after the session", "wide": false }
+}

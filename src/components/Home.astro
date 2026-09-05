@@ -2,6 +2,7 @@
 import Nav from "./Nav.astro";
 import Footer from "./Footer.astro";
 import Testimonials from "./Testimonials.astro";
+import ProofWall from "./ProofWall.astro";
 import HiringCalendar from "./HiringCalendar.astro";
 import CTA from "./CTA.astro";
 import { getCollection } from "astro:content";
@@ -258,6 +259,7 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
 )}
 
 <Testimonials lang={lang} limit={6} />
+<ProofWall lang={lang} limit={6} />
 <CTA lang={lang} />
 <Footer lang={lang} />
 

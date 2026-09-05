@@ -1,0 +1,126 @@
+---
+/**
+ * THE PROOF WALL: screenshots of real messages, recommendations and rooms.
+ *
+ * Built 2026-09-05, when Alon asked to "bombard the website with social proof"
+ * and for a folder to upload images into. It reads whatever is in
+ * public/social-proof/ AT BUILD TIME and renders nothing at all while that
+ * folder is empty, which is how it can ship before a single image exists.
+ *
+ * HOW AN IMAGE GETS HERE, and the order matters:
+ *   1. Alon drops the original in  Projects/techexpats/social-proof/
+ *      That folder is OUTSIDE the site on purpose. Anything under public/ is
+ *      published the instant it is built, and screenshots of this kind carry
+ *      other people's names, faces and phone numbers.
+ *   2. It is reviewed, cropped, and any name that should not be public is
+ *      removed from the IMAGE ITSELF, not covered with CSS.
+ *   3. Only then does it land in public/social-proof/, with a line in
+ *      captions.json saying who it is and what it shows.
+ *
+ * captions.json is optional. An image with no entry still renders, captionless,
+ * so a forgotten caption is never the reason a proof does not ship.
+ */
+import fs from "node:fs";
+import path from "node:path";
+import { type Lang } from "../i18n";
+
+interface Props {
+  lang?: Lang;
+  /** Cap how many appear here. Omit for all of them. */
+  limit?: number;
+  heading?: string;
+  sub?: string;
+  eyebrow?: string;
+}
+const { lang = "en", limit, heading, sub, eyebrow } = Astro.props;
+
+const DIR = path.join(process.cwd(), "public", "social-proof");
+const EXT = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
+
+type Caption = { alt?: string; who?: string; note?: string; wide?: boolean };
+let captions: Record<string, Caption> = {};
+let files: string[] = [];
+
+if (fs.existsSync(DIR)) {
+  files = fs
+    .readdirSync(DIR)
+    .filter((f) => EXT.has(path.extname(f).toLowerCase()))
+    .sort();
+  const cf = path.join(DIR, "captions.json");
+  if (fs.existsSync(cf)) {
+    try {
+      captions = JSON.parse(fs.readFileSync(cf, "utf-8"));
+    } catch {
+      // A broken captions file must never take the images down with it.
+      captions = {};
+    }
+  }
+}
+
+const items = (limit ? files.slice(0, limit) : files).map((f) => ({
+  src: `/social-proof/${f}`,
+  ...(captions[f] ?? {}),
+}));
+
+const COPY = {
+  en: { eyebrow: "Receipts", heading: "Not a quote I typed. A screenshot.", sub: "Messages, recommendations and rooms, as they arrived." },
+  he: { eyebrow: "אסמכתאות", heading: "לא ציטוט שאני הקלדתי. צילום מסך.", sub: "הודעות, המלצות וחדרים, כמו שהם הגיעו." },
+  nl: { eyebrow: "Bewijs", heading: "Geen quote die ik heb getypt. Een screenshot.", sub: "Berichten, aanbevelingen en zalen, zoals ze binnenkwamen." },
+};
+const c = COPY[lang] ?? COPY.en;
+---
+
+{items.length > 0 && (
+<section class="section wall">
+  <div class="container">
+    <span class="eyebrow">{eyebrow ?? c.eyebrow}</span>
+    <h2 class="display-lg wall-h">{heading ?? c.heading}</h2>
+    <p class="wall-sub">{sub ?? c.sub}</p>
+
+    <div class="masonry">
+      {items.map((it) => (
+        <figure class:list={["shot", { wide: it.wide }]}>
+          <img src={it.src} alt={it.alt ?? ""} loading="lazy" />
+          {(it.who || it.note) && (
+            <figcaption>
+              {it.who && <b>{it.who}</b>}
+              {it.note && <span>{it.note}</span>}
+            </figcaption>
+          )}
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+)}
+
+<style>
+  .wall-h { margin: 0.9rem 0 0.7rem; max-width: 22ch; }
+  .wall-sub { color: var(--ink-2); max-width: 52ch; margin: 0 0 var(--sec-gap); }
+
+  /* CSS columns, not grid: screenshots come in wildly different aspect ratios
+     and a grid would either crop them or leave holes. Columns let each one keep
+     its own height. Reading order runs down a column, which is fine here
+     because these are independent items and not a sequence. */
+  .masonry { columns: 1; column-gap: 1rem; }
+  @media (min-width: 620px) { .masonry { columns: 2; } }
+  @media (min-width: 1000px) { .masonry { columns: 3; column-gap: 1.25rem; } }
+
+  .shot {
+    break-inside: avoid; margin: 0 0 1rem;
+    border: 1px solid var(--line); background: var(--paper-2);
+  }
+  @media (min-width: 1000px) { .shot { margin-bottom: 1.25rem; } }
+  .shot img { width: 100%; height: auto; display: block; }
+  /* A photograph of a room reads as documentary; a screenshot of a message does
+     not, so only the wide ones get the grayscale the rest of the site uses. */
+  .shot.wide img { filter: grayscale(1) contrast(1.04); }
+  :global([data-theme="instrument"]) .shot.wide img { filter: grayscale(1) contrast(1.05) brightness(0.85); }
+
+  figcaption {
+    padding: 0.7rem 0.9rem; border-top: 1px solid var(--line);
+    font-size: 0.84rem; line-height: 1.5; color: var(--ink-3);
+    display: flex; flex-direction: column; gap: 0.15rem;
+  }
+  figcaption b { color: var(--ink); font-weight: 600; font-size: 0.88rem; }
+</style>

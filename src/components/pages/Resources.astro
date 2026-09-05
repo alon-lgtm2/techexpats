@@ -2,6 +2,7 @@
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
 import CTA from "../CTA.astro";
+import Testimonials from "../Testimonials.astro";
 import { type Lang } from "../../i18n";
 interface Props { lang?: Lang }
 const { lang = "he" } = Astro.props;
@@ -519,6 +520,8 @@ const pickL = (m: Record<string, string>) => m[lang] ?? m.en;
     ))}
   </div>
 </section>
+
+<Testimonials lang={lang} limit={3} source="coaching" />
 
 <CTA lang={lang} heading={c.closeHeading} body={c.closeBody} />
 <Footer lang={lang} />

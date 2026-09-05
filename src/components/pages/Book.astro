@@ -2,6 +2,8 @@
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
 import PullQuote from "../PullQuote.astro";
+import Testimonials from "../Testimonials.astro";
+import ProofWall from "../ProofWall.astro";
 import { getT, localizePath, type Lang, BOOKING_URL } from "../../i18n";
 interface Props { lang?: Lang }
 const { lang = "en" } = Astro.props;
@@ -21,7 +23,17 @@ const calendly = BOOKING_URL;
     <span class="eyebrow">{b.eyebrow}</span>
     <h1 class="display-xl head">{b.heading}</h1>
     <p class="lead">{b.sub}</p>
+    <!-- The price used to live in a small box in the second column of the next
+         section, below the fold, which meant the page explained the meeting at
+         length and never said what it cost until you went looking (Alon,
+         2026-09-05: "add the price so it's very clear what you get"). -->
+    <dl class="facts">
+      <div><dt>{b.priceLabel}</dt><dd><b>{b.priceValue}</b> <span>{b.priceUnit}</span></dd></div>
+      <div><dt>{b.durationLabel}</dt><dd><b>{b.durationValue}</b> <span>{b.durationUnit}</span></dd></div>
+      <div><dt>{b.langsLabel}</dt><dd><span class="langs">{b.langsValue}</span></dd></div>
+    </dl>
     <a class="btn btn-primary jump" href="#pick">{b.pick} <span class="arrow">&darr;</span></a>
+    <p class="vat">{b.vat}</p>
   </div>
 </section>
 
@@ -48,18 +60,36 @@ const calendly = BOOKING_URL;
         <p class="body">{b.not}</p>
 
         <PullQuote name="Oded Babayoff" lang={lang} max={0} bare small />
+      </div>
+    </div>
 
-        <div class="price-box">
-          <span class="label">{b.priceLabel}</span>
-          <p>{b.price}</p>
-          {lang === "he" && (
-            <a class="more" href={localizePath("/pricing", lang)}>{t.cta.prices}</a>
-          )}
-        </div>
+    <!-- WHAT THE HOUR INCLUDES. The three get1/get2/get3 lines were real but
+         they sat under a small label in one column and read as a footnote. -->
+    <div class="incl">
+      <div class="incl-head">
+        <span class="label">{b.panelLabel}</span>
+        <span class="incl-price"><b>{b.priceValue}</b> {b.priceUnit}</span>
+      </div>
+      <ol class="incl-list">
+        <li>{b.incl1}</li>
+        <li>{b.incl2}</li>
+        <li>{b.incl3}</li>
+        <li>{b.incl4}</li>
+        <li>{b.incl5}</li>
+      </ol>
+      <div class="incl-foot">
+        <span>{b.vat}</span>
+        {lang === "he" && (
+          <a class="more" href={localizePath("/pricing", lang)}>{t.cta.prices} <span class="arrow">&rarr;</span></a>
+        )}
       </div>
     </div>
   </div>
 </section>
+
+<Testimonials lang={lang} limit={6} source="coaching" heading={b.proofHeading} sub={b.proofSub} />
+
+<ProofWall lang={lang} limit={6} />
 
 <section class="section" id="pick">
   <div class="container">
@@ -96,8 +126,30 @@ const calendly = BOOKING_URL;
   .items li { position: relative; padding-inline-start: 1.1rem; color: var(--ink-2); }
   .items li::before { content: ""; position: absolute; inset-inline-start: 0; top: 0.78em; width: 8px; height: 1px; background: var(--ink-3); }
 
-  .price-box { margin-top: 2.4rem; padding: 1.3rem 1.5rem; background: var(--paper); border: 1px solid var(--line); }
-  .price-box p { color: var(--ink-2); margin: 0.7rem 0 0; }
-  .more { display: inline-block; margin-top: 0.9rem; font-size: 0.88rem; font-weight: 600; color: var(--accent-ink); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; }
+  /* hero facts: price, duration, languages, above the fold */
+  .facts { display: flex; flex-wrap: wrap; gap: 2.4rem; margin: 2rem 0 0; padding-top: 1.4rem; border-top: 2px solid var(--ink); }
+  .facts > div { display: flex; flex-direction: column; gap: 0.3rem; }
+  .facts dt { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+  .facts dd { margin: 0; display: flex; align-items: baseline; gap: 0.4rem; }
+  .facts dd b { font-family: var(--mono); font-size: 2rem; font-weight: 500; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; }
+  .facts dd span { font-size: 0.9rem; color: var(--ink-2); }
+  .facts .langs { font-family: var(--mono); font-size: 1.05rem; color: var(--ink); direction: ltr; unicode-bidi: isolate; }
+  /* Hebrew has no upper case and the mono face has no real Hebrew design. */
+  :global([dir="rtl"]) .facts dt { font-family: var(--body); font-size: 0.84rem; letter-spacing: 0; text-transform: none; }
+  :global([dir="rtl"]) .facts .langs { font-family: var(--body); font-weight: 600; font-size: 1rem; }
+  .vat { margin: 0.9rem 0 0; font-size: 0.86rem; color: var(--ink-3); }
+
+  /* what the hour includes */
+  .incl { margin-top: 3rem; border: 1px solid var(--line); background: var(--paper); }
+  .incl-head { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; padding: 0.9rem 1.2rem; border-bottom: 1px solid var(--line); }
+  .incl-head .label { color: var(--ink); }
+  .incl-price { margin-inline-start: auto; color: var(--ink-2); font-size: 0.9rem; }
+  .incl-price b { font-family: var(--mono); font-size: 1.3rem; font-weight: 500; color: var(--accent); font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; }
+  .incl-list { list-style: none; counter-reset: n; margin: 0; padding: 0.5rem 1.2rem 0.9rem; display: grid; gap: 0.1rem; }
+  .incl-list li { counter-increment: n; position: relative; padding: 0.75rem 0 0.75rem 0; padding-inline-start: 2.4rem; border-bottom: 1px solid var(--line-soft); color: var(--ink-2); font-size: 0.95rem; }
+  .incl-list li:last-child { border-bottom: 0; }
+  .incl-list li::before { content: counter(n, decimal-leading-zero); position: absolute; inset-inline-start: 0; top: 0.9rem; font-family: var(--mono); font-size: 0.72rem; color: var(--accent); direction: ltr; }
+  .incl-foot { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; padding: 0.9rem 1.2rem; border-top: 1px solid var(--line); font-size: 0.86rem; color: var(--ink-3); }
+  .more { margin-inline-start: auto; font-size: 0.88rem; font-weight: 600; color: var(--accent-ink); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; }
   .more:hover { color: var(--ink); border-color: var(--ink); }
 </style>

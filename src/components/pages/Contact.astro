@@ -1,6 +1,7 @@
 ---
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
+import Testimonials from "../Testimonials.astro";
 import { getT, localizePath, type Lang } from "../../i18n";
 interface Props { lang?: Lang }
 const { lang = "en" } = Astro.props;
@@ -45,6 +46,8 @@ const FORMSPREE = "https://formspree.io/f/xzdjglaz";
     </form>
   </div>
 </section>
+
+<Testimonials lang={lang} limit={3} source="coaching" />
 
 <Footer lang={lang} />
 

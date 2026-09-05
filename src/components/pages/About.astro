@@ -2,6 +2,7 @@
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
 import CTA from "../CTA.astro";
+import Testimonials from "../Testimonials.astro";
 import { localizePath, type Lang } from "../../i18n";
 interface Props { lang?: Lang }
 const { lang = "en" } = Astro.props;
@@ -140,6 +141,10 @@ const c = COPY[lang as "en" | "he"] ?? COPY.en;
     ))}
   </div>
 </section>
+
+<!-- The page that answers "who is this person" carried no review at all
+     until 2026-09-05. Nine of them, directly before the closing CTA. -->
+<Testimonials lang={lang} limit={9} source="coaching" />
 
 <CTA lang={lang} heading={c.closeHeading} body={c.closeBody} />
 <Footer lang={lang} />

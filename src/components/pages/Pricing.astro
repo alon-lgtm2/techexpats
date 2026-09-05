@@ -2,6 +2,8 @@
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
 import CTA from "../CTA.astro";
+import Testimonials from "../Testimonials.astro";
+import ProofWall from "../ProofWall.astro";
 import { type Lang } from "../../i18n";
 import { testimonials } from "../../data/testimonials";
 interface Props { lang?: Lang }
@@ -279,6 +281,10 @@ const SERVICES = [
 </section>
 
 {LINKS.calendlyOrientation && <script is:inline async src="https://assets.calendly.com/assets/external/widget.js"></script>}
+
+<Testimonials lang={lang} limit={9} source="coaching" heading="מי שכבר עשה את זה." sub="שלוש עשרה ביקורות, כולן מהצד של הליווי, וכולן של אנשים אמיתיים. מי שביקש להישאר אנונימי מופיע בראשי תיבות." />
+
+<ProofWall lang={lang} />
 
 <CTA lang={lang} />
 <Footer lang={lang} />
