@@ -391,7 +391,7 @@
     "incl3": "A proposed next step, concrete enough to start on the same week",
     "incl4": "An honest answer on whether I can help, and what it would cost if you want me to",
     "incl5": "No obligation to continue, and nothing here is credited against anything else",
-    "vat": "The price is final. Nothing is added to it.",
+    "vat": "The price excludes VAT. Dutch VAT at 21% is added for customers in the European Union.",
     "proofHeading": "People who sat in this hour.",
     "proofSub": "Every review here is from someone who did this, under their own name unless they asked otherwise.",
     "durationLabel": "Duration"
