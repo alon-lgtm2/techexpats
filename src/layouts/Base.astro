@@ -43,7 +43,10 @@ const {
   jsonld,
 } = Astro.props;
 
-const ogImageAbs = ogImage ? new URL(ogImage, Astro.site).href : undefined;
+// Every page gets a share image. Without one, LinkedIn and WhatsApp pick the
+// first <img> on the page, which on /book was a client's testimonial photo
+// (noticed by Alon 2026-09-22). Pages with their own image still pass ogImage.
+const ogImageAbs = new URL(ogImage ?? "/og-default.jpg", Astro.site).href;
 
 // Canonical: tells search engines which URL is the real one, so the same page
 // reached with a trailing slash, query string or www variant is not treated as
