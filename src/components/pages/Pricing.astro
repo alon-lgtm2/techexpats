@@ -27,9 +27,12 @@ const LINKS = {
   // candidacy link: same price, but the Stripe product still carries the old name, so
   // rename it in Stripe. Five and ten hours have no Stripe link yet; until Alon pastes
   // one here, their buttons open WhatsApp with the purchase pre-written (see buyLink).
-  payBank2: "https://buy.stripe.com/9B614o7NacLsb446UacEw02", // 420, 2 שעות
-  payBank5: "",  // 950, 5 שעות
-  payBank10: "", // 1.740, 10 שעות
+  // Repriced with Alon 2026-10-20: 590 / 1.390 / 2.590, so an hour from a bank never costs less
+  // than the 190 consultation hour. The old 420 Stripe link (9B614o7NacLsb446UacEw02) charges
+  // 420 and is therefore unhooked: all three tiers open WhatsApp until new links are pasted here.
+  payBank2: "",  // 590, 2 שעות
+  payBank5: "",  // 1.390, 5 שעות
+  payBank10: "", // 2.590, 10 שעות
   // Retired from the page 2026-10-05, kept for the record: the 1.870 end to end
   // (clients in flight keep their terms) at https://buy.stripe.com/9B69AU0kI8vcegg2DUcEw04
 };
@@ -130,14 +133,14 @@ const SERVICES = [
   {
     label: "בנק שעות",
     title: "מה שצריך, מתי שצריך.",
-    price: "420",
+    price: "590",
     from: true,
     pay: "payBank2",
     entry: false,
     tiers: [
-      { hours: "2 שעות", price: "420", pay: "payBank2" },
-      { hours: "5 שעות", price: "950", pay: "payBank5" },
-      { hours: "10 שעות", price: "1.740", pay: "payBank10" },
+      { hours: "2 שעות", price: "590", pay: "payBank2" },
+      { hours: "5 שעות", price: "1.390", pay: "payBank5" },
+      { hours: "10 שעות", price: "2.590", pay: "payBank10" },
     ],
     items: [
       "סימולציה של ראיון, עם תחקיר והקלטה, היא שעתיים",
