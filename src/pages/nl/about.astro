@@ -1,9 +1,9 @@
-﻿---
-import Base from "../../layouts/Base.astro";
-import About from "../../components/pages/About.astro";
-import { getT } from "../../i18n";
-const t = getT("nl");
 ---
-<Base lang="nl" title={`Over ${t.aboutPage.name} - TechExpats`} description={t.aboutPage.tagline}>
+import Base from "../../layouts/Base.astro";
+import { business, person } from "../../data/schema";
+import About from "../../components/pages/About.astro";
+const jsonld = [person("nl"), business("nl")];
+---
+<Base jsonld={jsonld} lang="nl" title="Over Alon, loopbaancoach en headhunter in Amsterdam | TechExpats" description="Alon is loopbaancoach en headhunter in Amsterdam en helpt expats en internationals aan werk in Nederland. Aan beide kanten van de wervingstafel, sinds 2018.">
   <About lang="nl" />
 </Base>

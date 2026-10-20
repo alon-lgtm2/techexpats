@@ -1,0 +1,9 @@
+---
+import Base from "../../layouts/Base.astro";
+import Pricing from "../../components/pages/Pricing.astro";
+import { business, pricing } from "../../data/schema";
+const jsonld = [business("en"), pricing("en")];
+---
+<Base lang="en" title="Career Coaching Prices in the Netherlands | TechExpats" description="What career coaching costs at TechExpats, in the open: a consultation hour at 190 euro, a working session at 740, and a bank of hours from 590. Online or in Amsterdam, in English." jsonld={jsonld}>
+  <Pricing lang="en" />
+</Base>

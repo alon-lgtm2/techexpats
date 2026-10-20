@@ -1,38 +1,9 @@
 ---
 import Base from "../layouts/Base.astro";
+import { business, person } from "../data/schema";
 import Home from "../components/Home.astro";
 const alternates = { he: "/", nl: "/nl/", en: "/en/" };
-const jsonld = [
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    name: "TechExpats",
-    url: "https://techexpats.nl/",
-    description: "Career coaching and headhunting across Europe, with the Dutch job market as the specialism.",
-    areaServed: [{ "@type": "Country", name: "Netherlands" }, { "@type": "Place", name: "Europe" }],
-    address: { "@type": "PostalAddress", addressLocality: "Amsterdam", addressCountry: "NL" },
-    founder: { "@type": "Person", name: "Alon Gildoni" },
-    knowsLanguage: ["en", "nl", "he"],
-    sameAs: ["https://israelis.nl"],
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Alon Gildoni",
-    url: "https://techexpats.nl/about/",
-    jobTitle: "Career coach and headhunter",
-    worksFor: { "@type": "Organization", name: "TechExpats" },
-    homeLocation: { "@type": "Place", name: "Amsterdam, Netherlands" },
-    knowsAbout: [
-      "Dutch job market",
-      "hiring in the Netherlands",
-      "highly skilled migrant permit",
-      "the 30% ruling",
-      "career coaching",
-      "technical recruitment",
-    ],
-  },
-];
+const jsonld = [business("he"), person("he")];
 
 ---
 <Base lang="he" title="TechExpats - למצוא את העבודה, לא סתם עבודה" description="ליווי קריירה והשמה בכירה בהולנד ובאירופה, מאמסטרדם. המומחיות שלי היא שוק העבודה ההולנדי: איך מעסיקים כאן מגייסים, ומה באמת מזיז חיפוש עבודה. אלון גילדוני." alternates={alternates} jsonld={jsonld}>

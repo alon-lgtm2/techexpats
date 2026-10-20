@@ -1,40 +1,11 @@
-﻿---
+---
 import Base from "../../layouts/Base.astro";
+import { business, person } from "../../data/schema";
 import Home from "../../components/Home.astro";
 const alternates = { he: "/", nl: "/nl/", en: "/en/" };
-const jsonld = [
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    name: "TechExpats",
-    url: "https://techexpats.nl/",
-    description: "Career coaching and headhunting across Europe, with the Dutch job market as the specialism.",
-    areaServed: [{ "@type": "Country", name: "Netherlands" }, { "@type": "Place", name: "Europe" }],
-    address: { "@type": "PostalAddress", addressLocality: "Amsterdam", addressCountry: "NL" },
-    founder: { "@type": "Person", name: "Alon Gildoni" },
-    knowsLanguage: ["en", "nl", "he"],
-    sameAs: ["https://israelis.nl"],
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Alon Gildoni",
-    url: "https://techexpats.nl/about/",
-    jobTitle: "Career coach and headhunter",
-    worksFor: { "@type": "Organization", name: "TechExpats" },
-    homeLocation: { "@type": "Place", name: "Amsterdam, Netherlands" },
-    knowsAbout: [
-      "Dutch job market",
-      "hiring in the Netherlands",
-      "highly skilled migrant permit",
-      "the 30% ruling",
-      "career coaching",
-      "technical recruitment",
-    ],
-  },
-];
+const jsonld = [business("nl"), person("nl")];
 
 ---
-<Base lang="nl" title="TechExpats - Vind de baan, niet zomaar werk" description="Loopbaancoaching en headhunting in Nederland en Europa, vanuit Amsterdam. Hoe werkgevers hier echt werven, en wat een zoektocht naar werk daadwerkelijk in beweging brengt. Alon Gildoni." alternates={alternates} jsonld={jsonld}>
+<Base lang="nl" title="Loopbaancoach voor expats en internationals | TechExpats Amsterdam" description="Begeleiding bij het zoeken naar werk in Nederland voor expats en internationals, vanuit Amsterdam: hoe Nederlandse werkgevers echt werven, waar je op richt en waarmee je opent. Sinds 2018." alternates={alternates} jsonld={jsonld}>
   <Home lang="nl" />
 </Base>

@@ -6,7 +6,10 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://techexpats.nl',
+  // www is the live host: techexpats.nl answers with a 301 to www. Until
+  // 2026-10-20 this said the bare domain, so every canonical, every hreflang
+  // and the whole sitemap pointed Google at a URL that redirects.
+  site: 'https://www.techexpats.nl',
   // Output to ./out so the existing Render service (configured for the Next.js
   // static export, which also published ./out) serves this build unchanged.
   outDir: './out',

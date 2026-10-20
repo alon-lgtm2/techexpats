@@ -15,17 +15,17 @@
     "forEmployers": "For employers",
     "startSearch": "Book a call",
     "workWithMe": "Work With Me",
-    "pricing": "What I offer",
+    "pricing": "Pricing",
     "langMissing": "This page exists in Hebrew only",
     "scheme": "Switch between a light and a dark background"
   },
   "hero": {
-    "eyebrow": "Coaching and headhunting - Amsterdam and Europe",
+    "eyebrow": "Career coach for expats in the Netherlands · Amsterdam",
     "headline1": "You're good at what you do.",
     "headline2": "That isn't the problem.",
     "headline3": "",
     "sub": "Sometimes it's positioning. Sometimes it's access. Sometimes it's confidence. The work is finding which one, and fixing it. Coaching for senior professionals moving to or building careers across Europe, and search for the companies trying to hire them. By Alon Gildoni, Amsterdam.",
-    "ctaCompany": "Book a free intro call",
+    "ctaCompany": "Book a consultation",
     "ctaCandidate": "Read the articles",
     "stat1Value": "2018",
     "stat1Label": "Since",
@@ -80,7 +80,7 @@
     "coItem2": "Interview preparation, including the Dutch and European context",
     "coItem3": "Executive and leadership coaching for senior professionals",
     "coItem4": "Relocation and career navigation across Europe",
-    "coCta": "Book a free intro call",
+    "coCta": "Book a consultation",
     "coSeeHow": "See how it works",
     "taEyebrow": "For Companies",
     "taHeading": "The hire you cannot afford to get wrong.",
@@ -93,7 +93,7 @@
   },
   "spec": {
     "eyebrow": "What I do",
-    "heading": "Services.",
+    "heading": "Career coaching and headhunting in the Netherlands.",
     "sub": "A focused set of services for individuals building careers and companies building teams, all centred on one thing: the right match.",
     "t1": "Career Coaching",
     "d1": "One-to-one coaching for professionals who want a sharper strategy, a stronger position in the market, and a plan that actually moves.",
@@ -172,7 +172,7 @@
     "talk": "Let's Talk",
     "email": "alon@techexpats.nl",
     "book": "Book a consultation",
-    "prices": "What I offer"
+    "prices": "Pricing"
   },
   "footer": {
     "tagline": "Career coaching and headhunting across Europe. Helping professionals find the right move and companies find the right people. Founded by Alon Gildoni. Amsterdam-based, since 2018.",
@@ -244,7 +244,7 @@
     "eyebrow": "About",
     "name": "Alon Gildoni",
     "role": "Career Coach and Headhunter",
-    "tagline": "I help people build careers that fit, and help companies hire the people who change their trajectory.",
+    "tagline": "Career coach and headhunter in Amsterdam. I help expats and internationals find work that fits in the Netherlands, and help companies hire the people who change their trajectory.",
     "photoAlt": "Alon Gildoni",
     "introHeading": "On both sides of every hire.",
     "intro1": "I am Alon Gildoni. For more than a decade I have worked at the meeting point of people and companies: finding talent that others cannot find, and coaching professionals through the moves that define a career.",

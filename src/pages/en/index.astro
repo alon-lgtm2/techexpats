@@ -1,41 +1,12 @@
 ---
 import Base from "../../layouts/Base.astro";
+import { business, person } from "../../data/schema";
 import Home from "../../components/Home.astro";
 const alternates = { he: "/", nl: "/nl/", en: "/en/" };
-const jsonld = [
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    name: "TechExpats",
-    url: "https://techexpats.nl/",
-    description: "Career coaching and headhunting across Europe, with the Dutch job market as the specialism.",
-    areaServed: [{ "@type": "Country", name: "Netherlands" }, { "@type": "Place", name: "Europe" }],
-    address: { "@type": "PostalAddress", addressLocality: "Amsterdam", addressCountry: "NL" },
-    founder: { "@type": "Person", name: "Alon Gildoni" },
-    knowsLanguage: ["en", "nl", "he"],
-    sameAs: ["https://israelis.nl"],
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Alon Gildoni",
-    url: "https://techexpats.nl/about/",
-    jobTitle: "Career coach and headhunter",
-    worksFor: { "@type": "Organization", name: "TechExpats" },
-    homeLocation: { "@type": "Place", name: "Amsterdam, Netherlands" },
-    knowsAbout: [
-      "Dutch job market",
-      "hiring in the Netherlands",
-      "highly skilled migrant permit",
-      "the 30% ruling",
-      "career coaching",
-      "technical recruitment",
-    ],
-  },
-];
+const jsonld = [business("en"), person("en")];
 
 ---
 
-<Base lang="en" title="TechExpats - Career Moves, led by Alon Gildoni" description="Career coaching and headhunting across Europe, from Amsterdam. Find the job, not just a job: the European market, the Netherlands in particular, mostly tech but not only." alternates={alternates} jsonld={jsonld}>
+<Base lang="en" title="Career Coach for Expats in the Netherlands | TechExpats Amsterdam" description="Job search coaching for expats and internationals in the Netherlands, from Amsterdam: how Dutch employers really hire, where to aim, and what to open with. Coaching and headhunting since 2018." alternates={alternates} jsonld={jsonld}>
   <Home lang="en" />
 </Base>

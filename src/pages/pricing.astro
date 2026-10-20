@@ -1,8 +1,11 @@
 ---
 import Base from "../layouts/Base.astro";
 import Pricing from "../components/pages/Pricing.astro";
+import { business, pricing } from "../data/schema";
+const jsonld = [business("he"), pricing("he")];
 ---
 <Base
+  jsonld={jsonld}
   lang="he"
   title="מה זה עולה - TechExpats"
   description="מחירים גלויים לליווי קריירה בהולנד: שעת ייעוץ, ישיבת עבודה, בנק שעות ומוצרים להרצה עצמית. מאת אלון גילדוני, אמסטרדם."

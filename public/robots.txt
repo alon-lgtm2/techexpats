@@ -7,7 +7,9 @@ Allow: /
 Disallow: /designs
 Disallow: /portal-example
 Disallow: /nl/portal-example
+Disallow: /en/portal-example
 Disallow: /he/portal-example
 Disallow: /he/summer-plan
+Disallow: /summer-plan
 
-Sitemap: https://techexpats.nl/sitemap-index.xml
+Sitemap: https://www.techexpats.nl/sitemap-index.xml

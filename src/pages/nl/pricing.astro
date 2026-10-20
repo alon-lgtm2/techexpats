@@ -1,0 +1,9 @@
+---
+import Base from "../../layouts/Base.astro";
+import Pricing from "../../components/pages/Pricing.astro";
+import { business, pricing } from "../../data/schema";
+const jsonld = [business("nl"), pricing("nl")];
+---
+<Base lang="nl" title="Tarieven loopbaancoaching | TechExpats Amsterdam" description="Wat loopbaancoaching bij TechExpats kost, openlijk: een adviesuur van 190 euro, een werksessie van 740 euro en een urenbundel vanaf 590 euro. Online of in Amsterdam." jsonld={jsonld}>
+  <Pricing lang="nl" />
+</Base>

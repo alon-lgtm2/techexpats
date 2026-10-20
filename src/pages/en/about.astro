@@ -1,9 +1,9 @@
 ---
 import Base from "../../layouts/Base.astro";
+import { business, person } from "../../data/schema";
 import About from "../../components/pages/About.astro";
-import { getT } from "../../i18n";
-const t = getT("en");
+const jsonld = [person("en"), business("en")];
 ---
-<Base lang="en" title={`About ${t.aboutPage.name} - TechExpats`} description={t.aboutPage.tagline}>
+<Base jsonld={jsonld} lang="en" title="About Alon, Career Coach and Headhunter in Amsterdam | TechExpats" description="Alon is a career coach and headhunter in Amsterdam who helps expats and internationals find work in the Netherlands. On both sides of the hiring table, since 2018.">
   <About lang="en" />
 </Base>
