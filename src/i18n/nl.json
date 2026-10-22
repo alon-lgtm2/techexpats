@@ -167,11 +167,11 @@
   "cta": {
     "eyebrow": "Laten we praten",
     "heading": "Waar je loopbaan ook heen gaat.",
-    "body": "Mijn expertise is de Europese arbeidsmarkt, en Nederland in het bijzonder. Ik help mensen hier werk te vinden, vooral in tech maar niet alleen. Een betaald adviesuur eindigt met een schriftelijke samenvatting en een voorstel voor de volgende stap.",
+    "body": "Mijn expertise is de Europese arbeidsmarkt, en Nederland in het bijzonder. Ik help mensen hier werk te vinden, vooral in tech maar niet alleen. Een betaald uur diagnose en routekaart eindigt met een schriftelijke routekaart van je volgende stappen.",
     "primary": "Begin een gesprek",
     "talk": "Laten we praten",
     "email": "alon@techexpats.nl",
-    "book": "Plan een adviesgesprek",
+    "book": "Plan een diagnose en routekaart",
     "prices": "Tarieven"
   },
   "footer": {
@@ -258,7 +258,7 @@
     "howHeading": "Hoe ik werk",
     "how1": "Ik werk met een klein aantal mensen en bedrijven tegelijk. Elke opdracht begint met een eerlijk gesprek over hoe succes er echt uitziet, en ik vertel je vroeg als ik niet de juiste persoon ben om te helpen. Het werk is persoonlijk, direct en bedoeld om ook na de eerste beslissing stand te houden.",
     "closeHeading": "Laten we praten",
-    "close1": "Plan je je volgende stap, of je volgende aanstelling, dan hoor ik er graag over. Een betaald adviesgesprek, zonder verkooppraatje.",
+    "close1": "Plan je je volgende stap, of je volgende aanstelling, dan hoor ik er graag over. Een betaald uur diagnose en routekaart, zonder verkooppraatje.",
     "ctaPrimary": "Begin een gesprek",
     "ctaInsights": "Lees mijn artikelen",
     "factsHeading": "In het kort",
@@ -358,14 +358,14 @@
     "honestLabel": "Eerlijk, over de belofte",
     "honest": "Ik beloof geen baan. Een baan beloven zou onverantwoord zijn; zoiets bestaat niet. Mijn cijfers zijn erg goed, maar er is ook geluk, vraag en sector, een miljoen dingen die niet alleen aan ons liggen. Wat ik wel kan zeggen: goede mensen vinden een baan.",
     "ctaHeading": "Klaar om de baan te vinden, niet zomaar werk?",
-    "ctaBody": "Als je zoektocht niet loopt zoals het zou moeten, laten we praten. Een betaald adviesuur, zonder pitch, met iets op papier waar je mee verder kunt.",
-    "ctaPrimary": "Plan een adviesgesprek",
+    "ctaBody": "Als je zoektocht niet loopt zoals het zou moeten, laten we praten. Een betaald uur diagnose en routekaart, zonder pitch, met een routekaart op papier waar je mee verder kunt.",
+    "ctaPrimary": "Plan een diagnose en routekaart",
     "closing": "Vind de baan, niet zomaar werk. Benader een persoon, geen vacature."
   },
   "book": {
     "eyebrow": "Laten we praten",
-    "heading": "Plan een adviesgesprek.",
-    "sub": "Een vol uur over jouw situatie, met een schriftelijke samenvatting en een aanbevolen volgende stap. Mijn expertise is de Europese arbeidsmarkt, en Nederland in het bijzonder: vooral tech, maar niet alleen. Dit is de eerste stap: na het uur weet je of en hoe ik kan helpen, en wat dat kost.",
+    "heading": "Diagnose en routekaart.",
+    "sub": "Een vol uur over jouw situatie, met een schriftelijke routekaart van je volgende stappen. Mijn expertise is de Europese arbeidsmarkt, en Nederland in het bijzonder: vooral tech, maar niet alleen. Dit is de eerste stap: na het uur weet je of en hoe ik kan helpen, en wat dat kost.",
     "whatLabel": "Wat het gesprek is",
     "what": "Een vol uur over jouw situatie, geen college over mijn methode. Waar je staat, wat je echt tegenhoudt, en wat de volgende stap moet zijn. Zit je al diep in een zoektocht die niet loopt, dan zoeken we hier uit waarom.",
     "getLabel": "Wat je overhoudt",

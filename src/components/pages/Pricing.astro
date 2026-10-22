@@ -19,7 +19,7 @@ const { lang = "he" } = Astro.props;
 // /nl/pricing sell the same things at the same prices (2026-10-20).
 // ---------------------------------------------------------------------------
 const LINKS = {
-  calendlyOrientation: "https://calendly.com/agildoni/new-meeting", // "שעת ייעוץ", שעה, 190 יורו, נגבה בתוך Calendly
+  calendlyOrientation: "https://calendly.com/agildoni/new-meeting", // "אבחון ומפה" (was "שעת ייעוץ"), שעה, 190 יורו, נגבה בתוך Calendly
   payOrientation: "",      // לא בשימוש. התשלום על השיחה נגבה בתוך Calendly
   payWorkshop: "https://buy.stripe.com/bJe6oI6J6h1I7RS6UacEw01", // 60
   paySevenADay: "https://buy.stripe.com/00wfZi1oM5j0dcc4M2cEw06", // 360
@@ -32,7 +32,10 @@ const LINKS = {
   // Repriced with Alon 2026-10-20: 590 / 1.390 / 2.590, so an hour from a bank never costs less
   // than the 190 consultation hour. The old 420 Stripe link (9B614o7NacLsb446UacEw02) charges
   // 420 and is therefore unhooked: all three tiers open WhatsApp until new links are pasted here.
-  payBank2: "",  // 590, 2 שעות
+  // 2026-10-22 (Alon): the two hour bank left the page, because at 590 it competed with the 740.
+  // The 590 became the mock interview, sold as an outcome rather than as hours. No Stripe link
+  // yet, so its button opens WhatsApp like the banks do.
+  payInterview: "", // 590, סימולציית ראיון
   payBank5: "",  // 1.390, 5 שעות
   payBank10: "", // 2.590, 10 שעות
   // Retired from the page 2026-10-05, kept for the record: the 1.870 end to end
@@ -42,14 +45,14 @@ const LINKS = {
 // surfaces it first for buyers in the Netherlands, which is most of the book:
 // roughly half the invoices are NL-resident, many of them Israelis living here.
 const ready = (u: string) => (u && u.length > 0 ? u : "#");
-// A bank tier without a Stripe link yet still sells: the button opens WhatsApp with
+// Anything without a Stripe link yet still sells: the button opens WhatsApp with
 // the request written, rather than a dead "#". The English and Dutch pages pre-write
 // the message in English, because Alon reads it and he does not read Dutch.
 const buyLink = (key: string, what: string) => {
   const u = (LINKS as Record<string, string>)[key];
   const text = lang === "he"
-    ? `היי אלון, אני רוצה לרכוש בנק של ${what}`
-    : `Hi Alon, I would like to buy a bank of ${what}`;
+    ? `היי אלון, אני רוצה לרכוש ${what}`
+    : `Hi Alon, I would like to buy ${what}`;
   return u && u.length > 0
     ? u
     : "https://wa.me/31644295691?text=" + encodeURIComponent(text);
@@ -75,8 +78,9 @@ const short = (s: string, max = 260) => (s.length > max ? s.slice(0, s.lastIndex
 // Israeli companies in the Netherlands. The English and Dutch pages sell the
 // consulting ladder, which is delivered in all three languages.
 // ---------------------------------------------------------------------------
-type Tier = { hours: string; price: string; pay: string };
-type Service = { label: string; title: string; price: string; pay: string; entry: boolean; from?: boolean; tiers?: Tier[]; items: string[] };
+type Tier = { hours: string; price: string; pay: string; ask: string };
+// ask: what the WhatsApp fallback says is being bought, always Hebrew or English.
+type Service = { label: string; title: string; price: string; pay: string; entry: boolean; from?: boolean; ask?: string; tiers?: Tier[]; items: string[] };
 type Copy = {
   eyebrow: string; h1a: string; h1b: string; lead: string; heroCta: string; heroNote: string;
   portraitAlt: string; portraitName: string; portraitCap: string;
@@ -97,8 +101,8 @@ const HE: Copy = {
   h1a: "מוצרים, ",
   h1b: "וייעוץ.",
   lead: "מוצר הוא דבר שאתם קונים ומשתמשים בו לבד, בקצב שלכם. ייעוץ הוא הזמן שלי, אתכם. כל מחיר כאן גלוי, ולצידו כתוב בדיוק מה מקבלים.",
-  heroCta: "לקביעת שעת ייעוץ · 190 יורו",
-  heroNote: "הצעד הראשון: שעה על המצב שלכם, ובסופה המלצה ברורה מה הלאה. מי שכבר יודע מה הוא רוצה יכול לקנות ישירות.",
+  heroCta: "לקביעת אבחון ומפה · 190 יורו",
+  heroNote: "הצעד הראשון: שעה על המצב שלכם, ובסופה מפה כתובה של מה הלאה. מי שכבר יודע מה הוא רוצה יכול לקנות ישירות.",
   portraitAlt: "אלון גילדוני",
   portraitName: "אלון גילדוני",
   portraitCap: "הזמן שאתם קונים כאן הוא שלי",
@@ -110,7 +114,7 @@ const HE: Copy = {
   productsEyebrow: "מוצרים",
   productsLead: "קונים פעם אחת ומשתמשים לבד. בלי פגישות, בלי תיאום יומן, ובלי לדבר איתי קודם.",
   svcEyebrow: "ייעוץ",
-  svcLead: "הזמן שלי, אתכם, בשלושה שלבים. <strong>מתחילים בשעת ייעוץ.</strong> ממשיכים לישיבת עבודה, שבה בונים יחד את כל מה שצריך. ומשם, כל מה שעוד צריך הוא שעות מהבנק, לפי הצורך.",
+  svcLead: "הזמן שלי, אתכם. <strong>מתחילים באבחון ומפה.</strong> ממשיכים לישיבת עבודה, שבה בונים יחד את כל מה שצריך. לפני ראיון יש סימולציה, ומשם, כל מה שעוד צריך הוא שעות מהבנק, לפי הצורך.",
   // The ladder, decided with Alon on 2026-10-05 (methodology/pricing-rethink_2026-09-29_DRAFT.md,
   // items 10 to 15): the hour is the first step and says so; the working session is sold on
   // value, its deliverables are made in the room, and one consultation hour follows it;
@@ -118,15 +122,16 @@ const HE: Copy = {
   // two hour bank, and the 1.870 end to end left the page.
   services: [
     {
-      label: "שעת ייעוץ",
+      label: "אבחון ומפה",
       title: "הצעד הראשון.",
       price: "190",
       pay: "payOrientation",
       entry: true,
       items: [
-        "שעה מלאה על המצב שלכם: איפה אתם עומדים, מה באמת עוצר אתכם, ומה הצעד הנכון הבא",
-        "זו שיחת פתיחה, לא תוכנית. בסופה תדעו אם ואיך אני יכול לעזור, ומה זה יעלה",
-        "סיכום כתוב קצר, עם ההמלצה שלי",
+        "שעה מלאה על המצב שלכם: איפה אתם עומדים, ומה באמת עוצר אתכם",
+        "בסופה מפה: הצעדים הבאים שלכם, לפי הסדר",
+        "תדעו גם אם ואיך אני יכול לעזור בהמשך, ומה זה יעלה",
+        "הכול בכתב, ונשאר אצלכם",
       ],
     },
     {
@@ -146,23 +151,34 @@ const HE: Copy = {
       ],
     },
     {
+      label: "סימולציית ראיון",
+      title: "נופלים כאן, ולא בראיון האמיתי.",
+      price: "590",
+      pay: "payInterview",
+      ask: "סימולציית ראיון",
+      entry: false,
+      items: [
+        "ראיון מלא, כמו האמיתי: טכני, HR או התאמה תרבותית, לפי מה שמחכה לכם",
+        "מוקלט, ואחריו תחקיר: מה עבד, מה הפיל, ואיך עונים אחרת",
+        "ההקלטה והסיכום הכתוב נשארים אצלכם",
+      ],
+    },
+    {
       label: "בנק שעות",
       title: "מה שצריך, מתי שצריך.",
-      price: "590",
+      price: "1.390",
       from: true,
-      pay: "payBank2",
+      pay: "payBank5",
       entry: false,
       tiers: [
-        { hours: "שעתיים", price: "590", pay: "payBank2" },
-        { hours: "5 שעות", price: "1.390", pay: "payBank5" },
-        { hours: "10 שעות", price: "2.590", pay: "payBank10" },
+        { hours: "5 שעות", price: "1.390", pay: "payBank5", ask: "בנק של 5 שעות" },
+        { hours: "10 שעות", price: "2.590", pay: "payBank10", ask: "בנק של 10 שעות" },
       ],
       items: [
-        "סימולציה של ראיון, עם תחקיר והקלטה, היא שעתיים",
         "שאלות, מעבר על מחקר, קורות חיים ולינקדאין, הכנה לשיחת שכר, וכל מה שעולה בדרך",
         "יורד בחצאי שעות, לפי הזמן בפועל. בכל סיכום כתוב כמה נשאר",
         "תקף לחצי שנה מיום הרכישה",
-        "מי שהתחיל בשעת ייעוץ ועשה ישיבת עבודה מקבל שעה נוספת בבנק הראשון",
+        "מי שהתחיל באבחון ומפה ועשה ישיבת עבודה מקבל שעה נוספת בבנק הראשון",
       ],
     },
   ],
@@ -172,8 +188,8 @@ const HE: Copy = {
   stageEyebrow: "בערבים כאלה",
   stageBody: "החלק החינמי של מה שאני עושה קורה על במות כאלה, והוא נשאר חינמי. מה שבעמוד הזה הוא הגרסה האחת על אחת, על המצב הספציפי שלכם, ובסופה משהו כתוב.",
   schedEyebrow: "לקבוע",
-  schedHeading: "שעת ייעוץ, 190 יורו.",
-  schedBody: "בוחרים מועד, משלמים, ומקבלים אישור. בסוף השעה תדעו מה הצעד הבא, ואם הוא איתי, כמה הוא עולה.",
+  schedHeading: "אבחון ומפה, 190 יורו.",
+  schedBody: "בוחרים מועד, משלמים, ומקבלים אישור. בסוף השעה תצאו עם מפה של הצעדים הבאים, ואם הוא איתי, כמה הוא עולה.",
   schedPlaceholder: "כאן ייכנס לוח הזמנים. צריך אירוע חדש ב-Calendly לשיחה בתשלום, והכתובת שלו נכנסת לראש הקובץ.",
   names: { "Eva Bishara Khoury": "אווה בישארה חורי", "Reshef Katz": "רשף כץ", "Yair Sepunaru": "יאיר ספונארו" },
   promiseEyebrow: "על ההבטחה",
@@ -199,8 +215,8 @@ const EN: Copy = {
   h1a: "What it costs, ",
   h1b: "and what you get.",
   lead: "Job search coaching for expats and internationals in the Netherlands, priced in the open. Every price is on this page, and next to it, exactly what you get. Sessions run online or in Amsterdam, in English, Hebrew or Dutch.",
-  heroCta: "Book a consultation hour · 190 euro",
-  heroNote: "The first step: an hour on your situation, ending in a clear recommendation for what comes next. If you already know what you need, you can buy it directly.",
+  heroCta: "Book a diagnosis and roadmap · 190 euro",
+  heroNote: "The first step: an hour on your situation, ending in a written roadmap for what comes next. If you already know what you need, you can buy it directly.",
   portraitAlt: "Alon, career coach and headhunter in Amsterdam",
   portraitName: "Alon",
   portraitCap: "The time you buy here is mine",
@@ -216,20 +232,21 @@ const EN: Copy = {
     "What they have in common is a search that is not moving. Applications go out, the replies are automatic or never come, and the advice they get is generic. My work is the view from the other side of the table: how Dutch employers actually hire, where to aim, who to approach, and what to open with.",
     "I am also a headhunter, so this is not theory. It is how the market behaves this month.",
   ],
-  startMore: "Not sure what you need? That is exactly what the consultation hour is for.",
+  startMore: "Not sure what you need? That is exactly what the diagnosis and roadmap is for.",
   svcEyebrow: "Coaching",
-  svcLead: "My time, with you, in three steps. <strong>It starts with a consultation hour.</strong> Then a working session, where we build everything the search needs. After that, whatever else you need comes out of a bank of hours.",
+  svcLead: "My time, with you. <strong>It starts with a diagnosis and roadmap.</strong> Then a working session, where we build everything the search needs. Before an interview there is a mock interview, and after that, whatever else you need comes out of a bank of hours.",
   services: [
     {
-      label: "Consultation hour",
+      label: "Diagnosis and roadmap",
       title: "The first step.",
       price: "190",
       pay: "payOrientation",
       entry: true,
       items: [
-        "A full hour on your situation: where you stand, what is really holding you back, and the right next step",
-        "An opening conversation, not a programme. By the end you will know whether and how I can help, and what it would cost",
-        "A short written summary, with my recommendation",
+        "A full hour on your situation: where you stand, and what is really holding you back",
+        "It ends with a roadmap: your next steps, in order",
+        "You will also know whether and how I can help after that, and what it would cost",
+        "All of it in writing, and yours to keep",
       ],
     },
     {
@@ -249,23 +266,34 @@ const EN: Copy = {
       ],
     },
     {
+      label: "Mock interview",
+      title: "Fail it here, not in the real one.",
+      price: "590",
+      pay: "payInterview",
+      ask: "a mock interview",
+      entry: false,
+      items: [
+        "A full interview, like the real thing: technical, HR or culture fit, whichever is waiting for you",
+        "Recorded, then debriefed: what worked, what sank you, and how to answer differently",
+        "The recording and the written summary are yours to keep",
+      ],
+    },
+    {
       label: "Bank of hours",
       title: "What you need, when you need it.",
-      price: "590",
+      price: "1.390",
       from: true,
-      pay: "payBank2",
+      pay: "payBank5",
       entry: false,
       tiers: [
-        { hours: "2 hours", price: "590", pay: "payBank2" },
-        { hours: "5 hours", price: "1.390", pay: "payBank5" },
-        { hours: "10 hours", price: "2.590", pay: "payBank10" },
+        { hours: "5 hours", price: "1.390", pay: "payBank5", ask: "a bank of 5 hours" },
+        { hours: "10 hours", price: "2.590", pay: "payBank10", ask: "a bank of 10 hours" },
       ],
       items: [
-        "A mock interview, with debrief and recording, takes two hours",
         "Questions, a review of your research, CV and LinkedIn, salary negotiation prep, and whatever comes up along the way",
         "Used in half hours, by the actual time. Every written summary says how much is left",
         "Valid for six months from purchase",
-        "If you started with a consultation hour and did a working session, you get one extra hour in your first bank",
+        "If you started with a diagnosis and roadmap and did a working session, you get one extra hour in your first bank",
       ],
     },
   ],
@@ -275,8 +303,8 @@ const EN: Copy = {
   stageEyebrow: "On evenings like this",
   stageBody: "The free part of what I do happens on stages like this one, and it stays free. What is on this page is the one to one version, about your specific situation, and it ends with something in writing.",
   schedEyebrow: "Book",
-  schedHeading: "A consultation hour, 190 euro.",
-  schedBody: "Pick a time, pay, and get a confirmation. By the end of the hour you will know the next step, and if it is with me, what it costs.",
+  schedHeading: "A diagnosis and roadmap, 190 euro.",
+  schedBody: "Pick a time, pay, and get a confirmation. By the end of the hour you will have a roadmap of your next steps, and if it is with me, what it costs.",
   schedPlaceholder: "The scheduler goes here.",
   names: {},
   promiseEyebrow: "On the promise",
@@ -302,8 +330,8 @@ const NL: Copy = {
   h1a: "Wat het kost, ",
   h1b: "en wat je krijgt.",
   lead: "Begeleiding bij het zoeken naar werk voor expats en internationals in Nederland, met openbare tarieven. Elke prijs staat op deze pagina, en ernaast precies wat je ervoor krijgt. Sessies zijn online of in Amsterdam, in het Engels, Hebreeuws of Nederlands.",
-  heroCta: "Plan een adviesuur · 190 euro",
-  heroNote: "De eerste stap: een uur over jouw situatie, met aan het eind een duidelijk advies over wat er nu moet gebeuren. Weet je al wat je nodig hebt, dan kun je het direct kopen.",
+  heroCta: "Plan een diagnose en routekaart · 190 euro",
+  heroNote: "De eerste stap: een uur over jouw situatie, met aan het eind een schriftelijke routekaart voor wat er nu moet gebeuren. Weet je al wat je nodig hebt, dan kun je het direct kopen.",
   portraitAlt: "Alon, loopbaancoach en headhunter in Amsterdam",
   portraitName: "Alon",
   portraitCap: "De tijd die je hier koopt, is de mijne",
@@ -319,20 +347,21 @@ const NL: Copy = {
     "Wat ze gemeen hebben, is een zoektocht die vastloopt. De sollicitaties gaan de deur uit, de reacties zijn automatisch of blijven weg, en het advies dat ze krijgen is algemeen. Mijn werk is de blik van de andere kant van de tafel: hoe Nederlandse werkgevers echt werven, waar je op richt, wie je benadert en waarmee je opent.",
     "Ik ben ook headhunter, dus dit is geen theorie. Het is hoe de markt zich deze maand gedraagt.",
   ],
-  startMore: "Weet je niet precies wat je nodig hebt? Daar is het adviesuur precies voor.",
+  startMore: "Weet je niet precies wat je nodig hebt? Daar is de diagnose en routekaart precies voor.",
   svcEyebrow: "Coaching",
-  svcLead: "Mijn tijd, met jou, in drie stappen. <strong>Je begint met een adviesuur.</strong> Daarna een werksessie, waarin we samen alles bouwen wat de zoektocht nodig heeft. En wat je daarna nog nodig hebt, komt uit een urenbundel.",
+  svcLead: "Mijn tijd, met jou. <strong>Je begint met een diagnose en routekaart.</strong> Daarna een werksessie, waarin we samen alles bouwen wat de zoektocht nodig heeft. Voor een sollicitatiegesprek is er een proefgesprek, en wat je daarna nog nodig hebt, komt uit een urenbundel.",
   services: [
     {
-      label: "Adviesuur",
+      label: "Diagnose en routekaart",
       title: "De eerste stap.",
       price: "190",
       pay: "payOrientation",
       entry: true,
       items: [
-        "Een vol uur over jouw situatie: waar je staat, wat je echt tegenhoudt, en wat de juiste volgende stap is",
-        "Een eerste gesprek, geen traject. Aan het eind weet je of en hoe ik kan helpen, en wat het kost",
-        "Een korte schriftelijke samenvatting, met mijn advies",
+        "Een vol uur over jouw situatie: waar je staat, en wat je echt tegenhoudt",
+        "Aan het eind een routekaart: je volgende stappen, op volgorde",
+        "Je weet ook of en hoe ik daarna kan helpen, en wat dat kost",
+        "Alles op papier, en het blijft van jou",
       ],
     },
     {
@@ -352,23 +381,34 @@ const NL: Copy = {
       ],
     },
     {
+      label: "Proefsollicitatie",
+      title: "Hier mislukken, niet in het echte gesprek.",
+      price: "590",
+      pay: "payInterview",
+      ask: "a mock interview",
+      entry: false,
+      items: [
+        "Een volledig gesprek, zoals het echte: technisch, HR of culture fit, wat er ook op je wacht",
+        "Opgenomen, en daarna nabesproken: wat werkte, wat je de kop kostte, en hoe je het anders beantwoordt",
+        "De opname en de schriftelijke samenvatting zijn van jou",
+      ],
+    },
+    {
       label: "Urenbundel",
       title: "Wat je nodig hebt, wanneer je het nodig hebt.",
-      price: "590",
+      price: "1.390",
       from: true,
-      pay: "payBank2",
+      pay: "payBank5",
       entry: false,
       tiers: [
-        { hours: "2 uur", price: "590", pay: "payBank2" },
-        { hours: "5 uur", price: "1.390", pay: "payBank5" },
-        { hours: "10 uur", price: "2.590", pay: "payBank10" },
+        { hours: "5 uur", price: "1.390", pay: "payBank5", ask: "a bank of 5 hours" },
+        { hours: "10 uur", price: "2.590", pay: "payBank10", ask: "a bank of 10 hours" },
       ],
       items: [
-        "Een proefsollicitatiegesprek, met nabespreking en opname, duurt twee uur",
         "Vragen, je onderzoek, cv en LinkedIn doornemen, je salarisonderhandeling voorbereiden, en alles wat onderweg opkomt",
         "Per half uur afgeschreven, naar de werkelijke tijd. In elke samenvatting staat hoeveel er nog over is",
         "Zes maanden geldig vanaf de aankoop",
-        "Begon je met een adviesuur en deed je een werksessie, dan krijg je een extra uur in je eerste bundel",
+        "Begon je met een diagnose en routekaart en deed je een werksessie, dan krijg je een extra uur in je eerste bundel",
       ],
     },
   ],
@@ -378,8 +418,8 @@ const NL: Copy = {
   stageEyebrow: "Op avonden als deze",
   stageBody: "Het gratis deel van wat ik doe, gebeurt op podia zoals dit, en dat blijft gratis. Wat op deze pagina staat, is de persoonlijke versie, over jouw specifieke situatie, en die eindigt met iets op papier.",
   schedEyebrow: "Plannen",
-  schedHeading: "Een adviesuur, 190 euro.",
-  schedBody: "Kies een moment, betaal, en je krijgt een bevestiging. Aan het eind van het uur weet je wat de volgende stap is, en als die met mij is, wat die kost.",
+  schedHeading: "Een diagnose en routekaart, 190 euro.",
+  schedBody: "Kies een moment, betaal, en je krijgt een bevestiging. Aan het eind van het uur heb je een routekaart van je volgende stappen, en als die met mij is, wat die kost.",
   schedPlaceholder: "Hier komt de agenda.",
   names: {},
   promiseEyebrow: "Over de belofte",
@@ -512,12 +552,12 @@ const PRODUCTS = lang !== "he" ? [] : [
                     <li>
                       <span class="t-h">{t.hours}</span>
                       <span class="t-p"><span class="price t-price">{t.price}</span><span class="cur">{C.cur}</span></span>
-                      <a class="buy" href={buyLink(t.pay, t.hours)}>{C.buy}</a>
+                      <a class="buy" href={buyLink(t.pay, t.ask)}>{C.buy}</a>
                     </li>
                   ))}</ul>
                 : p.entry
                   ? <a class="buy" href={ready(LINKS.calendlyOrientation)}>{C.bookCall}</a>
-                  : <a class="buy" href={ready(LINKS[p.pay as keyof typeof LINKS])}>{C.buyDirect}</a>}
+                  : <a class="buy" href={p.ask ? buyLink(p.pay, p.ask) : ready(LINKS[p.pay as keyof typeof LINKS])}>{C.buyDirect}</a>}
             </article>
           ))}
         </div>

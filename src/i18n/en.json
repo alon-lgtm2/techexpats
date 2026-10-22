@@ -167,11 +167,11 @@
   "cta": {
     "eyebrow": "Let's talk",
     "heading": "Wherever your career is going.",
-    "body": "My expertise is the European job market, and the Netherlands in particular. I help people find work here, mostly in tech but not only. A paid consultation hour ends with a written summary and a proposed next step.",
+    "body": "My expertise is the European job market, and the Netherlands in particular. I help people find work here, mostly in tech but not only. A paid diagnosis and roadmap hour ends with a written roadmap of your next steps.",
     "primary": "Start a conversation",
     "talk": "Let's Talk",
     "email": "alon@techexpats.nl",
-    "book": "Book a consultation",
+    "book": "Book a diagnosis and roadmap",
     "prices": "Pricing"
   },
   "footer": {
@@ -258,7 +258,7 @@
     "howHeading": "How I work",
     "how1": "I take on a small number of people and companies at a time. Every engagement starts with an honest conversation about what success really looks like, and I will tell you early if I am not the right person to help. The work is personal, direct, and built to last past the first decision.",
     "closeHeading": "Let's talk",
-    "close1": "If you are planning your next move, or your next hire, I would like to hear about it. A paid consultation, and no pitch.",
+    "close1": "If you are planning your next move, or your next hire, I would like to hear about it. A paid diagnosis and roadmap hour, and no pitch.",
     "ctaPrimary": "Start a conversation",
     "ctaInsights": "Read my writing",
     "factsHeading": "At a glance",
@@ -358,14 +358,14 @@
     "honestLabel": "Honestly, about the promise",
     "honest": "I do not promise a job. Promising a job would be irresponsible; there is no such thing. My numbers are very good, but there is also luck, demand, and industry, a million things that are not only up to us. What I can say: good people find roles.",
     "ctaHeading": "Ready to find the role, not a job?",
-    "ctaBody": "If your search is not moving the way it should, let's talk. A paid consultation hour, no pitch, ending in something written you can act on.",
-    "ctaPrimary": "Book a consultation",
+    "ctaBody": "If your search is not moving the way it should, let's talk. A paid diagnosis and roadmap hour, no pitch, ending in a written roadmap you can act on.",
+    "ctaPrimary": "Book a diagnosis and roadmap",
     "closing": "Find the role, not a job. Reach a person, not a posting."
   },
   "book": {
     "eyebrow": "Let's talk",
-    "heading": "Book a consultation.",
-    "sub": "A full hour on your situation, ending in a written summary and a recommended next step. My expertise is the European job market, and the Netherlands in particular: mostly tech, but not only. This is the first step: by the end of the hour you will know whether and how I can help, and what it would cost.",
+    "heading": "Diagnosis and roadmap.",
+    "sub": "A full hour on your situation, ending in a written roadmap of your next steps. My expertise is the European job market, and the Netherlands in particular: mostly tech, but not only. This is the first step: by the end of the hour you will know whether and how I can help, and what it would cost.",
     "whatLabel": "What the call is",
     "what": "A full hour on your situation, not a lecture on my method. Where you are, what is actually blocking you, and what the next move should be. If you are already deep in a search that is not moving, this is where we work out why.",
     "getLabel": "What you leave with",

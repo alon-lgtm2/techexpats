@@ -68,23 +68,23 @@ export function person(lang: Lang) {
 
 const OFFERS: Record<Lang, { name: string; price: string }[]> = {
   en: [
-    { name: "Consultation hour (60 minutes, written summary)", price: "190" },
+    { name: "Diagnosis and roadmap (60 minutes, written roadmap)", price: "190" },
     { name: "Working session (profile, target employers, CV and LinkedIn direction)", price: "740" },
-    { name: "Bank of hours, 2 hours", price: "590" },
+    { name: "Mock interview (recorded, with debrief)", price: "590" },
     { name: "Bank of hours, 5 hours", price: "1390" },
     { name: "Bank of hours, 10 hours", price: "2590" },
   ],
   nl: [
-    { name: "Adviesuur (60 minuten, schriftelijke samenvatting)", price: "190" },
+    { name: "Diagnose en routekaart (60 minuten, schriftelijke routekaart)", price: "190" },
     { name: "Werksessie (profiel, doelwerkgevers, aanwijzingen voor cv en LinkedIn)", price: "740" },
-    { name: "Urenbundel, 2 uur", price: "590" },
+    { name: "Proefsollicitatie (opgenomen, met nabespreking)", price: "590" },
     { name: "Urenbundel, 5 uur", price: "1390" },
     { name: "Urenbundel, 10 uur", price: "2590" },
   ],
   he: [
-    { name: "שעת ייעוץ", price: "190" },
+    { name: "אבחון ומפה", price: "190" },
     { name: "ישיבת עבודה", price: "740" },
-    { name: "בנק שעות, 2 שעות", price: "590" },
+    { name: "סימולציית ראיון", price: "590" },
     { name: "בנק שעות, 5 שעות", price: "1390" },
     { name: "בנק שעות, 10 שעות", price: "2590" },
   ],
