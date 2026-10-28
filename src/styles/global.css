@@ -346,19 +346,33 @@ img { display: block; max-width: 100%; }
 .display-md {
   font-family: var(--display); font-weight: var(--display-weight);
   font-size: var(--d-md); line-height: 1.15; letter-spacing: -0.015em;
-  color: var(--ink);
+  color: var(--ink); text-wrap: balance;
 }
+/* LINE BREAKS, site wide (impeccable typeset pass, 2026-10-28). Headings
+   balance their lines so no word is stranded on a line of its own; body copy
+   wraps "pretty", which pulls a word down beside a lone last word. Both are
+   progressive: a browser that ignores them keeps its default wrap. */
+h1, h2, h3, h4, blockquote { text-wrap: balance; }
+p, li, dd, figcaption { text-wrap: pretty; }
 .lead { font-size: 1.15rem; line-height: 1.62; color: var(--ink-2); font-weight: 400; }
+/* Tracking held at 0.1em and 0.08em: the 0.16em and 0.12em before pulled the
+   caps into loose letters (impeccable wide-tracking, 2026-10-28). */
 .eyebrow {
   display: inline-flex; align-items: center; gap: 0.7rem;
-  font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.16em;
+  font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--ink-3);
 }
 .eyebrow::before { content: ""; width: 1.6rem; height: 1px; background: var(--accent); }
 .label {
-  font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.12em;
+  font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--ink-3);
 }
+
+/* Browser surfaces carry the design too: selection, focus and link
+   underlines were browser defaults until 2026-10-28. */
+::selection { background: color-mix(in srgb, var(--accent) 28%, transparent); color: var(--ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+a { text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
 
 .btn {
   display: inline-flex; align-items: center; gap: 0.6rem;

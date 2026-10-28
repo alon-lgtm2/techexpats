@@ -40,7 +40,7 @@ const latest = allArticles
   .sort((x, y) => +new Date(y.data.date) - +new Date(x.data.date))
   .slice(0, 3);
 
-const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER COACHING + HEADHUNTING — ";
+const ticker = "SINCE 2018 · AMSTERDAM & EUROPE · EN / NL / HE · HEADHUNTING + CAREER COACHING · ";
 ---
 
 <Nav lang={lang} />
@@ -52,7 +52,6 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
 <section class="hero">
   <div class="container hero-grid">
     <div class="hero-copy">
-      <span class="eyebrow rise">{t.hero.eyebrow}</span>
       <h1 class="display-xl rise" style="animation-delay:.1s">
         <span class="hl">{t.hero.headline1}</span>
         <span class="hl accent">{t.hero.headline2}</span>
@@ -60,9 +59,8 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
       </h1>
       <p class="lead rise" style="animation-delay:.25s">{t.hero.sub}</p>
       <div class="hero-ctas rise" style="animation-delay:.4s">
-        <a href={localizePath("/book", lang)} class="btn btn-primary">{t.cta.book} <span class="arrow">&rarr;</span></a>
-        <a href={localizePath("/career-advice", lang)} class="btn btn-ghost">{t.hero.ctaCandidate}</a>
-        <a href={localizePath("/for-companies", lang)} class="hiring-link">{t.hero.ctaEmployer} <span class="arrow">&rarr;</span></a>
+        <a href={localizePath("/for-companies", lang)} class="btn btn-primary">{t.hero.ctaBrief} <span class="arrow">&rarr;</span></a>
+        <a href={localizePath("/how-it-works", lang)} class="btn btn-ghost">{t.hero.ctaPro}</a>
       </div>
     </div>
     <div class="hero-portrait rise" style="animation-delay:.3s">
@@ -79,6 +77,35 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
           <span class="label">{s.l}</span>
         </div>
       ))}
+    </div>
+  </div>
+</section>
+
+<!-- ===== EMPLOYERS ===== -->
+<section class="section employers inverted">
+  <div class="container">
+    <div class="emp-head">
+      <div>
+        <span class="eyebrow">{t.employers.eyebrow}</span>
+        <h2 class="display-lg sec-h">{t.employers.heading}</h2>
+      </div>
+      <p class="emp-sub">{t.employers.sub}</p>
+    </div>
+    <div class="offers">
+      <article class="offer">
+        <span class="offer-n">{t.employers.o1Label}</span>
+        <h3 class="display-md">{t.employers.o1Title}</h3>
+        <p>{t.employers.o1Body}</p>
+      </article>
+      <article class="offer">
+        <span class="offer-n">{t.employers.o2Label}</span>
+        <h3 class="display-md">{t.employers.o2Title}</h3>
+        <p>{t.employers.o2Body}</p>
+      </article>
+    </div>
+    <div class="emp-ctas">
+      <a href={localizePath("/for-companies", lang)} class="btn btn-primary">{t.employers.cta} <span class="arrow">&rarr;</span></a>
+      <a href={localizePath("/hiring-insights", lang)} class="btn btn-ghost">{t.employers.read}</a>
     </div>
   </div>
 </section>
@@ -172,35 +199,6 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
     <p>{t.photoband.caption}</p>
   </figcaption>
 </figure>
-
-<!-- ===== EMPLOYERS ===== -->
-<section class="section employers inverted">
-  <div class="container">
-    <div class="emp-head">
-      <div>
-        <span class="eyebrow">{t.employers.eyebrow}</span>
-        <h2 class="display-lg sec-h">{t.employers.heading}</h2>
-      </div>
-      <p class="emp-sub">{t.employers.sub}</p>
-    </div>
-    <div class="offers">
-      <article class="offer">
-        <span class="offer-n">{t.employers.o1Label}</span>
-        <h3 class="display-md">{t.employers.o1Title}</h3>
-        <p>{t.employers.o1Body}</p>
-      </article>
-      <article class="offer">
-        <span class="offer-n">{t.employers.o2Label}</span>
-        <h3 class="display-md">{t.employers.o2Title}</h3>
-        <p>{t.employers.o2Body}</p>
-      </article>
-    </div>
-    <div class="emp-ctas">
-      <a href={localizePath("/for-companies", lang)} class="btn btn-primary">{t.employers.cta} <span class="arrow">&rarr;</span></a>
-      <a href={localizePath("/hiring-insights", lang)} class="btn btn-ghost">{t.employers.read}</a>
-    </div>
-  </div>
-</section>
 
 <!-- ===== SERVICES ===== -->
 <section class="section">
@@ -329,7 +327,7 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
   .split-card > .label { display: block; margin-bottom: 1rem; }
   .split-bar { display: flex; height: 3rem; border: 1px solid var(--line); overflow: hidden; }
   .seg { display: flex; align-items: center; justify-content: center; }
-  .seg i { font-style: normal; font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.05em; text-transform: uppercase; text-align: center; padding: 0 0.3rem; line-height: 1.2; }
+  .seg i { font-style: normal; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; padding: 0 0.3rem; line-height: 1.2; }
   /* The bar is only 3rem tall, so the Hebrew label cannot grow without limit,
      but 0.6rem mono with tracking was well past unreadable. */
   :global([dir="rtl"]) .seg i {
@@ -398,12 +396,6 @@ const ticker = "SINCE 2018 — AMSTERDAM & EUROPE — EN · NL · HE — CAREER 
   }
 
   /* the hero's employer route, deliberately quieter than the two buttons */
-  .hiring-link {
-    display: inline-flex; align-items: center; gap: 0.35rem; align-self: center;
-    font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--ink-3);
-  }
-  .hiring-link:hover { color: var(--accent); }
 
   /* services */
   .services { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }

@@ -31,7 +31,10 @@ const extra = {
 } as const;
 const pick = (m: Record<string, string>) => m[lang] ?? m.en;
 
+// Companies first since 2026-10-28: the site now leads with the employer side.
 const links = [
+  { label: t.nav.forCompanies, href: "/for-companies", employer: true },
+  { label: t.nav.hiringInsights, href: "/hiring-insights" },
   { label: t.nav.howItWorks, href: "/how-it-works" },
   { label: t.nav.careerAdvice, href: "/career-advice" },
   // In all three languages since 2026-10-20, when /en/pricing and /nl/pricing
@@ -42,10 +45,6 @@ const links = [
   ...(lang === "he" ? [{ label: "כלי AI", href: "/ai-tools" }] : []),
   { label: pick(extra.resources), href: "/resources" },
   { label: t.nav.about, href: "/about" },
-  // The employer track. Career Advice and Hiring Insights sit next to each
-  // other on purpose: the two audiences should be visible in the nav itself.
-  { label: t.nav.hiringInsights, href: "/hiring-insights" },
-  { label: t.nav.forCompanies, href: "/for-companies", employer: true },
 ];
 ---
 
@@ -78,7 +77,9 @@ const links = [
           <path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z" />
         </svg>
       </button>
-      <a href={localizePath("/book", lang)} class="btn btn-primary nav-cta">{t.cta.book} <span class="arrow">&rarr;</span></a>
+      <!-- The short label: the long "book a diagnosis and roadmap" wrapped to
+           four lines inside the bar at 1440px (2026-10-28). -->
+      <a href={localizePath("/book", lang)} class="btn btn-primary nav-cta">{t.nav.startSearch} <span class="arrow">&rarr;</span></a>
       <button class="burger" aria-label="Menu" aria-expanded="false" id="burger">
         <span></span><span></span>
       </button>
@@ -106,7 +107,7 @@ const links = [
   }
   .brand-mark { display: none; }
   .brand-sub {
-    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.16em;
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em;
     text-transform: uppercase; color: var(--ink-3); margin-top: 0.3rem; font-weight: 400;
   }
   /* nowrap, because eight links across were each breaking onto two lines in
@@ -130,7 +131,7 @@ const links = [
      its shape and the reader can see the page is single language, but not a
      link, because there is nothing to link to. */
   .lang.off { color: var(--ink-3); opacity: 0.4; cursor: default; }
-  .nav-cta { padding: 0.55rem 1rem; font-size: 0.8rem; }
+  .nav-cta { padding: 0.55rem 1rem; font-size: 0.8rem; white-space: nowrap; }
 
   /* The light/dark control. The icon shows what you would switch TO, which is
      the convention people already read without thinking. */
