@@ -1,0 +1,32 @@
+---
+import type { Lang } from "../i18n";
+
+interface Props {
+  lang: Lang;
+  kind: "duration" | "access";
+  duration: string;
+  items: { title: string; text: string }[];
+}
+const { lang, kind, duration, items } = Astro.props;
+const labels = {
+  he: { duration: "כמה זמן נפגשים", access: "משך ואופן השימוש", includes: "מה מקבלים" },
+  en: { duration: "Time together", access: "Access", includes: "What you get" },
+  nl: { duration: "Tijd samen", access: "Toegang", includes: "Wat je krijgt" },
+}[lang];
+---
+
+<dl class="scope">
+  <dt>{labels[kind]}</dt>
+  <dd>{duration}</dd>
+  <dt>{labels.includes}</dt>
+  <dd><ul>{items.map((item) => <li><strong>{item.title}</strong> <span>{item.text}</span></li>)}</ul></dd>
+</dl>
+
+<style>
+  .scope { margin: 1.15rem 0 0; border-top: 1px solid var(--line); }
+  dt { margin-block: 0.9rem 0.25rem; font-size: 0.95rem; font-weight: 700; color: var(--ink); }
+  dd { margin: 0; font-size: 0.95rem; line-height: 1.55; color: var(--ink-2); }
+  ul { display: grid; gap: 0.8rem; margin: 0; padding: 0; list-style: none; }
+  li strong { display: block; margin-block-end: 0.15rem; line-height: 1.35; text-wrap: balance; color: var(--ink); }
+  li span { display: block; text-wrap: pretty; }
+</style>

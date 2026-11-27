@@ -1,0 +1,14 @@
+---
+import type { Lang } from "../i18n";
+import { formatEuro, withDutchVat } from "../data/pricing";
+
+interface Props { net: number; lang: Lang }
+const { net, lang } = Astro.props;
+const total = withDutchVat(net);
+const label = { he: "כולל מע״מ", en: "incl. VAT", nl: "incl. btw" }[lang];
+---
+<small class="vat-total"><bdi>{formatEuro(total, lang)}</bdi> {label}</small>
+
+<style>
+  .vat-total { display: block; margin-block-start: 0.25rem; font-size: 0.9rem; line-height: 1.4; color: var(--ink-2); white-space: nowrap; }
+</style>

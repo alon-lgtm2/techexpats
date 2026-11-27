@@ -1,4 +1,6 @@
 ---
+import VatTotal from "../VatTotal.astro";
+import ConsultationPayment from "../ConsultationPayment.astro";
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
 import PullQuote from "../PullQuote.astro";
@@ -6,15 +8,15 @@ import Testimonials from "../Testimonials.astro";
 import ProofWall from "../ProofWall.astro";
 import ArticleQuote from "../ArticleQuote.astro";
 import { getT, localizePath, type Lang, BOOKING_URL } from "../../i18n";
+import { coachingPrices, formatEuro } from "../../data/pricing";
+
 interface Props { lang?: Lang }
 const { lang = "en" } = Astro.props;
 const t = getT(lang);
 const b = t.book;
-// One paid event: "שעת ייעוץ", a full hour, 190 euro, collected inside
-// Calendly. This is the only booking door on the site: every CTA lands here
-// first so the meeting is explained before the calendar appears (Alon,
-// 2026-09-02). Was 45 minutes at 120 euro until 2026-09-04.
+// Calendly manages the paid consultation event.
 const calendly = BOOKING_URL;
+const netPrice = formatEuro(coachingPrices.diagnosis, lang);
 ---
 
 <Nav lang={lang} />
@@ -29,12 +31,11 @@ const calendly = BOOKING_URL;
          length and never said what it cost until you went looking (Alon,
          2026-09-05: "add the price so it's very clear what you get"). -->
     <dl class="facts">
-      <div><dt>{b.priceLabel}</dt><dd><b>{b.priceValue}</b> <span>{b.priceUnit}</span></dd></div>
+      <div><dt>{b.priceLabel}</dt><dd><bdi><b>{netPrice}</b></bdi> <span>{b.vatPriceLabel}</span></dd><dd><VatTotal lang={lang} net={coachingPrices.diagnosis} /></dd></div>
       <div><dt>{b.durationLabel}</dt><dd><b>{b.durationValue}</b> <span>{b.durationUnit}</span></dd></div>
       <div><dt>{b.langsLabel}</dt><dd><span class="langs">{b.langsValue}</span></dd></div>
     </dl>
     <a class="btn btn-primary jump" href="#pick">{b.pick} <span class="arrow">&darr;</span></a>
-    <p class="vat">{b.vat}</p>
   </div>
 </section>
 
@@ -64,12 +65,12 @@ const calendly = BOOKING_URL;
       </div>
     </div>
 
-    <!-- WHAT THE HOUR INCLUDES. The three get1/get2/get3 lines were real but
+    <!-- WHAT THE CONSULTATION INCLUDES. The three get1/get2/get3 lines were real but
          they sat under a small label in one column and read as a footnote. -->
     <div class="incl">
       <div class="incl-head">
         <span class="label">{b.panelLabel}</span>
-        <span class="incl-price"><b>{b.priceValue}</b> {b.priceUnit}</span>
+        <span class="incl-price"><bdi><b>{netPrice}</b></bdi> <span>{b.vatPriceLabel}</span><VatTotal lang={lang} net={coachingPrices.diagnosis} /></span>
       </div>
       <ol class="incl-list">
         <li>{b.incl1}</li>
@@ -80,9 +81,7 @@ const calendly = BOOKING_URL;
       </ol>
       <div class="incl-foot">
         <span>{b.vat}</span>
-        {lang === "he" && (
-          <a class="more" href={localizePath("/pricing", lang)}>{t.cta.prices} <span class="arrow">&rarr;</span></a>
-        )}
+        <a class="more" href={localizePath("/pricing", lang)}>{t.cta.prices} <span class="arrow">&rarr;</span></a>
       </div>
     </div>
   </div>
@@ -99,6 +98,7 @@ const calendly = BOOKING_URL;
 <section class="section" id="pick">
   <div class="container">
     <h2 class="display-md">{b.pick}</h2>
+    <ConsultationPayment lang={lang} />
     <div
       class="calendly-inline-widget"
       data-url={`${calendly}?hide_gdpr_banner=1&background_color=ffffff&text_color=0a0a0a&primary_color=f25c2a`}
@@ -144,7 +144,7 @@ const calendly = BOOKING_URL;
   :global([dir="rtl"]) .facts .langs { font-family: var(--body); font-weight: 600; font-size: 1rem; }
   .vat { margin: 0.9rem 0 0; font-size: 0.86rem; color: var(--ink-3); }
 
-  /* what the hour includes */
+  /* what the consultation includes */
   .incl { margin-top: 3rem; border: 1px solid var(--line); background: var(--paper); }
   .incl-head { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; padding: 0.9rem 1.2rem; border-bottom: 1px solid var(--line); }
   .incl-head .label { color: var(--ink); }

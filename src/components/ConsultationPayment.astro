@@ -1,0 +1,18 @@
+---
+import { WHATSAPP_NUMBER, type Lang } from "../i18n";
+import { coachingPrices, formatEuro, withDutchVat } from "../data/pricing";
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const amount = formatEuro(withDutchVat(coachingPrices.diagnosis), lang);
+const copy = {
+  he: { price: "התשלום ב־Calendly", vat: "כולל מע״מ.", link: "זכאים למחיר ללא מע״מ? פנו אליי בוואטסאפ לפני ההזמנה.", message: "היי אלון, אשמח לתאם פגישת אבחון של 45 דקות ולבדוק זכאות לתשלום ללא מע״מ." },
+  en: { price: "Calendly charges", vat: "including VAT.", link: "Eligible to pay without VAT? Contact me on WhatsApp before booking.", message: "Hi Alon, I’d like to arrange a 45-minute consultation and check whether I can pay without VAT." },
+  nl: { price: "Via Calendly betaal je", vat: "inclusief btw.", link: "Kom je in aanmerking voor betaling zonder btw? Neem vóór het boeken contact op via WhatsApp.", message: "Hoi Alon, ik wil graag een adviesgesprek van 45 minuten plannen en nagaan of ik zonder btw kan betalen." },
+}[lang];
+---
+<p>{copy.price} <bdi>{amount}</bdi> {copy.vat} <a href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(copy.message)}`}>{copy.link}</a></p>
+<style>
+  p { margin-block: 0.8rem; color: var(--ink-2); line-height: 1.5; }
+  a { color: var(--accent-ink); text-underline-offset: 0.15em; }
+</style>

@@ -7,13 +7,16 @@ interface Props {
   limit?: number;
   /** Show only reviews from one side of the table. Omit for all of them. */
   source?: "coaching" | "hiring";
+  excludeNames?: readonly string[];
   heading?: string;
   sub?: string;
 }
-const { lang = "en", limit = 6, source, heading, sub } = Astro.props;
+const { lang = "en", limit = 6, source, excludeNames = [], heading, sub } = Astro.props;
 const t = getT(lang);
 
-const pool = source ? testimonials.filter((r) => r.source === source) : testimonials;
+const pool = testimonials.filter((review) =>
+  (!source || review.source === source) && !excludeNames.includes(review.name)
+);
 
 const items = pool.slice(0, limit).map((r) => ({
   quote: (r.quote as any)[lang] || r.quote.en || Object.values(r.quote)[0],

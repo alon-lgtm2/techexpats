@@ -21,6 +21,7 @@ type Lang = "en" | "nl" | "he";
 export interface Testimonial {
   quote: Partial<Record<Lang, string>>;
   name: string;
+  pricingExcerpt?: Record<Lang, string>;
   role?: string; // e.g. "Product Manager, Miro" - shown under the name
   source?: "coaching" | "hiring";
   avatar?: string;
@@ -44,6 +45,11 @@ export const testimonials: Testimonial[] = [
     role: "Software Engineer, ex-Adyen",
     source: "coaching",
     avatar: "/testimonials/yair-sepunaru.jpg",
+    pricingExcerpt: {
+      he: "אלון עזר לי לאחרונה בהכנה לקראת תהליכי ראיונות. מענטש ומקצוען אמיתי.",
+      en: "Alon recently helped me prepare for a set of interview processes. A mensch and a real professional.",
+      nl: "Alon heeft me onlangs geholpen bij de voorbereiding op een reeks sollicitatiegesprekken. Een oprecht goed mens en een echte professional.",
+    },
     quote: {
       he: "אלון עזר לי לאחרונה בהכנה לקראת תהליכי ראיונות. מענטש ומקצוען אמיתי. מעבר להיותו נכס צאן ברזל לקהילה הישראלית בהולנד על שלל פעילותיו ותרומתו. בין אם אתם מחפשים את התפקיד הראשון שלכם בהולנד, מנסים לשדרג או צריכים להתייעץ על נושאים מורכבים, אלון הוא הכתובת.",
       en: "Alon recently helped me prepare for a set of interview processes. A mensch and a real professional. On top of which he is an institution in the Israeli community in the Netherlands, for everything he does there and everything he has given it. Whether you are looking for your first role in the Netherlands, trying to move up, or need to think through something complicated, Alon is the person to go to.",
@@ -163,6 +169,76 @@ export const testimonials: Testimonial[] = [
       he: "עזרת לי להבין פרטים חשובים בנוגע לשוק העבודה בהולנד, מה צריך לקחת בחשבון ומה אולי פספסתי. תודה רבה!",
       en: "You helped me understand important details about the Dutch job market: what to take into account and what I might have missed. Thank you so much!",
       nl: "Je hielp me belangrijke details over de Nederlandse arbeidsmarkt te begrijpen: waar je rekening mee moet houden en wat ik misschien gemist had. Heel erg bedankt!",
+    },
+  },
+  {
+    name: "Daniel Tabib",
+    source: "coaching",
+    pricingExcerpt: {
+      he: "אלון מההתחלה עודד אותי ללכת על האפשרות שבסוף התבררה כנכונה ביותר עבורי, והתמיכה ממנו לאורך הדרך הייתה מאוד משמעותית עבורי.",
+      en: "From the start, Alon encouraged me to go for the option that turned out to be right for me.",
+      nl: "Alon moedigde me vanaf het begin aan om voor de optie te gaan die uiteindelijk het beste bij me bleek te passen.",
+    },
+    quote: {
+      he: `גם אני רוצה להצטרף להמלצות על אלון, וקודם כל לפרגן לו על האדם שהוא, איש שיחה נעים וקשוב עם ידע עצום, שלמדתי ממנו המון.
+
+השיחות והתהליך איתו עזרו לי להשתפר ולראות את הדברים בצורה ברורה יותר, מנקודת מבט של מישהו מקצועי שמכיר את השוק המקומי.
+
+אלון מההתחלה עודד אותי ללכת על האפשרות שבסוף התבררה כנכונה ביותר עבורי, והתמיכה ממנו לאורך הדרך הייתה מאוד משמעותית עבורי.
+
+תודה אלון על הכל 🙏🏼`,
+      en: `I’d like to add my recommendation for Alon, and first say how much I appreciate him as a person. He’s easy to talk to, listens closely and knows a great deal. I learned a lot from him.
+
+Our conversations and the work we did together helped me improve and see things more clearly. It helped to hear the perspective of someone who knows the local market professionally.
+
+From the start, Alon encouraged me to go for the option that turned out to be right for me. His support along the way meant a lot to me.
+
+Thank you for everything, Alon 🙏🏼`,
+      nl: `Ook ik wil Alon graag aanbevelen. Om te beginnen wil ik zeggen hoezeer ik hem als mens waardeer. Hij is prettig om mee te praten, luistert goed en heeft enorm veel kennis. Ik heb veel van hem geleerd.
+
+Door onze gesprekken en het traject dat we samen doorliepen, kon ik me verder ontwikkelen en kreeg ik een helderder beeld van mijn situatie. Het hielp om die te bekijken door de ogen van iemand die de lokale markt uit zijn werk kent.
+
+Alon moedigde me vanaf het begin aan om voor de optie te gaan die uiteindelijk het beste bij me bleek te passen. Zijn steun onderweg heeft veel voor me betekend.
+
+Bedankt voor alles, Alon 🙏🏼`,
+    },
+  },
+  {
+    name: "Liat Mendelson",
+    source: "coaching",
+    pricingExcerpt: {
+      he: "השיטה שלו של חיפוש לפי חברות ואנשי קשר עובדת, מותאמת לשוק בהולנד ומבוססת על הניסיון המקומי שלו.",
+      en: "His way of searching by company and by contact works. It fits the Dutch market and draws on his experience here.",
+      nl: "Zijn manier van zoeken via bedrijven en contactpersonen werkt. Die sluit aan bij de Nederlandse arbeidsmarkt en is gebaseerd op zijn ervaring hier.",
+    },
+    quote: {
+      he: `הי לכולם, מצטרפת להמלצות על Alon Gildoni!
+
+הגעתי לאלון אחרי מספר חודשים שחיפשתי בעצמי תפקידי ניהול בפרודקט , עם מעט מאוד תהליכים שהתחילו והרבה דחיות גנריות.
+
+אלון עזר לי לדייק את החיפוש - גם להבין לאילו חברות לפנות אליהם (לא לשגר קו"ח לכל מה שנראה איכשהוא מתאים), גם בשיפור הפרופיל שלי בלינקדאין כך שיביא ליותר צפיות וגם במסרים מהפרופיל. מה שיצא מזה זה הרבה יותר זימונים לראיונות (גם בהגשת קוח ללא מישהו מבפנים) ויותר פניות של חברות אלי.
+
+השיטה שלו של חיפוש לפי חברות ואנשי קשר עובדת, מותאמת לשוק בהולנד ומבוססת על הניסיון המקומי שלו. החיפוש היה לפי החברות שהוא מצא עבורי לפי התחום שהגדרנו או שאני מצאתי בחיפוש בעצמי. זה כולל הרבה עבודה עצמית לחיפוש ונטוורקינג והכנה לראיונות וגם פגישות עם אלון ככל הנדרש. הוא תמיד היה זמין לכל שאלה ותמיד אפשר היה לקבוע פגישה בטווח קצר ולהתייעץ.
+
+בסוף חתמתי בחברה שהוא מצא לי ולמרות שהדרך היתה לא פשוטה, למדתי המון ואקח מזה הרבה לעתיד.`,
+      en: `Hi everyone, I’d like to add my recommendation for Alon Gildoni!
+
+I came to Alon after several months of looking for product leadership roles on my own. Very few applications went anywhere, and I got a lot of generic rejections.
+
+Alon helped me focus my search. We worked out which companies to approach instead of sending my CV to anything that looked like it might fit. We also worked on my LinkedIn profile, both to get more views and to make the message clearer. I started getting a lot more interview invitations, even when I applied without knowing anyone on the inside. More companies started reaching out to me, too.
+
+His way of searching by company and by contact works. It fits the Dutch market and draws on his experience here. Some of the companies I approached were ones he found for me in the field we’d agreed on, and others I found myself. There’s a lot you do yourself, from research and networking to interview prep, with meetings with Alon whenever you need them. He was always available for questions, and I could always book a meeting at short notice to talk things through.
+
+In the end, I signed with a company he found for me. It wasn’t an easy road, but I learned a lot and there’s plenty I’ll take with me from this experience.`,
+      nl: `Hoi allemaal, ook ik kan Alon Gildoni aanbevelen!
+
+Ik kwam bij Alon nadat ik een paar maanden zelf had gezocht naar een leidinggevende functie in productmanagement. Er kwamen maar weinig sollicitatieprocedures op gang en ik kreeg veel standaardafwijzingen.
+
+Alon hielp me gerichter te zoeken. Samen bekeken we welke bedrijven ik kon benaderen, in plaats van mijn cv te sturen naar elke vacature die enigszins leek te passen. We werkten ook aan mijn LinkedIn-profiel, zodat het vaker bekeken zou worden en duidelijker werd wat ik wilde overbrengen. Ik kreeg daarna veel meer uitnodigingen voor gesprekken, ook als ik solliciteerde zonder iemand bij het bedrijf te kennen. Bedrijven namen ook vaker zelf contact met me op.
+
+Zijn manier van zoeken via bedrijven en contactpersonen werkt. Die sluit aan bij de Nederlandse arbeidsmarkt en is gebaseerd op zijn ervaring hier. Een deel van de bedrijven vond hij voor me binnen het vakgebied dat we samen hadden afgebakend. Andere vond ik zelf. Je doet veel zelf, van zoeken en netwerken tot het voorbereiden van gesprekken. Daarnaast spreek je Alon zo vaak als nodig is. Ik kon altijd met vragen bij hem terecht en op korte termijn een afspraak maken om iets te bespreken.
+
+Uiteindelijk heb ik getekend bij een bedrijf dat hij voor me had gevonden. Het was geen makkelijke weg, maar ik heb veel geleerd en neem daar veel van mee voor de toekomst.`,
     },
   },
 ];

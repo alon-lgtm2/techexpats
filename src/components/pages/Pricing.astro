@@ -1,62 +1,29 @@
 ---
+import ConsultationPayment from "../ConsultationPayment.astro";
 import Nav from "../Nav.astro";
 import Footer from "../Footer.astro";
 import CTA from "../CTA.astro";
 import Testimonials from "../Testimonials.astro";
+import VatTotal from "../VatTotal.astro";
+import OfferScope from "../OfferScope.astro";
 import ProofWall from "../ProofWall.astro";
-import { localizePath, type Lang } from "../../i18n";
+import { BOOKING_URL, WHATSAPP_NUMBER, type Lang } from "../../i18n";
 import { testimonials } from "../../data/testimonials";
+import { coachingPrices, formatEuro } from "../../data/pricing";
+
 interface Props { lang?: Lang }
 const { lang = "he" } = Astro.props;
 
-// ---------------------------------------------------------------------------
-// BOOKING AND PAYMENT
-// Alon creates these in Calendly and Stripe and pastes the URLs here. Nothing
-// on this page charges anyone until real URLs replace the placeholders below.
-// The scheduler is for the orientation call only; everything else is paid
-// first and scheduled afterwards, by mail.
-// One set of links for all three languages: /pricing, /en/pricing and
-// /nl/pricing sell the same things at the same prices (2026-10-20).
-// ---------------------------------------------------------------------------
 const LINKS = {
-  calendlyOrientation: "https://calendly.com/agildoni/new-meeting", // "אבחון ומפה" (was "שעת ייעוץ"), שעה, 190 יורו, נגבה בתוך Calendly
-  payOrientation: "",      // לא בשימוש. התשלום על השיחה נגבה בתוך Calendly
-  payWorkshop: "https://buy.stripe.com/bJe6oI6J6h1I7RS6UacEw01", // 60
-  paySevenADay: "https://buy.stripe.com/00wfZi1oM5j0dcc4M2cEw06", // 360
-  payEmployers: "https://buy.stripe.com/eVq00kaZm4eW3BCbaqcEw05", // 35
-  payProfile: "https://buy.stripe.com/fZu9AU9VifXE0pqfqGcEw03", // 740, ישיבת עבודה
-  // Bank of hours, decided with Alon 2026-10-05. The two hour bank reuses the old 420
-  // candidacy link: same price, but the Stripe product still carries the old name, so
-  // rename it in Stripe. Five and ten hours have no Stripe link yet; until Alon pastes
-  // one here, their buttons open WhatsApp with the purchase pre-written (see buyLink).
-  // Repriced with Alon 2026-10-20: 590 / 1.390 / 2.590, so an hour from a bank never costs less
-  // than the 190 consultation hour. The old 420 Stripe link (9B614o7NacLsb446UacEw02) charges
-  // 420 and is therefore unhooked: all three tiers open WhatsApp until new links are pasted here.
-  // 2026-10-22 (Alon): the two hour bank left the page, because at 590 it competed with the 740.
-  // The 590 became the mock interview, sold as an outcome rather than as hours. No Stripe link
-  // yet, so its button opens WhatsApp like the banks do.
-  payInterview: "", // 590, סימולציית ראיון
-  payBank5: "",  // 1.390, 5 שעות
-  payBank10: "", // 2.590, 10 שעות
-  // Retired from the page 2026-10-05, kept for the record: the 1.870 end to end
-  // (clients in flight keep their terms) at https://buy.stripe.com/9B69AU0kI8vcegg2DUcEw04
+  calendlyOrientation: BOOKING_URL,
+  payWorkshop: "https://buy.stripe.com/bJe6oI6J6h1I7RS6UacEw01",
+  paySevenADay: "https://buy.stripe.com/00wfZi1oM5j0dcc4M2cEw06",
+  payEmployers: "https://buy.stripe.com/eVq00kaZm4eW3BCbaqcEw05",
+  payProfile: "https://buy.stripe.com/fZu9AU9VifXE0pqfqGcEw03",
 };
-// iDEAL is enabled in Stripe payment method settings, not per link. Stripe
-// surfaces it first for buyers in the Netherlands, which is most of the book:
-// roughly half the invoices are NL-resident, many of them Israelis living here.
-const ready = (u: string) => (u && u.length > 0 ? u : "#");
-// Anything without a Stripe link yet still sells: the button opens WhatsApp with
-// the request written, rather than a dead "#". The English and Dutch pages pre-write
-// the message in English, because Alon reads it and he does not read Dutch.
-const buyLink = (key: string, what: string) => {
-  const u = (LINKS as Record<string, string>)[key];
-  const text = lang === "he"
-    ? `היי אלון, אני רוצה לרכוש ${what}`
-    : `Hi Alon, I would like to buy ${what}`;
-  return u && u.length > 0
-    ? u
-    : "https://wa.me/31644295691?text=" + encodeURIComponent(text);
-};
+
+const whatsapp = (message: string) =>
+  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
 // Real reviews, pulled from src/data/testimonials.ts so the page can never
 // quote something that is not on the site.
@@ -76,409 +43,309 @@ const short = (s: string, max = 260) => (s.length > max ? s.slice(0, s.lastIndex
 // The three self-serve products stay on the Hebrew page only: the recorded
 // workshop and the app are in Hebrew, and the employers database is the
 // Israeli companies in the Netherlands. The English and Dutch pages sell the
-// consulting ladder, which is delivered in all three languages.
+// coaching services, which is delivered in all three languages.
 // ---------------------------------------------------------------------------
-type Tier = { hours: string; price: string; pay: string; ask: string };
-// ask: what the WhatsApp fallback says is being bought, always Hebrew or English.
-type Service = { label: string; title: string; price: string; pay: string; entry: boolean; from?: boolean; ask?: string; tiers?: Tier[]; items: string[] };
+type ServiceCopy = { label: string; title: string; action: string; duration: string; items: { title: string; text: string }[] };
 type Copy = {
-  eyebrow: string; h1a: string; h1b: string; lead: string; heroCta: string; heroNote: string;
+  eyebrow: string; h1a: string; h1b: string; lead: string; heroCta: string;
   portraitAlt: string; portraitName: string; portraitCap: string;
-  cur: string; from: string; buy: string; buyDirect: string; bookCall: string;
+  exclVat: string;
   productsEyebrow?: string; productsLead?: string;
-  startEyebrow?: string; startHeading?: string; startBody?: string[]; startMore?: string;
-  svcEyebrow: string; svcLead: string; services: Service[]; why: string; vat: string;
+  startEyebrow?: string; startHeading?: string; startBody?: string[];
+  svcHeading: string; svcLead: string;
+  diagnosis: ServiceCopy & { longerSession: { action: string; message: string } };
+  working: ServiceCopy;
+  interview: ServiceCopy & { message: string };
+  vat: string;
   stageAlt: string; stageEyebrow: string; stageBody: string;
-  schedEyebrow: string; schedHeading: string; schedBody: string; schedPlaceholder: string;
+  schedEyebrow: string; schedHeading: string; schedBody: string;
   names: Record<string, string>;
-  promiseEyebrow: string; stat1: string; stat2: string; promise1: string; promise2: string;
+  promiseEyebrow: string; promise1: string; promise2: string;
   factsEyebrow: string; facts: string[];
   tHeading: string; tSub: string;
 };
 
 const HE: Copy = {
-  eyebrow: "כמה זה עולה, ומה מקבלים",
-  h1a: "מוצרים, ",
-  h1b: "וייעוץ.",
-  lead: "מוצר הוא דבר שאתם קונים ומשתמשים בו לבד, בקצב שלכם. ייעוץ הוא הזמן שלי, אתכם. כל מחיר כאן גלוי, ולצידו כתוב בדיוק מה מקבלים.",
-  heroCta: "לקביעת אבחון ומפה · 190 יורו",
-  heroNote: "הצעד הראשון: שעה על המצב שלכם, ובסופה מפה כתובה של מה הלאה. מי שכבר יודע מה הוא רוצה יכול לקנות ישירות.",
+  eyebrow: "מחירים ומה כלול",
+  h1a: "ליווי קריירה ",
+  h1b: "בהולנד.",
+  lead: "פגישת ייעוץ, ישיבת עבודה לבניית החיפוש או סימולציית ראיון. נפגשים אונליין או באמסטרדם, בעברית, באנגלית או בהולנדית.",
+  heroCta: "לשירותים ולמחירים",
   portraitAlt: "אלון גילדוני",
   portraitName: "אלון גילדוני",
   portraitCap: "הזמן שאתם קונים כאן הוא שלי",
-  cur: "יורו",
-  from: "החל מ־",
-  buy: "לרכישה",
-  buyDirect: "לרכישה ישירה",
-  bookCall: "לקביעת שיחה",
+
+  exclVat: "לפני מע״מ",
   productsEyebrow: "מוצרים",
-  productsLead: "קונים פעם אחת ומשתמשים לבד. בלי פגישות, בלי תיאום יומן, ובלי לדבר איתי קודם.",
-  svcEyebrow: "ייעוץ",
-  svcLead: "הזמן שלי, אתכם. <strong>מתחילים באבחון ומפה.</strong> ממשיכים לישיבת עבודה, שבה בונים יחד את כל מה שצריך. לפני ראיון יש סימולציה, ומשם, כל מה שעוד צריך הוא שעות מהבנק, לפי הצורך.",
-  // The ladder, decided with Alon on 2026-10-05 (methodology/pricing-rethink_2026-09-29_DRAFT.md,
-  // items 10 to 15): the hour is the first step and says so; the working session is sold on
-  // value, its deliverables are made in the room, and one consultation hour follows it;
-  // everything after that is hours from a bank. The 420 candidacy preparation became the
-  // two hour bank, and the 1.870 end to end left the page.
-  services: [
-    {
-      label: "אבחון ומפה",
-      title: "הצעד הראשון.",
-      price: "190",
-      pay: "payOrientation",
-      entry: true,
-      items: [
-        "שעה מלאה על המצב שלכם: איפה אתם עומדים, ומה באמת עוצר אתכם",
-        "בסופה מפה: הצעדים הבאים שלכם, לפי הסדר",
-        "תדעו גם אם ואיך אני יכול לעזור בהמשך, ומה זה יעלה",
-        "הכול בכתב, ונשאר אצלכם",
-      ],
+  productsLead: "לשימוש עצמאי, ללא פגישות אישיות.",
+  svcHeading: "מה יעזור לכם עכשיו?",
+  svcLead: "מתלבטים לאן לכוון? התחילו בפגישת אבחון. אפשר גם להזמין ישיבת עבודה או סימולציית ראיון ישירות.",
+  diagnosis: {
+    label: "אבחון ומפה",
+    title: "לבחור כיוון",
+    action: "לתיאום פגישה",
+    longerSession: {
+      action: "למחיר ולתיאום פגישה של 90 דקות בוואטסאפ",
+      message: "היי אלון, מה המחיר של פגישת ייעוץ של 90 דקות ומתי נוכל להיפגש?",
     },
-    {
-      label: "ישיבת עבודה",
-      title: "יושבים יחד, ויוצאים עם כל מה שצריך.",
-      price: "740",
-      pay: "payProfile",
-      entry: false,
-      items: [
-        "ישיבה ארוכה אחת, אחד על אחד, שבה בונים יחד את הבסיס לחיפוש נכון",
-        "הפרופיל המקצועי שלכם, לאן מכוונים, אל מי פונים בכל מקום, ומה המשפט שאיתו פותחים",
-        "הנחיות מדויקות לשיפור קורות החיים והלינקדאין",
-        "התוצרים נבנים בישיבה עצמה, ואתם יוצאים איתם ביד",
-        "ואחריה, שעת ייעוץ נוספת כלולה במחיר",
-        "שבע ביום כלול, לשלושה חודשים",
-        "המטרה היא לא למצוא עבודה. היא למצוא את העבודה: האופטימלית עבורכם, במקום שתשמחו להיות בו, אצל מעסיק שרק חיכה שתגיעו",
-      ],
-    },
-    {
-      label: "סימולציית ראיון",
-      title: "נופלים כאן, ולא בראיון האמיתי.",
-      price: "590",
-      pay: "payInterview",
-      ask: "סימולציית ראיון",
-      entry: false,
-      items: [
-        "ראיון מלא, כמו האמיתי: טכני, HR או התאמה תרבותית, לפי מה שמחכה לכם",
-        "מוקלט, ואחריו תחקיר: מה עבד, מה הפיל, ואיך עונים אחרת",
-        "ההקלטה והסיכום הכתוב נשארים אצלכם",
-      ],
-    },
-    {
-      label: "בנק שעות",
-      title: "מה שצריך, מתי שצריך.",
-      price: "1.390",
-      from: true,
-      pay: "payBank5",
-      entry: false,
-      tiers: [
-        { hours: "5 שעות", price: "1.390", pay: "payBank5", ask: "בנק של 5 שעות" },
-        { hours: "10 שעות", price: "2.590", pay: "payBank10", ask: "בנק של 10 שעות" },
-      ],
-      items: [
-        "שאלות, מעבר על מחקר, קורות חיים ולינקדאין, הכנה לשיחת שכר, וכל מה שעולה בדרך",
-        "יורד בחצאי שעות, לפי הזמן בפועל. בכל סיכום כתוב כמה נשאר",
-        "תקף לחצי שנה מיום הרכישה",
-        "מי שהתחיל באבחון ומפה ועשה ישיבת עבודה מקבל שעה נוספת בבנק הראשון",
-      ],
-    },
-  ],
-  why: "אין שיחת היכרות חינם. שיחה חינמית היא לא באמת חינם: אני נותן בה את הדבר הכי טוב שיש לי, ואתם יוצאים ממנה עם עצה שאין לכם מה לעשות איתה. עדיף לגבות מעט, ולתת לכם משהו כתוב שאפשר לעשות איתו משהו.",
-  vat: "<strong>המחירים אינם כוללים מע\"מ.</strong> מע\"מ הולנדי בשיעור 21% מתווסף ללקוחות באיחוד האירופי, ומופיע בעמוד התשלום או בחשבונית. <strong>לתושבי ישראל ולמי שגר מחוץ לאיחוד האירופי לא מתווסף מע\"מ</strong>, והמחיר הוא זה שמופיע כאן.",
+    duration: "פגישה אחת של 45 דקות",
+    items: [
+      { title: "המלצה בכתב", text: "אחרי השיחה אשלח סיכום של מה שמעכב את החיפוש, לפי התפקידים שבחרתם והתגובות שקיבלתם." },
+      { title: "צעד ראשון לשבוע הקרוב", text: "בסיכום תמצאו פעולה שתוכלו לבצע בעצמכם והסבר למה להתחיל בה." },
+      { title: "אפשרות להמשך", text: "אם אציע ליווי נוסף, אפרט מה הוא כולל וכמה הוא עולה." },
+    ],
+  },
+  working: {
+    label: "ישיבת עבודה",
+    title: "לבנות את החיפוש",
+    action: "להזמנה",
+    duration: "כשעתיים וחצי יחד, ועוד פגישת המשך של שעה",
+    items: [
+      { title: "פרופיל מקצועי", text: "ננסח יחד הצגה עצמית קצרה שמחברת בין התפקיד שאתם רוצים, הבעיות שאתם פותרים והניסיון שמוכיח זאת." },
+      { title: "רשימת מעסיקים אישית", text: "לכל חברה תקבלו הסבר למה היא מתאימה, שם של איש קשר אחד לפחות ומה מהניסיון שלכם כדאי להזכיר בפנייה." },
+      { title: "טיוטות לפנייה ראשונה", text: "נכתוב הודעות שמחברות בין צורך של החברה לעבודה שכבר עשיתם. תוכלו לערוך ולשלוח אותן בעצמכם." },
+      { title: "הנחיות לקורות החיים וללינקדאין", text: "תקבלו בכתב אילו הישגים להבליט ואיך לתאר אותם. בשעת ההמשך נוכל לעבור על העריכות שלכם או על תגובות ממעסיקים." },
+      { title: "גישה לאפליקציית Seven a Day", text: "במשך שלושה חודשים תוכלו לתעד חברות, פניות ואת הצעד הבא מול כל מעסיק." },
+    ],
+  },
+  interview: {
+    label: "סימולציית ראיון",
+    title: "להתכונן לראיון מסוים",
+    action: "לתיאום פגישה",
+    message: "היי אלון, אני רוצה לתאם סימולציית ראיון לתפקיד שאני מועמד אליו",
+    duration: "פגישה אחת, בדרך כלל שעה וחצי",
+    items: [
+      { title: "תרגול מותאם לתפקיד", text: "אכין שאלות לשלב המיון שמחכה לכם. תענו בקול ונבדוק יחד מה המראיין לומד מהדוגמאות שלכם." },
+      { title: "הקלטת הראיון", text: "תוכלו להקשיב שוב לתשובה שנתתם ולתרגל אותה לפני הראיון האמיתי." },
+      { title: "משוב אישי בכתב", text: "אסמן אילו תשובות שכנעו, איפה חסר פרט ומה כדאי לתרגל." },
+    ],
+  },
+  vat: "למחירים המוצגים יתווסף מע״מ של 21% אם הוא חל עליכם.",
   stageAlt: "אלון גילדוני מרצה מול קהל",
   stageEyebrow: "בערבים כאלה",
-  stageBody: "החלק החינמי של מה שאני עושה קורה על במות כאלה, והוא נשאר חינמי. מה שבעמוד הזה הוא הגרסה האחת על אחת, על המצב הספציפי שלכם, ובסופה משהו כתוב.",
+  stageBody: "בהרצאות הפתוחות אני מדבר על שוק העבודה בהולנד. בפגישה אישית אנחנו עובדים על החיפוש שלכם, ובסופה תקבלו גם משהו בכתב.",
   schedEyebrow: "לקבוע",
-  schedHeading: "אבחון ומפה, 190 יורו.",
-  schedBody: "בוחרים מועד, משלמים, ומקבלים אישור. בסוף השעה תצאו עם מפה של הצעדים הבאים, ואם הוא איתי, כמה הוא עולה.",
-  schedPlaceholder: "כאן ייכנס לוח הזמנים. צריך אירוע חדש ב-Calendly לשיחה בתשלום, והכתובת שלו נכנסת לראש הקובץ.",
-  names: { "Eva Bishara Khoury": "אווה בישארה חורי", "Reshef Katz": "רשף כץ", "Yair Sepunaru": "יאיר ספונארו" },
+  schedHeading: "אבחון ומפה",
+  schedBody: "בוחרים מועד לפגישת אבחון של 45 דקות. אחריה תקבלו המלצה כתובה עם צעדים מעשיים.",
+  names: { "Reshef Katz": "רשף כץ", "Yair Sepunaru": "יאיר ספונארו" },
   promiseEyebrow: "על ההבטחה",
-  stat1: "מוצאים עבודה תוך 3 חודשים",
-  stat2: "תוך 6 חודשים",
-  promise1: "המספרים טובים, אבל אין כל הבטחה או התחייבות למציאת עבודה. יש פה גם ביקוש, תעשייה ומזל.",
+  promise1: "המחיר מכסה את הפגישות והתוצרים המפורטים בשירות שבחרתם. ההחלטה אם להציע משרה היא של המעסיק.",
   promise2: "<strong>בקבלה בלבד.</strong> אני עובד עם מספר קטן של אנשים עם ניסיון משמעותי, כדי לתת לכל אחד תשומת לב אמיתית. וזה גם לא מתאים לכולם: אם אתם מחפשים שמישהו “יחבר” אתכם לעבודה, או שמצב הוויזה דחוף ואין זמן לתהליך מסודר, אני אגיד לכם את זה בשיחה.",
   factsEyebrow: "דברים מעשיים",
   facts: [
     "<strong>iDEAL היא דרך התשלום המומלצת.</strong> מהירה, ישירה מחשבון הבנק, ובלי להזין פרטי כרטיס",
     "אפשר גם בכרטיס אשראי, ובשקלים לפי שער ההמרה ביום התשלום",
-    "אפשר לפצל לשני תשלומים",
-    "הוואטסאפ משמש לתיאום מועדים. שאלות שצריכות תשובה נענות מתוך בנק השעות",
-    "המע\"מ, אם הוא חל עליכם, מחושב ומוצג בעמוד התשלום לפני שאתם מאשרים",
+    "רוצים לפצל את התשלום? כתבו לי לפני הרכישה.",
     "התשלום מאובטח דרך Stripe. אין לי גישה לפרטי האמצעי שלכם",
   ],
-  tHeading: "מי שכבר עשה את זה.",
-  tSub: "שלוש עשרה ביקורות, כולן מהצד של הליווי, וכולן של אנשים אמיתיים. מי שביקש להישאר אנונימי מופיע בראשי תיבות.",
+  tHeading: "המלצות מאנשים שליוויתי",
+  tSub: "חלק מהממליצים ביקשו להופיע בראשי תיבות.",
 };
 
 const EN: Copy = {
   eyebrow: "Career coaching in the Netherlands",
-  h1a: "What it costs, ",
+  h1a: "What it costs ",
   h1b: "and what you get.",
-  lead: "Job search coaching for expats and internationals in the Netherlands, priced in the open. Every price is on this page, and next to it, exactly what you get. Sessions run online or in Amsterdam, in English, Hebrew or Dutch.",
-  heroCta: "Book a diagnosis and roadmap · 190 euro",
-  heroNote: "The first step: an hour on your situation, ending in a written roadmap for what comes next. If you already know what you need, you can buy it directly.",
+  lead: "Choose a consultation, working session or mock interview. We meet online or in Amsterdam, in English, Hebrew or Dutch.",
+  heroCta: "See services and prices",
   portraitAlt: "Alon, career coach and headhunter in Amsterdam",
   portraitName: "Alon",
   portraitCap: "The time you buy here is mine",
-  cur: "euro",
-  from: "from ",
-  buy: "Buy",
-  buyDirect: "Buy directly",
-  bookCall: "Book the hour",
+
+  exclVat: "before VAT",
   startEyebrow: "Who this is for",
   startHeading: "For people looking for work in the Netherlands.",
   startBody: [
-    "Most of the people I work with are internationals and expats who already live here, or are about to move: engineers, product people, and about half from outside tech, in HR, finance, project management and legal.",
-    "What they have in common is a search that is not moving. Applications go out, the replies are automatic or never come, and the advice they get is generic. My work is the view from the other side of the table: how Dutch employers actually hire, where to aim, who to approach, and what to open with.",
-    "I am also a headhunter, so this is not theory. It is how the market behaves this month.",
+    "I work with people who live in the Netherlands or are about to move here. They work in engineering, product, HR, finance, project management and law.",
+    "If your applications keep getting automatic replies or silence, we look at how employers hire, whom to approach and what to say. I draw on my own work as a headhunter.",
   ],
-  startMore: "Not sure what you need? That is exactly what the diagnosis and roadmap is for.",
-  svcEyebrow: "Coaching",
-  svcLead: "My time, with you. <strong>It starts with a diagnosis and roadmap.</strong> Then a working session, where we build everything the search needs. Before an interview there is a mock interview, and after that, whatever else you need comes out of a bank of hours.",
-  services: [
-    {
-      label: "Diagnosis and roadmap",
-      title: "The first step.",
-      price: "190",
-      pay: "payOrientation",
-      entry: true,
-      items: [
-        "A full hour on your situation: where you stand, and what is really holding you back",
-        "It ends with a roadmap: your next steps, in order",
-        "You will also know whether and how I can help after that, and what it would cost",
-        "All of it in writing, and yours to keep",
-      ],
+  svcHeading: "What would help you right now?",
+  svcLead: "Start with a consultation if you’re choosing a direction. You can also book a working session or mock interview directly.",
+  diagnosis: {
+    label: "Diagnosis and roadmap",
+    title: "Choose your direction",
+    action: "Schedule",
+    longerSession: {
+      action: "Ask about pricing and availability for 90 minutes",
+      message: "Hi Alon, what is the price for a 90-minute consultation and when are you available?",
     },
-    {
-      label: "Working session",
-      title: "We sit down together, and you leave with what you need.",
-      price: "740",
-      pay: "payProfile",
-      entry: false,
-      items: [
-        "One long session, one to one, where we build the foundation of a search that works",
-        "Your professional profile, where to aim, who to approach at each employer, and the sentence you open with",
-        "Precise direction for your CV and your LinkedIn",
-        "The deliverables are made in the session itself, and you leave holding them",
-        "One more consultation hour afterwards, included in the price",
-        "Seven a Day, the app that runs the daily search, included for three months",
-        "The goal is not to find a job. It is to find the job: the right one for you, somewhere you will be glad to be, at an employer who was waiting for you to show up",
-      ],
-    },
-    {
-      label: "Mock interview",
-      title: "Fail it here, not in the real one.",
-      price: "590",
-      pay: "payInterview",
-      ask: "a mock interview",
-      entry: false,
-      items: [
-        "A full interview, like the real thing: technical, HR or culture fit, whichever is waiting for you",
-        "Recorded, then debriefed: what worked, what sank you, and how to answer differently",
-        "The recording and the written summary are yours to keep",
-      ],
-    },
-    {
-      label: "Bank of hours",
-      title: "What you need, when you need it.",
-      price: "1.390",
-      from: true,
-      pay: "payBank5",
-      entry: false,
-      tiers: [
-        { hours: "5 hours", price: "1.390", pay: "payBank5", ask: "a bank of 5 hours" },
-        { hours: "10 hours", price: "2.590", pay: "payBank10", ask: "a bank of 10 hours" },
-      ],
-      items: [
-        "Questions, a review of your research, CV and LinkedIn, salary negotiation prep, and whatever comes up along the way",
-        "Used in half hours, by the actual time. Every written summary says how much is left",
-        "Valid for six months from purchase",
-        "If you started with a diagnosis and roadmap and did a working session, you get one extra hour in your first bank",
-      ],
-    },
-  ],
-  why: "There is no free intro call. A free call is not really free: I give away the best thing I have, and you leave with advice you cannot do anything with. Better to charge a little, and give you something in writing you can act on.",
-  vat: "<strong>Prices exclude VAT.</strong> Dutch VAT at 21% is added for customers in the European Union, and shown on the payment page or the invoice. <strong>For residents of Israel and anyone living outside the EU no VAT is added</strong>, and the price is the one shown here.",
+    duration: "One 45-minute consultation",
+    items: [
+      { title: "Written recommendation", text: "After the call, I send a short note on what is holding up your search, based on the roles you targeted and the replies you received." },
+      { title: "First step for this week", text: "The note sets out one action you can take yourself and why I’d start there." },
+      { title: "Optional follow-up", text: "If I suggest further coaching, I explain what it covers and what it costs." },
+    ],
+  },
+  working: {
+    label: "Working session",
+    title: "Build your job search",
+    action: "Book now",
+    duration: "About 2½ hours together, plus a separate one-hour follow-up",
+    items: [
+      { title: "Professional profile", text: "Together we write a short introduction linking the roles you want to problems you solve and experience that proves it." },
+      { title: "Employer shortlist", text: "For each company, you get a reason it fits, at least one named contact and a relevant piece of experience to mention." },
+      { title: "Outreach drafts", text: "We write first messages connecting a company’s needs to work you’ve done. You can edit and send them yourself." },
+      { title: "Written CV and LinkedIn guidance", text: "You get specific achievements to highlight and advice on how to describe them. Use the follow-up hour to review your edits or discuss employer replies." },
+      { title: "Seven a Day app access", text: "For three months, track your target employers, messages and next steps in one place." },
+    ],
+  },
+  interview: {
+    label: "Mock interview",
+    title: "Prepare for a specific interview",
+    action: "Schedule",
+    message: "Hi Alon, I would like to arrange a mock interview for a role I am applying for",
+    duration: "One live session, usually 90 minutes",
+    items: [
+      { title: "Practice for your interview stage", text: "I prepare questions for the role. You answer aloud, then we discuss what an interviewer can learn from your examples." },
+      { title: "Interview recording", text: "Replay your answers and practise the ones you want to change before the real interview." },
+      { title: "Personal written feedback", text: "See which answers were convincing, where a detail was missing and what to practise next." },
+    ],
+  },
+  vat: "Prices exclude VAT. Where applicable, 21% VAT is added.",
   stageAlt: "Alon speaking to an audience",
   stageEyebrow: "On evenings like this",
-  stageBody: "The free part of what I do happens on stages like this one, and it stays free. What is on this page is the one to one version, about your specific situation, and it ends with something in writing.",
+  stageBody: "In my free talks, I cover the Dutch job market. In a private session, we work on your search and you get a written takeaway.",
   schedEyebrow: "Book",
-  schedHeading: "A diagnosis and roadmap, 190 euro.",
-  schedBody: "Pick a time, pay, and get a confirmation. By the end of the hour you will have a roadmap of your next steps, and if it is with me, what it costs.",
-  schedPlaceholder: "The scheduler goes here.",
+  schedHeading: "Diagnosis and roadmap",
+  schedBody: "Pick a time for your 45-minute session. Afterwards you will receive a short written recommendation with practical next steps.",
   names: {},
   promiseEyebrow: "On the promise",
-  stat1: "land a role within 3 months",
-  stat2: "within 6 months",
-  promise1: "The numbers are good, but there is no promise or guarantee of a job. Demand, industry and luck all play a part.",
-  promise2: "<strong>By selection only.</strong> I work with a small number of people with real experience, so each one gets genuine attention. And it is not for everyone: if you want someone to connect you to a job, or your visa situation is urgent and there is no time for a proper process, I will tell you so in the first hour.",
+  promise1: "Your fee covers the sessions and deliverables listed for the service you choose. Hiring decisions remain with the employer.",
+  promise2: "<strong>By selection only.</strong> I work with a small number of people with real experience, so each one gets genuine attention. And it is not for everyone: if you want someone to connect you to a job, or your visa situation is urgent and there is no time for a proper process, I will tell you so during our first conversation.",
   factsEyebrow: "Practical things",
   facts: [
     "<strong>iDEAL is the recommended way to pay.</strong> Fast, straight from your bank account, no card details",
     "Credit card works too",
-    "You can split the payment in two",
-    "WhatsApp is for scheduling. Questions that need a real answer are answered from the bank of hours",
-    "VAT, if it applies to you, is calculated and shown on the payment page before you confirm",
+    "If you want to pay in two instalments, contact me before buying.",
     "Payment is handled securely by Stripe. I never see your payment details",
   ],
-  tHeading: "People who have done it.",
-  tSub: "Reviews from the coaching side, all from real people. Those who asked to stay anonymous appear by their initials.",
+  tHeading: "What clients say",
+  tSub: "Some clients asked to be identified by their initials.",
 };
 
 const NL: Copy = {
   eyebrow: "Loopbaancoaching in Nederland",
-  h1a: "Wat het kost, ",
+  h1a: "Wat het kost ",
   h1b: "en wat je krijgt.",
-  lead: "Begeleiding bij het zoeken naar werk voor expats en internationals in Nederland, met openbare tarieven. Elke prijs staat op deze pagina, en ernaast precies wat je ervoor krijgt. Sessies zijn online of in Amsterdam, in het Engels, Hebreeuws of Nederlands.",
-  heroCta: "Plan een diagnose en routekaart · 190 euro",
-  heroNote: "De eerste stap: een uur over jouw situatie, met aan het eind een schriftelijke routekaart voor wat er nu moet gebeuren. Weet je al wat je nodig hebt, dan kun je het direct kopen.",
+  lead: "Kies een adviesgesprek, werksessie of proefgesprek. We spreken online of in Amsterdam af, in het Engels, Hebreeuws of Nederlands.",
+  heroCta: "Bekijk diensten en tarieven",
   portraitAlt: "Alon, loopbaancoach en headhunter in Amsterdam",
   portraitName: "Alon",
   portraitCap: "De tijd die je hier koopt, is de mijne",
-  cur: "euro",
-  from: "vanaf ",
-  buy: "Kopen",
-  buyDirect: "Direct kopen",
-  bookCall: "Plan het uur",
+
+  exclVat: "excl. btw",
   startEyebrow: "Voor wie dit is",
   startHeading: "Voor wie werk zoekt in Nederland.",
   startBody: [
-    "De meeste mensen met wie ik werk zijn internationals en expats die hier al wonen of op het punt staan te verhuizen: engineers, productmensen, en ongeveer de helft van buiten tech, uit HR, finance, projectmanagement en juridisch.",
-    "Wat ze gemeen hebben, is een zoektocht die vastloopt. De sollicitaties gaan de deur uit, de reacties zijn automatisch of blijven weg, en het advies dat ze krijgen is algemeen. Mijn werk is de blik van de andere kant van de tafel: hoe Nederlandse werkgevers echt werven, waar je op richt, wie je benadert en waarmee je opent.",
-    "Ik ben ook headhunter, dus dit is geen theorie. Het is hoe de markt zich deze maand gedraagt.",
+    "Ik begeleid mensen die in Nederland wonen of hier binnenkort naartoe verhuizen. Ze werken onder meer in techniek, productmanagement, HR, finance, projectmanagement en de juridische sector.",
+    "Krijg je steeds standaardreacties of hoor je niets? Vanuit mijn werk als headhunter bekijken we hoe werkgevers werven, wie je kunt benaderen en wat je kunt schrijven.",
   ],
-  startMore: "Weet je niet precies wat je nodig hebt? Daar is de diagnose en routekaart precies voor.",
-  svcEyebrow: "Coaching",
-  svcLead: "Mijn tijd, met jou. <strong>Je begint met een diagnose en routekaart.</strong> Daarna een werksessie, waarin we samen alles bouwen wat de zoektocht nodig heeft. Voor een sollicitatiegesprek is er een proefgesprek, en wat je daarna nog nodig hebt, komt uit een urenbundel.",
-  services: [
-    {
-      label: "Diagnose en routekaart",
-      title: "De eerste stap.",
-      price: "190",
-      pay: "payOrientation",
-      entry: true,
-      items: [
-        "Een vol uur over jouw situatie: waar je staat, en wat je echt tegenhoudt",
-        "Aan het eind een routekaart: je volgende stappen, op volgorde",
-        "Je weet ook of en hoe ik daarna kan helpen, en wat dat kost",
-        "Alles op papier, en het blijft van jou",
-      ],
+  svcHeading: "Waar heb je nu hulp bij nodig?",
+  svcLead: "Twijfel je over je richting? Begin met een adviesgesprek. Je kunt ook direct een werksessie of proefgesprek boeken.",
+  diagnosis: {
+    label: "Diagnose en routekaart",
+    title: "Kies je richting",
+    action: "Inplannen",
+    longerSession: {
+      action: "Vraag via WhatsApp naar de prijs en beschikbaarheid voor 90 minuten",
+      message: "Hoi Alon, wat kost een adviesgesprek van 90 minuten en wanneer heb je tijd?",
     },
-    {
-      label: "Werksessie",
-      title: "We gaan samen zitten, en je gaat weg met wat je nodig hebt.",
-      price: "740",
-      pay: "payProfile",
-      entry: false,
-      items: [
-        "Eén lange sessie, één op één, waarin we de basis leggen voor een zoektocht die werkt",
-        "Je professionele profiel, waar je op richt, wie je bij elke werkgever benadert, en de zin waarmee je opent",
-        "Concrete aanwijzingen voor je cv en je LinkedIn",
-        "Wat we maken, maken we in de sessie zelf, en je neemt het direct mee",
-        "Daarna nog een adviesuur, inbegrepen in de prijs",
-        "Seven a Day, de app die de dagelijkse zoektocht draaiende houdt, drie maanden inbegrepen",
-        "Het doel is niet een baan vinden. Het is de baan vinden: de baan die bij jou past, op een plek waar je graag bent, bij een werkgever die op je zat te wachten",
-      ],
-    },
-    {
-      label: "Proefsollicitatie",
-      title: "Hier mislukken, niet in het echte gesprek.",
-      price: "590",
-      pay: "payInterview",
-      ask: "a mock interview",
-      entry: false,
-      items: [
-        "Een volledig gesprek, zoals het echte: technisch, HR of culture fit, wat er ook op je wacht",
-        "Opgenomen, en daarna nabesproken: wat werkte, wat je de kop kostte, en hoe je het anders beantwoordt",
-        "De opname en de schriftelijke samenvatting zijn van jou",
-      ],
-    },
-    {
-      label: "Urenbundel",
-      title: "Wat je nodig hebt, wanneer je het nodig hebt.",
-      price: "1.390",
-      from: true,
-      pay: "payBank5",
-      entry: false,
-      tiers: [
-        { hours: "5 uur", price: "1.390", pay: "payBank5", ask: "a bank of 5 hours" },
-        { hours: "10 uur", price: "2.590", pay: "payBank10", ask: "a bank of 10 hours" },
-      ],
-      items: [
-        "Vragen, je onderzoek, cv en LinkedIn doornemen, je salarisonderhandeling voorbereiden, en alles wat onderweg opkomt",
-        "Per half uur afgeschreven, naar de werkelijke tijd. In elke samenvatting staat hoeveel er nog over is",
-        "Zes maanden geldig vanaf de aankoop",
-        "Begon je met een diagnose en routekaart en deed je een werksessie, dan krijg je een extra uur in je eerste bundel",
-      ],
-    },
-  ],
-  why: "Er is geen gratis kennismakingsgesprek. Een gratis gesprek is nooit echt gratis: ik geef er het beste in weg wat ik heb, en jij gaat naar huis met advies waar je niets mee kunt. Liever vraag ik een bescheiden bedrag en geef ik je iets op papier waar je echt mee verder kunt.",
-  vat: "<strong>Prijzen zijn exclusief btw.</strong> Voor klanten in de Europese Unie komt daar 21% Nederlandse btw bij, zichtbaar op de betaalpagina of de factuur. <strong>Woon je in Israël of ergens anders buiten de EU, dan komt er geen btw bij</strong> en betaal je de prijs die hier staat.",
+    duration: "Eén adviesgesprek van 45 minuten",
+    items: [
+      { title: "Schriftelijk advies", text: "Na het gesprek stuur ik je een kort advies over wat je zoektocht belemmert, op basis van je sollicitaties en de reacties die je kreeg." },
+      { title: "Eerste stap voor deze week", text: "In het advies staat welke actie je zelf kunt ondernemen en waarom ik daarmee zou beginnen." },
+      { title: "Eventuele vervolgbegeleiding", text: "Als ik verdere begeleiding voorstel, leg ik uit wat die inhoudt en wat die kost." },
+    ],
+  },
+  working: {
+    label: "Werksessie",
+    title: "Geef je zoektocht vorm",
+    action: "Boeken",
+    duration: "Ongeveer 2,5 uur samen, plus een apart vervolggesprek van een uur",
+    items: [
+      { title: "Professioneel profiel", text: "Samen schrijven we een korte introductie over de functies die je zoekt, de problemen die je oplost en de ervaring waaruit dat blijkt." },
+      { title: "Persoonlijke werkgeverslijst", text: "Per bedrijf krijg je de reden waarom het bij je past, de naam van minstens één contactpersoon en de ervaring die je kunt noemen." },
+      { title: "Conceptberichten", text: "We schrijven eerste berichten die een behoefte van het bedrijf koppelen aan werk dat je hebt gedaan. Je kunt ze zelf aanpassen en versturen." },
+      { title: "Schriftelijk advies voor cv en LinkedIn", text: "Je krijgt advies over welke resultaten je uitlicht en hoe je ze beschrijft. Gebruik het vervolguur voor je aangepaste cv of voor reacties van werkgevers." },
+      { title: "Toegang tot de app Seven a Day", text: "Drie maanden lang houd je je werkgeverslijst, berichten en vervolgstappen op één plek bij." },
+    ],
+  },
+  interview: {
+    label: "Proefsollicitatie",
+    title: "Oefen voor je gesprek",
+    action: "Inplannen",
+    message: "Hi Alon, I would like to arrange a mock interview for a role I am applying for",
+    duration: "Eén gesprek, meestal anderhalf uur",
+    items: [
+      { title: "Oefenen voor jouw selectieronde", text: "Ik bereid vragen voor die passen bij de functie. Je antwoordt hardop en we bespreken wat een interviewer uit je voorbeelden kan opmaken." },
+      { title: "Opname van het gesprek", text: "Luister je antwoorden terug en oefen vóór je echte gesprek de antwoorden die je wilt aanscherpen." },
+      { title: "Persoonlijke schriftelijke feedback", text: "Je leest welke antwoorden overtuigen, waar een detail ontbreekt en wat je nog kunt oefenen." },
+    ],
+  },
+  vat: "De prijzen zijn exclusief btw. Indien van toepassing komt er 21% btw bij.",
   stageAlt: "Alon spreekt voor een zaal",
   stageEyebrow: "Op avonden als deze",
-  stageBody: "Het gratis deel van wat ik doe, gebeurt op podia zoals dit, en dat blijft gratis. Wat op deze pagina staat, is de persoonlijke versie, over jouw specifieke situatie, en die eindigt met iets op papier.",
+  stageBody: "In mijn gratis lezingen bespreek ik de Nederlandse arbeidsmarkt. In een persoonlijk gesprek werken we aan jouw zoektocht en krijg je na afloop iets op papier.",
   schedEyebrow: "Plannen",
-  schedHeading: "Een diagnose en routekaart, 190 euro.",
-  schedBody: "Kies een moment, betaal, en je krijgt een bevestiging. Aan het eind van het uur heb je een routekaart van je volgende stappen, en als die met mij is, wat die kost.",
-  schedPlaceholder: "Hier komt de agenda.",
+  schedHeading: "Diagnose en routekaart",
+  schedBody: "Kies een moment voor je adviesgesprek van 45 minuten. Daarna krijg je een kort schriftelijk advies met concrete vervolgstappen.",
   names: {},
   promiseEyebrow: "Over de belofte",
-  stat1: "vindt werk binnen 3 maanden",
-  stat2: "binnen 6 maanden",
-  promise1: "De cijfers zijn goed, maar er is geen belofte of garantie op werk. Vraag, sector en geluk spelen allemaal mee.",
-  promise2: "<strong>Alleen op selectie.</strong> Ik werk met een klein aantal mensen met echte ervaring, zodat ieder echte aandacht krijgt. En het past niet bij iedereen: zoek je iemand die je aan een baan koppelt, of is je visumsituatie zo urgent dat er geen tijd is voor een zorgvuldig traject, dan zeg ik dat in het eerste uur.",
+  promise1: "Je betaalt voor de gesprekken en de materialen bij de gekozen dienst. De werkgever beslist over een aanbod.",
+  promise2: "<strong>Alleen op selectie.</strong> Ik werk met een klein aantal mensen met echte ervaring, zodat ieder echte aandacht krijgt. En het past niet bij iedereen: zoek je iemand die je aan een baan koppelt, of is je visumsituatie zo urgent dat er geen tijd is voor een zorgvuldig traject, dan zeg ik dat tijdens ons eerste gesprek.",
   factsEyebrow: "Praktisch",
   facts: [
     "<strong>Betalen met iDEAL heeft de voorkeur.</strong> Snel, rechtstreeks vanaf je bankrekening, zonder kaartgegevens",
     "Met een creditcard kan ook",
-    "Je kunt in twee termijnen betalen",
-    "WhatsApp is voor het plannen van afspraken. Vragen die een echt antwoord nodig hebben, gaan van de urenbundel af",
-    "Als er btw voor je geldt, wordt die berekend en getoond op de betaalpagina voordat je bevestigt",
+    "Wil je in twee termijnen betalen? Neem dan vóór aankoop contact met me op.",
     "De betaling loopt veilig via Stripe. Ik zie je betaalgegevens nooit",
   ],
-  tHeading: "Mensen die het al gedaan hebben.",
-  tSub: "Reviews van de coachingkant, allemaal van echte mensen. Wie anoniem wilde blijven, staat er met initialen.",
+  tHeading: "Wat cliënten zeggen",
+  tSub: "Sommige cliënten staan op eigen verzoek met hun initialen vermeld.",
 };
 
 const C: Copy = lang === "en" ? EN : lang === "nl" ? NL : HE;
-const SERVICES = C.services;
+const services = [
+  { ...C.diagnosis, review: byName("Daniel Tabib"), price: coachingPrices.diagnosis, href: "#book-diagnosis", featured: false },
+  { ...C.working, review: byName("Liat Mendelson"), price: coachingPrices.working, href: LINKS.payProfile, featured: true },
+  { ...C.interview, review: byName("Yair Sepunaru"), price: coachingPrices.interview, href: whatsapp(C.interview.message), featured: false },
+];
+const price = (amount: number) => formatEuro(amount, lang);
 const who = (n: string) => C.names[n] ?? n;
 
 const PRODUCTS = lang !== "he" ? [] : [
   {
     label: "הסדנה המוקלטת",
-    title: "לראות איך נראה חיפוש עבודה שעובד.",
-    price: "60",
+    title: "איך מחפשים עבודה בהולנד",
+    price: 60,
     pay: "payWorkshop",
+    duration: "הקלטה של 85 דקות לצפייה בקצב שלכם",
     items: [
-      "ערב מלא, 85 דקות, עם קהל אמיתי ששואל וגם חולק עליי",
-      "פרומפט בשידור חי: מתרגמים פרופיל אמיתי לטייטלים ולתעשיות הולנדיות",
-      "מי באמת פתח את המשרה, ואיך פונים אליו בלי להישרף",
-      "כולל הפרומפטים, רשימת ההדהאנטרים ותבנית קורות חיים",
+      { title: "הקלטה עם שאלות מהקהל", text: "תראו איך למצוא תפקידים וענפים שמתאימים לניסיון שלכם בהולנד, לזהות מי מגייס ולפתוח איתו שיחה." },
+      { title: "חומרים לתרגול", text: "תקבלו את הפרומפטים מהסדנה, תבנית לקורות חיים ורשימת ציידי ראשים." },
     ],
   },
   {
     label: "מאגר המעסיקים הישראליים",
-    title: "ספר טלפונים של החברות הישראליות בהולנד.",
-    price: "35",
+    title: "חברות ישראליות שפועלות בהולנד",
+    price: 35,
     pay: "payEmployers",
+    duration: "גישה למאגר בתשלום חד־פעמי",
     items: [
-      "רק חברות עם פעילות ממשית בהולנד, לא סניף על הנייר. לכל אחת הערים, הכתובות, סוגי התפקידים וקישור לעמוד הקריירה",
-      "גישה עם סיסמה למאגר החי. אני מתחזק אותו, חברות נכנסות ויוצאות, ואתם רואים תמיד את המצב המעודכן",
-      "נקודת התחלה לחיפוש עצמאי. זה מאגר, לא כיוון: הוא לא יודע מי אתם ולאן כדאי לכם לכוון",
+      { title: "גישה בסיסמה", text: "המאגר מתעדכן וכולל חברות ישראליות עם פעילות בהולנד." },
+      { title: "פרטים לכל חברה", text: "ערים, כתובות, סוגי תפקידים וקישור לעמוד הקריירה. תוכלו לבחור חברה באזור שלכם ולבדוק משרות ישירות אצלה." },
     ],
   },
   {
-    label: "שבע ביום",
-    title: "האפליקציה שמריצה את החיפוש.",
-    price: "360",
+    label: "שבע ביום (Seven a Day)",
+    title: "האפליקציה לניהול חיפוש עבודה",
+    price: 360,
     pay: "paySevenADay",
+    duration: "שלושה חודשי גישה כלולים במחיר. אחריהם תוכלו לבחור להמשיך ב־29 יורו לחודש ולבטל בכל חודש.",
     items: [
-      "חיפוש עבודה שנעשה נכון הוא משמעת, לא הגרלה. שבע פעולות ממוקדות ביום, עם רצפים ותנופה",
-      "מאגר חברות: דירוג, הפעולה הבאה, ותיעוד כל אינטראקציה",
-      "“פריזר” להקפאת חברות לכמה ימים, ו“מגרש חניה” ללידים",
-      "מאגר החברות הישראליות בהולנד כלול, וגם הסדנה המוקלטת",
-      "שלושה חודשים, ואחר כך 29 יורו לחודש. אפשר להפסיק בכל חודש",
+      { title: "יומן חיפוש יומי", text: "תכננו שבע פעולות ביום, סמנו מה ביצעתם ובחרו במה להתחיל מחר." },
+      { title: "מעקב אחר פניות", text: "תעדו למי פניתם, מה ענו ומה הצעד הבא. תוכלו להשהות פנייה או לשמור חברה להמשך." },
+      { title: "המאגר והסדנה", text: "המנוי כולל גם את מאגר המעסיקים הישראליים בהולנד ואת הסדנה המוקלטת על חיפוש עבודה." },
     ],
   },
 ];
@@ -493,8 +360,7 @@ const PRODUCTS = lang !== "he" ? [] : [
       <h1 class="display-xl">{C.h1a}<em>{C.h1b}</em></h1>
       <p class="lead">{C.lead}</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href={ready(LINKS.calendlyOrientation || LINKS.payOrientation)}>{C.heroCta}</a>
-        <p class="hero-cta-note">{C.heroNote}</p>
+        <a class="btn btn-primary" href="#coaching">{C.heroCta}</a>
       </div>
     </div>
     <figure class="hero-portrait">
@@ -504,71 +370,67 @@ const PRODUCTS = lang !== "he" ? [] : [
   </div>
 </section>
 
-<section class="section alt">
+<section class="section alt" id="coaching" aria-labelledby="coaching-heading">
   <div class="container">
-    <div class="split">
-
-      {PRODUCTS.length > 0 ? (
-      <div class="col">
-        <span class="eyebrow">{C.productsEyebrow}</span>
-        <p class="col-lead">{C.productsLead}</p>
-        <div class="rows">
-          {PRODUCTS.map((p) => (
-            <article class="row">
-              <span class="label">{p.label}</span>
-              <div class="rhead">
-                <h3>{p.title}</h3>
-                <p class="price-line"><span class="price">{p.price}</span><span class="cur">{C.cur}</span></p>
-              </div>
-              <ul class="items">{p.items.map((i) => <li>{i}</li>)}</ul>
-              <a class="buy" href={ready(LINKS[p.pay as keyof typeof LINKS])}>{C.buy}</a>
-            </article>
-          ))}
-        </div>
-      </div>
-      ) : (
-      <div class="col">
-        <span class="eyebrow">{C.startEyebrow}</span>
-        <h2 class="display-md start-h">{C.startHeading}</h2>
-        {C.startBody?.map((para) => <p class="body">{para}</p>)}
-        <p class="body"><a class="buy" href={localizePath("/book", lang)}>{C.startMore}</a></p>
-      </div>
-      )}
-
-      <div class="col">
-        <span class="eyebrow">{C.svcEyebrow}</span>
-        <p class="col-lead" set:html={C.svcLead} />
-        <div class="rows">
-          {SERVICES.map((p) => (
-            <article class={p.entry ? "row entry" : "row"}>
-              <span class="label">{p.label}</span>
-              <div class="rhead">
-                <h3>{p.title}</h3>
-                <p class="price-line">{p.from && <span class="cur">{C.from}</span>}<span class="price">{p.price}</span><span class="cur">{C.cur}</span></p>
-              </div>
-              <ul class="items">{p.items.map((i) => <li>{i}</li>)}</ul>
-              {p.tiers
-                ? <ul class="tiers">{p.tiers.map((t) => (
-                    <li>
-                      <span class="t-h">{t.hours}</span>
-                      <span class="t-p"><span class="price t-price">{t.price}</span><span class="cur">{C.cur}</span></span>
-                      <a class="buy" href={buyLink(t.pay, t.ask)}>{C.buy}</a>
-                    </li>
-                  ))}</ul>
-                : p.entry
-                  ? <a class="buy" href={ready(LINKS.calendlyOrientation)}>{C.bookCall}</a>
-                  : <a class="buy" href={p.ask ? buyLink(p.pay, p.ask) : ready(LINKS[p.pay as keyof typeof LINKS])}>{C.buyDirect}</a>}
-            </article>
-          ))}
-        </div>
-        <a class="btn btn-primary svc-cta" href={ready(LINKS.calendlyOrientation)}>{C.heroCta}</a>
-        <p class="why">{C.why}</p>
-      </div>
-
+    <h2 class="display-md" id="coaching-heading">{C.svcHeading}</h2>
+    <p class="col-lead">{C.svcLead}</p>
+    <div class="coaching-grid">
+      {services.map((service) => (
+        <article class:list={["coaching-card", { featured: service.featured }]}>
+          <span class="label">{service.label}</span>
+          <h3>{service.title}</h3>
+          <p class="price-line"><bdi class="price">{price(service.price)}</bdi> <span class="cur">{C.exclVat}</span></p>
+          <VatTotal lang={lang} net={service.price} />
+          <OfferScope lang={lang} kind="duration" duration={service.duration} items={service.items} />
+          {service.review?.pricingExcerpt && (
+            <figure class="buyer-quote">
+              <blockquote>{service.review.pricingExcerpt[lang]}</blockquote>
+              <figcaption><bdi>{service.review.name}</bdi></figcaption>
+            </figure>
+          )}
+          {"longerSession" in service && service.longerSession && (
+            <p class="longer-session">
+              <a class="buy" href={whatsapp(service.longerSession.message)}>{service.longerSession.action}</a>
+            </p>
+          )}
+          <a class:list={["btn", { "btn-primary": service.featured, "btn-ghost": !service.featured }]} href={service.href} aria-label={service.action + " · " + service.title}>{service.action}</a>
+        </article>
+      ))}
     </div>
-    <p class="vat-note" set:html={C.vat} />
+    <p class="vat-note">{C.vat}</p>
   </div>
 </section>
+
+{PRODUCTS.length > 0 ? (
+  <section class="section">
+    <div class="container">
+      <h2 class="display-md">{C.productsEyebrow}</h2>
+      <p class="col-lead">{C.productsLead}</p>
+      <div class="product-grid">
+        {PRODUCTS.map((product) => (
+          <article class="row">
+            <span class="label">{product.label}</span>
+            <h3>{product.title}</h3>
+            <p class="price-line"><bdi class="price">{price(product.price)}</bdi> <span class="cur">{C.exclVat}</span></p>
+            <VatTotal lang={lang} net={product.price} />
+            <OfferScope lang={lang} kind="access" duration={product.duration} items={product.items} />
+            <a class="buy product-action" href={LINKS[product.pay as keyof typeof LINKS]} aria-label={"להזמנה · " + product.title}>להזמנה</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+) : (
+  <section class="section audience">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">{C.startEyebrow}</span>
+        <h2 class="display-md start-h">{C.startHeading}</h2>
+      </div>
+      <div>{C.startBody?.map((para) => <p class="body">{para}</p>)}</div>
+    </div>
+  </section>
+)}
 
 <!-- STAGE BAND.
      Added 2026-09-04 at Alon's request. NOTE FOR ANYONE EDITING: this is the
@@ -586,36 +448,22 @@ const PRODUCTS = lang !== "he" ? [] : [
   </figcaption>
 </figure>
 
-<!-- REVIEW -->
-<section class="section quote-sec">
-  <div class="container">
-    <blockquote class="pull">
-      <p>{short(q("Eva Bishara Khoury"), 300)}</p>
-      <cite><img src={avatar("Eva Bishara Khoury")} alt="" loading="lazy" /><span class="who">{who("Eva Bishara Khoury")}<span>{role("Eva Bishara Khoury")}</span></span></cite>
-    </blockquote>
-  </div>
-</section>
-
 <!-- SCHEDULER -->
-<section class="section alt">
+<section class="section alt" id="book-diagnosis">
   <div class="container">
     <div class="split">
       <div class="col">
         <span class="eyebrow">{C.schedEyebrow}</span>
         <h2 class="display-md">{C.schedHeading}</h2>
         <p class="body">{C.schedBody}</p>
-        {LINKS.calendlyOrientation
-          ? <div class="calendly-inline-widget" data-url={LINKS.calendlyOrientation} style="min-width:320px;height:660px;"></div>
-          : <p class="placeholder">{C.schedPlaceholder}</p>}
+        <ConsultationPayment lang={lang} />
+        <a class="buy booking-link" href={LINKS.calendlyOrientation}>{C.diagnosis.action}</a>
+        <div class="calendly-inline-widget booking-widget" data-url={LINKS.calendlyOrientation}></div>
       </div>
       <div class="col">
         <blockquote class="pull small">
           <p>{short(q("Reshef Katz"), 220)}</p>
           <cite><img src={avatar("Reshef Katz")} alt="" loading="lazy" /><span class="who">{who("Reshef Katz")}<span>{role("Reshef Katz")}</span></span></cite>
-        </blockquote>
-        <blockquote class="pull small">
-          <p>{short(q("Yair Sepunaru"), 220)}</p>
-          <cite><img src={avatar("Yair Sepunaru")} alt="" loading="lazy" /><span class="who">{who("Yair Sepunaru")}<span>{role("Yair Sepunaru")}</span></span></cite>
         </blockquote>
       </div>
     </div>
@@ -627,10 +475,6 @@ const PRODUCTS = lang !== "he" ? [] : [
     <div class="split">
       <div class="col">
         <span class="eyebrow">{C.promiseEyebrow}</span>
-        <div class="stats">
-          <div><span class="fig">70%</span><span class="cap">{C.stat1}</span></div>
-          <div><span class="fig">~85%</span><span class="cap">{C.stat2}</span></div>
-        </div>
         <p class="body">{C.promise1}</p>
         <p class="body" set:html={C.promise2} />
       </div>
@@ -644,9 +488,9 @@ const PRODUCTS = lang !== "he" ? [] : [
   </div>
 </section>
 
-{LINKS.calendlyOrientation && <script is:inline async src="https://assets.calendly.com/assets/external/widget.js"></script>}
+<script is:inline async src="https://assets.calendly.com/assets/external/widget.js"></script>
 
-<Testimonials lang={lang} limit={9} source="coaching" heading={C.tHeading} sub={C.tSub} />
+<Testimonials lang={lang} limit={3} source="coaching" excludeNames={["Eva Bishara Khoury", "Reshef Katz", ...services.map((service) => service.review?.name ?? "")]} heading={C.tHeading} sub={C.tSub} />
 
 <ProofWall lang={lang} />
 
@@ -659,7 +503,7 @@ const PRODUCTS = lang !== "he" ? [] : [
   .hero-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: center; }
   /* The page carried no photograph at all, and the hero was one narrow column
      of text with the other half of the width empty (Alon, 2026-09-04). */
-  .hero-portrait { margin: 0; position: relative; max-width: 22rem; }
+  .hero-portrait { margin: 0; position: relative; max-width: 17rem; }
   /* height: auto is load-bearing. The width/height attributes stay on the tag
      so the browser reserves the space and the page does not jump, but an HTML
      height attribute is a used value and it silently beats aspect-ratio, which
@@ -670,7 +514,11 @@ const PRODUCTS = lang !== "he" ? [] : [
     font-size: 0.78rem; font-weight: 600; padding: 0.5rem 0.9rem; line-height: 1.3;
   }
   .hero-portrait figcaption span { display: block; font-weight: 400; opacity: 0.85; font-size: 0.72rem; }
-  @media (min-width: 900px) { .hero-grid { grid-template-columns: 1.45fr 0.8fr; gap: 3.5rem; } }
+  @media (min-width: 760px) {
+    .hero-grid { grid-template-columns: 1.45fr 0.8fr; gap: 3.5rem; }
+    .hero-portrait { justify-self: end; }
+  }
+  @media (max-width: 759px) { .hero-portrait { display: none; } }
   /* Hebrew has no italic. The browser was synthesising an oblique on Heebo,
      which is what made "וייעוץ." look wrong in the screenshot Alon sent.
      Colour carries the emphasis instead. */
@@ -683,34 +531,43 @@ const PRODUCTS = lang !== "he" ? [] : [
   .start-h { margin: 0.6rem 0 1.2rem; max-width: 22ch; }
   .col-lead { color: var(--ink-3); font-size: 0.95rem; margin: 0.6rem 0 1.6rem; }
 
-  .rows { border-top: 1px solid var(--ink); }
-  .row { padding: 1.4rem 0 1.5rem; border-bottom: 1px solid var(--line); }
-  .row.entry { border-inline-start: 2px solid var(--accent); padding-inline-start: 1.1rem; }
-  .row .label { color: var(--ink-3); }
-  .rhead { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-top: 0.35rem; }
-  .row h3 { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.28rem; margin: 0; color: var(--ink); }
-  .price-line { display: flex; align-items: baseline; gap: 0.4rem; margin: 0; white-space: nowrap; }
-  .price { font-family: var(--mono); font-size: 1.55rem; font-weight: 500; line-height: 1; font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; }
-  .cur { font-size: 0.85rem; color: var(--ink-3); font-weight: 500; }
+  #coaching, #book-diagnosis { scroll-margin-top: 5rem; }
+  .coaching-grid, .product-grid { display: grid; gap: 1rem; }
+  @media (min-width: 820px) {
+    .coaching-grid, .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  .coaching-card, .product-grid .row { display: flex; flex-direction: column; }
+  .coaching-card {
+    min-width: 0; padding: clamp(1.25rem, 2.2vw, 2rem);
+    background: var(--paper); border: 1px solid var(--line); border-radius: 0.6rem;
+  }
+  .buyer-quote { margin: 1.25rem 0 0; padding-inline-start: 0.85rem; border-inline-start: 2px solid var(--accent); }
+  .buyer-quote blockquote { margin: 0; font-size: 0.94rem; line-height: 1.55; }
+  .buyer-quote figcaption { margin-block-start: 0.3rem; font-size: 0.85rem; font-weight: 600; color: var(--ink-2); }
+  .coaching-card.featured { border-color: var(--accent); }
+  .coaching-card h3, .row h3 {
+    font-family: var(--display); font-weight: var(--display-weight);
+    font-size: 1.35rem; line-height: 1.2; margin: 0.4rem 0 1rem; color: var(--ink);
+  }
+  .coaching-card .label, .row .label { color: var(--ink-3); }
+  .coaching-card > .btn, .row > .product-action { align-self: flex-start; margin-block-start: auto; white-space: nowrap; }
+  .coaching-card > :has(+ .btn), .row > :has(+ .product-action) { margin-block-end: 1.2rem; }
+  .price-line { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.45rem; margin: 0; }
+  .price { font-family: var(--mono); font-size: clamp(1.3rem, 2.1vw, 1.8rem); font-weight: 500; line-height: 1; font-variant-numeric: tabular-nums; }
+  .cur { font-size: 0.85rem; color: var(--ink-3); }
 
-  .items { list-style: none; display: grid; gap: 0.45rem; margin: 0.85rem 0 0; padding: 0; font-size: 0.89rem; }
-  .items li { position: relative; padding-inline-start: 0.95rem; color: var(--ink-2); }
-  .items li::before { content: ""; position: absolute; inset-inline-start: 0; top: 0.76em; width: 6px; height: 1px; background: var(--ink-3); }
+  .price, .cur { white-space: nowrap; }
 
+  .longer-session { margin: 0.2rem 0 0; }
   .buy { display: inline-block; margin-top: 0.9rem; font-size: 0.85rem; font-weight: 600; color: var(--accent-ink); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; }
   .buy:hover { color: var(--ink); border-color: var(--ink); }
-  .tiers { list-style: none; margin: 1rem 0 0; padding: 0; border-top: 1px solid var(--line); }
-  .tiers li { display: flex; align-items: baseline; gap: 1rem; padding: 0.65rem 0; border-bottom: 1px solid var(--line); }
-  .t-h { font-weight: 600; color: var(--ink); min-width: 5.5rem; }
-  .t-p { display: flex; align-items: baseline; gap: 0.35rem; margin-inline-start: auto; }
-  .t-price { font-size: 1.2rem; }
-  .tiers .buy { margin-top: 0; }
-  .why { margin: 1.4rem 0 0; padding-inline-start: 1.1rem; border-inline-start: 2px solid var(--line); color: var(--ink-3); font-size: 0.89rem; }
-  .vat-note { margin: 2rem 0 0; font-size: 0.84rem; color: var(--ink-3); }
+  .row { padding: 1.25rem 0 1rem; border-top: 1px solid var(--line); }
+  .vat-note { margin: 1.2rem 0 0; font-size: 0.84rem; color: var(--ink-3); }
+  .audience { padding-block: calc(var(--section) * 0.65); }
 
-  .hero-cta { margin-top: 2.2rem; }
-  .hero-cta-note { margin: 0.9rem 0 0; color: var(--ink-3); font-size: 0.92rem; max-width: 52ch; }
-  .svc-cta { margin-top: 1.6rem; }
+  .hero-cta { margin-top: 1.65rem; }
+  .booking-widget { width: 100%; height: 660px; }
+  .booking-link { margin-bottom: 0.75rem; }
   /* stage band */
   .stage { margin: 0; position: relative; background: #0c0c0c; }
   .stage img { width: 100%; height: auto; aspect-ratio: 1400 / 349; object-fit: cover; filter: grayscale(1) contrast(1.05); }
@@ -724,7 +581,6 @@ const PRODUCTS = lang !== "he" ? [] : [
   .stage p { position: relative; color: #fff; margin-top: 0.45rem; max-width: 58ch; font-size: 0.93rem; line-height: 1.6; }
   @media (max-width: 700px) { .stage img { aspect-ratio: 3 / 2; } .stage p { font-size: 0.84rem; } }
 
-  .quote-sec { padding-block: calc(var(--section) * 0.5); }
   .pull { margin: 0; max-width: 62ch; }
   .pull p { font-family: var(--display); font-weight: var(--display-weight); font-size: clamp(1.25rem, 2.4vw, 1.75rem); line-height: 1.4; color: var(--ink); margin: 0; }
   .pull cite { display: flex; align-items: center; gap: 0.75rem; margin-top: 1.2rem; font-style: normal; font-size: 0.88rem; color: var(--ink-2); font-weight: 600; }
@@ -734,12 +590,6 @@ const PRODUCTS = lang !== "he" ? [] : [
   .pull.small { margin-bottom: 2.2rem; }
   .pull.small p { font-size: clamp(1.05rem, 1.8vw, 1.25rem); }
 
-  .placeholder { border: 1px dashed var(--ink-3); padding: 1.5rem; color: var(--ink-3); font-size: 0.9rem; }
-
-  .stats { display: flex; gap: 2.2rem; flex-wrap: wrap; margin: 1.2rem 0 1.3rem; }
-  .stats > div { display: flex; flex-direction: column; gap: 0.2rem; }
-  .fig { font-family: var(--mono); font-size: 1.8rem; font-weight: 500; line-height: 1; direction: ltr; unicode-bidi: isolate; }
-  .cap { font-size: 0.84rem; color: var(--ink-3); }
   .facts { list-style: none; display: grid; gap: 0.55rem; margin: 1.2rem 0 0; padding: 0; }
   .facts li { position: relative; padding-inline-start: 1.1rem; color: var(--ink-2); font-size: 0.93rem; }
   .facts li::before { content: ""; position: absolute; inset-inline-start: 0; top: 0.78em; width: 8px; height: 1px; background: var(--ink-3); }

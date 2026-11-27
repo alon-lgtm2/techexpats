@@ -200,9 +200,9 @@ const disc = [
         <h2 class="display-lg sec-h">{f.meHeading}</h2>
       </div>
     </div>
-    <figure class="me-photo">
-      <img src="/alon-speaking.jpg" alt={t.photoband.caption} width="1600" height="554" loading="lazy" />
-      <figcaption>{t.photoband.caption}</figcaption>
+    <figure class="me-photo" id="practi-live">
+      <img src="/alon-practi-talk.webp" alt={f.mePhotoAlt} width="1440" height="958" loading="lazy" />
+      <figcaption>{f.mePhotoCaption}</figcaption>
     </figure>
     <div class="me-list">
       {me.map((r, i) => (
@@ -266,8 +266,8 @@ const disc = [
     font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.45rem 0.85rem;
   }
   @media (min-width: 900px) { .hero-grid { grid-template-columns: 1fr 340px; gap: 4rem; } }
-  .me-photo { margin: var(--sec-gap) 0 0; }
-  .me-photo img { width: 100%; height: auto; aspect-ratio: 1600/554; object-fit: cover; display: block; }
+  .me-photo { max-width: 50rem; margin: var(--sec-gap) auto 0; }
+  .me-photo img { width: 100%; height: auto; display: block; }
   .me-photo figcaption { margin-top: 0.8rem; color: var(--ink-3); font-size: 0.9rem; max-width: 70ch; }
   .hero .lead { max-width: 58ch; margin: 1.5rem 0 2rem; }
   .ctas { display: flex; gap: 0.9rem; flex-wrap: wrap; }

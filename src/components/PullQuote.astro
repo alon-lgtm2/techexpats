@@ -26,7 +26,7 @@ const initials = name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCa
 
 {r && (
   <blockquote class:list={["pull", { bare, small }]}>
-    <p>{quote}</p>
+    {quote.split("\n\n").map((paragraph) => <p>{paragraph}</p>)}
     <cite>
       <span class="avatar" aria-hidden="true">
         {r.avatar ? <img src={r.avatar} alt="" loading="lazy" /> : <span>{initials}</span>}
@@ -50,6 +50,7 @@ const initials = name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCa
     color: var(--ink);
     margin: 0;
   }
+  .pull p + p { margin-top: 0.8em; }
   .pull.small p { font-size: clamp(1.02rem, 1.7vw, 1.2rem); }
   .pull cite {
     display: flex; align-items: center; gap: 0.75rem; margin-top: 1.2rem;

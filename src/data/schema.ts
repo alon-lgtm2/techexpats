@@ -7,10 +7,11 @@
 //  pages carry the blocks too, so Google can connect the person, the business
 //  and the prices in English and Dutch as well as Hebrew.
 //
-//  Prices here must match src/components/pages/Pricing.astro. Both follow
-//  methodology/pricing-and-offers.md in the JOB folder.
+//  The pricing page and its offers share the same price data.
 // =============================================================================
 import { localizePath, type Lang } from "../i18n";
+
+import { coachingPrices, withDutchVat } from "./pricing";
 
 const SITE = "https://www.techexpats.nl";
 const url = (path: string, lang: Lang) => SITE + localizePath(path, lang).replace(/\/?$/, "/");
@@ -66,28 +67,22 @@ export function person(lang: Lang) {
   };
 }
 
-const OFFERS: Record<Lang, { name: string; price: string }[]> = {
-  en: [
-    { name: "Diagnosis and roadmap (60 minutes, written roadmap)", price: "190" },
-    { name: "Working session (profile, target employers, CV and LinkedIn direction)", price: "740" },
-    { name: "Mock interview (recorded, with debrief)", price: "590" },
-    { name: "Bank of hours, 5 hours", price: "1390" },
-    { name: "Bank of hours, 10 hours", price: "2590" },
-  ],
-  nl: [
-    { name: "Diagnose en routekaart (60 minuten, schriftelijke routekaart)", price: "190" },
-    { name: "Werksessie (profiel, doelwerkgevers, aanwijzingen voor cv en LinkedIn)", price: "740" },
-    { name: "Proefsollicitatie (opgenomen, met nabespreking)", price: "590" },
-    { name: "Urenbundel, 5 uur", price: "1390" },
-    { name: "Urenbundel, 10 uur", price: "2590" },
-  ],
-  he: [
-    { name: "אבחון ומפה", price: "190" },
-    { name: "ישיבת עבודה", price: "740" },
-    { name: "סימולציית ראיון", price: "590" },
-    { name: "בנק שעות, 5 שעות", price: "1390" },
-    { name: "בנק שעות, 10 שעות", price: "2590" },
-  ],
+const OFFER_NAMES: Record<Lang, Record<keyof typeof coachingPrices, string>> = {
+  en: {
+    diagnosis: "Diagnosis and roadmap",
+    working: "Working session",
+    interview: "Mock interview",
+  },
+  nl: {
+    diagnosis: "Diagnose en routekaart",
+    working: "Werksessie",
+    interview: "Proefsollicitatie",
+  },
+  he: {
+    diagnosis: "אבחון ומפה",
+    working: "ישיבת עבודה",
+    interview: "סימולציית ראיון",
+  },
 };
 
 export function pricing(lang: Lang) {
@@ -99,13 +94,16 @@ export function pricing(lang: Lang) {
     provider: { "@id": ORG_ID },
     areaServed: { "@type": "Country", name: "Netherlands" },
     url: url("/pricing", lang),
-    offers: OFFERS[lang].map((o) => ({
-      "@type": "Offer",
-      name: o.name,
-      price: o.price,
-      priceCurrency: "EUR",
-      priceSpecification: { "@type": "PriceSpecification", price: o.price, priceCurrency: "EUR", valueAddedTaxIncluded: false },
-      url: url("/pricing", lang),
-    })),
+    offers: (Object.keys(coachingPrices) as (keyof typeof coachingPrices)[]).map((key) => {
+      const price = withDutchVat(coachingPrices[key]).toFixed(2);
+      return {
+        "@type": "Offer",
+        name: OFFER_NAMES[lang][key],
+        price,
+        priceCurrency: "EUR",
+        priceSpecification: { "@type": "PriceSpecification", price, priceCurrency: "EUR", valueAddedTaxIncluded: true },
+        url: url("/pricing", lang),
+      };
+    }),
   };
 }
